@@ -1,4 +1,4 @@
-# Object for users
+# Models and Collections for users
 from models.base import Collection, Model
 from models.post import Post
 
@@ -11,6 +11,7 @@ class UserModel(Model):
         self.password = obj['password']
         self.posts = Post()
 
+    # In middleware, change page should only be available if username is correct
     def change_password(self, oldpass, newpass):
         return 1
 
@@ -20,7 +21,6 @@ class UserModel(Model):
     def get_blog_posts(self):
         return self.posts.find(user=self.username)
 
-    # Get comments
     def get_comments(self):
         db = self.db
         results = [o for o in db.posts.find({'comments': {'$elemMatch':
@@ -32,6 +32,7 @@ class UserModel(Model):
                 if c['user'] == self.username:
                     comments.append(c)
         return comments
+
 
 class User(Collection):
 

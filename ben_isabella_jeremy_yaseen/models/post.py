@@ -2,9 +2,6 @@
 from models.base import Collection, Model
 
 
-# Add object for comments
-
-
 # Object for a blog post
 class PostModel(Model):
 
@@ -25,11 +22,8 @@ class PostModel(Model):
         self.objects.update({'_id': self._id},
                 {'$set': {'comments': comments}})
 
-    # Removing tags, editing posts
 
 class Post(Collection):
 
     def __init__(self):
         super(Post, self).__init__('posts', PostModel)
-
-    # Get by date / popularity

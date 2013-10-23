@@ -1,9 +1,11 @@
-# Base objects object for interaction with MongoDB
+# Models and Collections (abstract classes)
+
+# Models represent individual entries in a database, while Collections
+# represent entire collections in a databse
 from settings import DB_NAME
 from pymongo import MongoClient
 
 
-# Abstract class for objects in the database (posts, users)
 class Model(object):
 
     def __init__(self, db, objects, obj=None):
@@ -24,7 +26,6 @@ class Collection(object):
         self.name = name
         self.model = model
 
-    # Add support for fields
     def find(self, **kwargs):
         model = self.model
         return [model(self.db, self.objects, o) for o in \
