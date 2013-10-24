@@ -4,11 +4,16 @@ import sqlite3
 userdata_filename = "keys.dat"
 secret_key = "uniquellama"
 
+connection = sqlite3.connect(userdata_filename)
+connection.execute("CREATE TABLE IF NOT EXISTS users(usern TEXT, pasw TEXT)")
+connection.commit()
+connection.close()
+
 def registerUser(usern, passw): 
 	conn = sqlite3.connect(userdata_filename)
 
 	c = conn.cursor()
-	result = c.execute("select * from users")
+
 
 	for user in result:
 		if user[0] == usern:
@@ -29,7 +34,8 @@ def checkUser(usern,passw):
 	conn = sqlite3.connect('keys.dat')
 	c = conn.cursor()
 
-	c.execute("select * from users")
+	#c.execute("select * from users where ")
+	c.execute("select * from users where usern=(?)", usern)
 	for user in c:
 		if user[0] == usern:
 			ans = user[1] == encrypt(passw)
