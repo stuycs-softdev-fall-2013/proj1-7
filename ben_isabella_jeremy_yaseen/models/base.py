@@ -39,5 +39,8 @@ class Collection(object):
         id = self.objects.insert(kwargs)
         return self.find_one(_id=id)
 
-    def remove(self, id):
-        self.objects.remove({'_id': id})
+    def remove_all(self):
+        self.objects.remove()
+
+    def remove(self, **kwargs):
+        self.objects.remove(kwargs)

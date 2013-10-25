@@ -1,8 +1,9 @@
 Backend
 -------
-* Turn comments into a collection, and create a model for them
+* Do everything from the user
 * Functions for accessing tags from the post level
 * Functions for updating posts with authentication (session username)
 * Functions for removing tags, and posts, and comments with authentication (session username)
 * Add support for fields in find
 * Order posts by date
+* Start everything with actions with, if username in session, get user object

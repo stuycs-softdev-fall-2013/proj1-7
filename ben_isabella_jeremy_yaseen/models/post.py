@@ -1,26 +1,33 @@
-# Object for base posts
+# Models and Collections for comments
 from models.base import Collection, Model
+from models.comment import Comment
 
 
-# Object for a blog post
 class PostModel(Model):
 
     def __init__(self, db, objects, obj):
         super(PostModel, self).__init__(db, objects, obj)
         self.user = obj['user']
+        self.user = obj['title']
         self.body = obj['body']
         self.date = obj['date']
         self.tags = obj['tags']
-        self.comments = obj['comments']
+        self.comments = Comment()
 
-    def remove_comment(self, user, date):
-        comments = []
-        for c in self.comments:
-            if c['user'] != user and c['date'] != date:
-                comments.append(c)
-        self.comments = comments
-        self.objects.update({'_id': self._id},
-                {'$set': {'comments': comments}})
+    def add_comment(self, **kwargs):
+        new_args = kwargs
+        new_args['post_id'] = self._id
+        return self.comments.insert(**new_args)
+
+    def get_comments(self):
+        return self.comments.find(post_id=self._id)
+
+    def remove_comments(self, **kwargs):
+        self.comments.remove(**kwargs)
+
+    def remove(self):
+        self.remove_comments(post_id=self._id)
+        super(PostModel, self).remove()
 
 
 class Post(Collection):
