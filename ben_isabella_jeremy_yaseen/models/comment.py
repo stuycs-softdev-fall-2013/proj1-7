@@ -1,3 +1,4 @@
+# Models and Collections for comments
 from models.base import Collection, Model
 
 class CommentModel(Model):

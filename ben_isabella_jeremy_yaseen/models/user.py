@@ -10,19 +10,25 @@ class UserModel(Model):
         super(UserModel, self).__init__(db, objects, obj)
         self.username = obj['username']
         self.password = obj['password']
+        self.date = obj['date']
         self.posts = Post()
         self.comments = Comment()
 
+    # Change password with authentication--username auth to be done 
+    # in middleware
     def change_password(self, oldpass, newpass):
         if oldpass == self.password:
             self.password = newpass
 
-    def get_blog_posts(self):
-        return self.posts.find(user=self.username)
+    # Get blog posts made by this user, and with other arguments
+    def get_blog_posts(self, **kwargs):
+        return self.posts.find(user=self.username, **kwargs)
 
-    def get_comments(self):
-        return self.comments.find(user=self.username)
+    # Get comments made by the user
+    def get_comments(self, **kwargs):
+        return self.comments.find(user=self.username, **kwargs)
 
+    # Adds a post under the users page
     def add_post(self, **kwargs):
         new_args = kwargs
         new_args['user'] = self.username
@@ -33,3 +39,7 @@ class User(Collection):
 
     def __init__(self):
         super(User, self).__init__('users', UserModel)
+
+    # Checks if a specific user exists
+    def exists(self, username):
+        return len(self.find(username=username)) > 0
