@@ -13,6 +13,7 @@ class Model(object):
         self.objects = objects
         self._id = obj['_id']
 
+    # Removes the object from database
     def remove(self):
         self.objects.remove({'_id': self._id})
 
@@ -26,18 +27,33 @@ class Collection(object):
         self.name = name
         self.model = model
 
-    def find(self, **kwargs):
+    # Converts list of dict objects to Model objects
+    def to_objects(self, objs):
         model = self.model
-        return [model(self.db, self.objects, o) for o in \
-                self.objects.find(kwargs)]
+        return [model(self.db, self.objects, o) for o in objs]
 
+    # Returns a model list corresponding to find in database
+    def find(self, **kwargs):
+        return self.to_objects(self.objects.find(kwargs))
+
+    # Returns a model object corresponding to find_one in database
     def find_one(self, **kwargs):
         model = self.model
         return model(self.db, self.objects, self.objects.find_one(kwargs))
 
+    # Return model objects forted by certain values
+    def sort_by(self, sort_vals):
+        return self.to_objects(self.objects.find({}).sort(sort_vals))
+
+    # Inserts objects into collection
     def insert(self, **kwargs):
         id = self.objects.insert(kwargs)
         return self.find_one(_id=id)
 
-    def remove(self, id):
-        self.objects.remove({'_id': id})
+    # Remove all objects in the collection
+    def remove_all(self):
+        self.objects.remove()
+
+    # Remove objects based on keyword parameters
+    def remove(self, **kwargs):
+        self.objects.remove(kwargs)

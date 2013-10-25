@@ -1,6 +1,7 @@
 # Models and Collections for users
 from models.base import Collection, Model
 from models.post import Post
+from models.comment import Comment
 
 
 class UserModel(Model):
@@ -9,32 +10,36 @@ class UserModel(Model):
         super(UserModel, self).__init__(db, objects, obj)
         self.username = obj['username']
         self.password = obj['password']
+        self.date = obj['date']
         self.posts = Post()
+        self.comments = Comment()
 
-    # In middleware, change page should only be available if username is correct
+    # Change password with authentication--username auth to be done 
+    # in middleware
     def change_password(self, oldpass, newpass):
-        return 1
+        if oldpass == self.password:
+            self.password = newpass
 
-    def get_start_date(self):
-        return 1
+    # Get blog posts made by this user, and with other arguments
+    def get_blog_posts(self, **kwargs):
+        return self.posts.find(user=self.username, **kwargs)
 
-    def get_blog_posts(self):
-        return self.posts.find(user=self.username)
+    # Get comments made by the user
+    def get_comments(self, **kwargs):
+        return self.comments.find(user=self.username, **kwargs)
 
-    def get_comments(self):
-        db = self.db
-        results = [o for o in db.posts.find({'comments': {'$elemMatch':
-                                {'user': self.username}}},
-                        fields={'_id': False, 'comments': True})]
-        comments = []
-        for r in results:
-            for c in r['comments']:
-                if c['user'] == self.username:
-                    comments.append(c)
-        return comments
+    # Adds a post under the users page
+    def add_post(self, **kwargs):
+        new_args = kwargs
+        new_args['user'] = self.username
+        return self.posts.insert(**new_args)
 
 
 class User(Collection):
 
     def __init__(self):
         super(User, self).__init__('users', UserModel)
+
+    # Checks if a specific user exists
+    def exists(self, username):
+        return len(self.find(username=username)) > 0

@@ -1,4 +1,4 @@
-#DINOFIGHT by team DINOmite
+#DINOFIGHT by team DINOMIGHT
 ####Storynator
 
 ##Team
