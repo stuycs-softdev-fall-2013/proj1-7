@@ -24,7 +24,7 @@ class UserModel(Model):
     def get_blog_posts(self, **kwargs):
         return self.posts.find(user=self.username, **kwargs)
 
-    # Get comments made by the user
+    # Get comments made by the user, with other parameters
     def get_comments(self, **kwargs):
         return self.comments.find(user=self.username, **kwargs)
 
