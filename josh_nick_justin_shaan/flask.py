@@ -20,7 +20,9 @@ def register():
 def index():
     pass
 
-
+@app.route("post1")
+def post1():
+    pass
 
 if __name__ == "__main__":
     app.debug=True
