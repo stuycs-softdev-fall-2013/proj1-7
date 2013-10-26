@@ -1,5 +1,6 @@
 # Models and Collections for comments
 from models.base import Collection, Model
+from settings import COMMENT_COLLECTION
 
 class CommentModel(Model):
 
@@ -14,4 +15,4 @@ class CommentModel(Model):
 class Comment(Collection):
 
     def __init__(self):
-        super(Comment, self).__init__('comments', CommentModel)
+        super(Comment, self).__init__(COMMENT_COLLECTION, CommentModel)

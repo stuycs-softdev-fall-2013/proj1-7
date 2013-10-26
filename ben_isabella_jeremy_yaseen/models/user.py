@@ -2,6 +2,7 @@
 from models.base import Collection, Model
 from models.post import Post
 from models.comment import Comment
+from settings import USER_COLLECTION
 
 
 class UserModel(Model):
@@ -38,7 +39,7 @@ class UserModel(Model):
 class User(Collection):
 
     def __init__(self):
-        super(User, self).__init__('users', UserModel)
+        super(User, self).__init__(USER_COLLECTION, UserModel)
 
     # Checks if a specific user exists
     def exists(self, username):
