@@ -79,9 +79,12 @@
 
 		<div class="container">
 			{% for story in d['stories'] %}
-			<h4> Title </h4>
-			<p> Story <p>
-			<br>
+				<h4> {{ story[0] }} </h4>
+				<div class="well">
+					{% for line in story[1:] %}
+						{{ line }}<br>
+					{% endfor%}
+				</div>
 			{% endfor %}
 		</div>
 
