@@ -1,0 +1,8 @@
+Backend
+-------
+
+Middleware
+----------
+* Start everything with actions with, if username in session, get user object
+* Functions for updating posts with authentication
+* Functions for removing tags, and posts, and comments with authentication
