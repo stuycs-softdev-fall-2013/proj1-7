@@ -46,5 +46,5 @@ class Post(Collection):
 
     # Get posts that have a certain tag
     def get_by_tag(self, tag):
-        results =  self.objects.find({'tags': {'$in': [tag]}})
+        results = self.objects.find({'tags': {'$in': [tag]}})
         return self.to_objects(results)

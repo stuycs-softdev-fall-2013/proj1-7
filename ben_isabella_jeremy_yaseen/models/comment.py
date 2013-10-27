@@ -2,6 +2,7 @@
 from models.base import Collection, Model
 from settings import COMMENT_COLLECTION
 
+
 class CommentModel(Model):
 
     def __init__(self, db, objects, obj):

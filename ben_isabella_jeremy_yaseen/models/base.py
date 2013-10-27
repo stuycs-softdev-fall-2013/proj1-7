@@ -1,9 +1,8 @@
 # Models and Collections (abstract classes)
-
 # Models represent individual entries in a database, while Collections
 # represent entire collections in a databse
-from settings import DB_NAME
 from pymongo import MongoClient
+from settings import DB_NAME
 
 
 class Model(object):
