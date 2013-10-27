@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title>Storyinator</title>
 
@@ -8,8 +8,77 @@
 		<!-- Bootstrap -->
 		<link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}"
 			  rel=stylesheet media="screen">
+
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+		</style>
+
+		<link href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet">
 	</head>
 	<body>
-		<h1> Welcome </h1>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<a class="brand" href="/">Storyinator</a>
+
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#stories">Stories</a></li>
+							{% if d['loggedIn'] %}
+							<li><a href="/account">Account</a></li>
+							{% endif %}
+						</ul>
+
+						{% if not d['loggedIn'] %}
+						<form class="navbar-form pull-right" method="POST">
+							<input class="span2" type="text" placeholder="Username">
+							<input class="span2" type="password" placeholder="Password">
+
+							<div class="btn-group">
+								<button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+								Log in
+								<span class="caret"></span>
+								</button>
+							</div>
+
+							<a href="/register" class="btn btn-success">Register</a>
+						</form>
+						{% else %}
+						<a href="/create" class="btn btn-primary pull-right">Start story</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="hero-unit">
+				<h1>The Storyinator</h1>
+				<p>Welcome to the Storyinator. Feel free to browse around the existing stories. If you want to
+				start making stories, get started by creating an account.</p>
+			</div>
+		</div>
+
+		<div class="container">
+			{% for story in d['stories'] %}
+			<h4> Title </h4>
+			<p> Story <p>
+			<br>
+			{% endfor %}
+		</div>
+
+		<footer>
+			<p>&copy; League of Awesome 2013</p>
+		</footer>
 	</body>
 </html>
