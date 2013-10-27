@@ -5,11 +5,11 @@ def addUser(username, password):
     #returns False if the username already exists
     connection = sqlite3.connect('OnceUponData.db')
     q = "select * from account_info where username=?"
-    cursor = connection.execute(q, username)
+    cursor = connection.execute(q, [username])
     results = [line for line in cursor]
     if len(results) == 0:
         q = "insert into account_info values(?, ?, 0, '', '', '', '', '')"
-        connection.execute(q, username, password)
+        connection.execute(q, [username, password])
         connection.commit()
         return True
     else:
@@ -21,7 +21,7 @@ def authenticate(username, password):
     #returns whether or not the username/password combo is valid
     connection = sqlite3.connect('OnceUponData.db')
     q = "select password from account_info where username=?"
-    cursor = connection.execute(q, username)
+    cursor = connection.execute(q, [username])
     results = [line for line in cursor]
     if len(results) == 1 and password == results[0][0]:
         return True
@@ -35,13 +35,13 @@ def likeEdit(editID, sourceUser):
     #returns False if a user tries to like their own edit or like an edit twice
     connection = sqlite3.connect('OnceUponData.db')
     q = "select user from edits where id=?"
-    cursor = connection.execute(q, editID)
+    cursor = connection.execute(q, [editID])
     targetUser = [line for line in cursor]
     targetUser = targetUser[0][0].encode('ascii','inore')
     if targetUser == sourceUser:
         return False
     q = "select liked_edits from account_info where username=?"
-    cursor = connection.execute(q, sourceUser)
+    cursor = connection.execute(q, [sourceUser])
     likedEdits = [line for line in cursor]
     if likedEdits[0][0] != '':
         likedEdits = likedEdits[0][0].split(',')
@@ -52,12 +52,12 @@ def likeEdit(editID, sourceUser):
     else:
         updatedLikedEdits = "%i"%(editID)
     q = "select karma from account_info where username=?"
-    cursor = connection.execute(q, targetUser)
+    cursor = connection.execute(q, [targetUser])
     currentKarma = [line for line in cursor]
     q = "update account_info set karma=? where username=?"
-    connection.execute(q, currentKarma[0][0]+1, targetUser)
+    connection.execute(q, currentKarma[0][0]+1, [targetUser])
     q = "update account_info set liked_edits=? where username=?"
-    connection.execute(q, updatedLikedEdits, sourceUser)
+    connection.execute(q, [updatedLikedEdits, sourceUser])
     connection.commit()
     return True
 
