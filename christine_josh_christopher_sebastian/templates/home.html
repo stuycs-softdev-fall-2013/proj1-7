@@ -1,44 +1,32 @@
 <html>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 
     <style>
 
-        ul {
-            list-style-type: none;
-        }
-
-        li {
-            border-bottom-width: 1px;
-            border-bottom-color: gray;
-            border-bottom-style: solid;
-            margin-bottom: 20px;
-        }
-        
-        li:hover {
-            background-color: gray;
-        }
     </style>
     <body>
-        <h2>Onesuppon</h2>
+        <div class="container">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <a href="/" class="navbar-brand" >Onesuppon</a>
+
+                <div class="btn-group navbar-nav navbar-right">
+                    <a href="/login" class="btn btn-default navbar-btn" >Login</a>
+                    <a href="/register" class="btn btn-default navbar-btn" >Register</a>
+                </div>
+            </nav>
+
+            <div class="spacer"></div> <!-- A space -->
+            <div class="list-group">
+                {% for story in stories %}
+                <a href="/stories/{{ story.id }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                    <p class="list-group-item-text">{{ story.description }}</p>
+                </a>
+                {% endfor %}
+            </div>
         
-        <div class="buttons">
-            <button class="btn btn-large btn-primary" type="button">Login</button>
-            <button class="btn btn-large btn-primary" type="button">Register</button>
-        </div>
-
-
-        <h3>Stories:</h3>
-        <ul>
-            <li class="story_block"> <div class="story_title">Story 1</br><br>
-            <div class="story_description">Description one</div></li>
-            <li class="story_block"> <div class="story_title">Story 2</br><br>
-            <div class="story_description">This is a description we make this cool</div></li>
-            <li class="story_block"> <div class="story_title">Story 3</br><br>
-            <div class="story_description">Yet another description, make it pretty</div></li>
-
-
-        </ul>
-        
+    </div>
     </body>
 
 </html>
