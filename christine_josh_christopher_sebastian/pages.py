@@ -3,7 +3,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def homepage_loggedout():
+def homepage_loggedout(stories):
     stories = [
             {
                 "id":1234,
@@ -28,7 +28,7 @@ def homepage_loggedout():
             ]
     return render_template('home.html', stories=stories);
 
-def homepage_loggedin():
+def homepage_loggedin(stories, user):
     pass
 
 def logout():
