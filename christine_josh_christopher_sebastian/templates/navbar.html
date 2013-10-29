@@ -1,0 +1,13 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <a href="/" class="navbar-brand" >Onesuppon</a>
+
+    <div class="btn-group navbar-nav navbar-right">
+        {% if logged_in %}
+            <a href="/profile" class="btn btn-default navbar-btn">Profile</a>
+            <a href="/logout" class="btn btn-default navbar-btn">Logout</a>
+        {% else %}
+            <a href="/login" class="btn btn-default navbar-btn" >Login</a>
+            <a href="/register" class="btn btn-default navbar-btn" >Register</a>
+        {% endif %}
+    </div>
+</nav>
