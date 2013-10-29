@@ -1,4 +1,5 @@
-import sha
+#import sha
+from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
 userdata_filename = "keys.dat"
@@ -10,11 +11,12 @@ connection.execute("CREATE TABLE IF NOT EXISTS users(usern TEXT, passw TEXT)")
 connection.commit()
 connection.close()
 
-def registerUser(usern, passw): 
+def registerUser(usern, passw):
+	passw = passw.encode('ascii')
 	conn = sqlite3.connect(userdata_filename)
-
 	c = conn.cursor()
-	if (checkUser(usern, passw)):
+	u = c.execute("select usern from users where usern=(?)", (usern,)).fetchone()
+	if (u != None):
 		conn.close()
 		return False
 	c.execute("insert into users values(?,?)", (usern, encrypt(passw)))
@@ -27,29 +29,24 @@ def checkUser(usern,passw):
 	passw = passw.encode('ascii')
 
 	#get userlist
-	conn = sqlite3.connect('keys.dat')
+	conn = sqlite3.connect(userdata_filename)
 	c = conn.cursor()
-
-	#c.execute("select * from users where ")
 	c.execute("select passw from users where usern=(?)", (usern,))
 	u = c.fetchone()
 	if u != None:
-		ans = u[0].encode('ascii') == encrypt(passw)
+		ans = check_password_hash(u[0].encode('ascii'), passw)
 		conn.close()		
 		return ans
 
 	return False
 
-# currently nonfunctional
 def changePass(usern, passw):
-	print "should change %s password to %s"%(usern, passw)
-	print "NOT YET IMPLEMENTED"
-	
+	passw = passw.encode('ascii')
+	conn = sqlite3.connect(userdata_filename)
+#        print conn.execute('SELECT passw from users WHERE usern=?', (usern,))
+	c = conn.cursor()
+	c.execute("UPDATE users SET passw=? WHERE usern=?",(encrypt(passw),usern))
+	conn.commit()
 
 def encrypt(passw):
-	encrypter = sha.new(passw)
-	encrypter.update(secret_key)
-
-	hashpass = encrypter.digest()
-
-	return unicode(hashpass, errors='ignore') 
+        return generate_password_hash(passw)

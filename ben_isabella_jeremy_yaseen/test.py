@@ -8,8 +8,8 @@ if __name__ == '__main__':
     comms = Comment()
 
     # Creating users, note the date field
-    u = users.insert(date=datetime.now(), username="Ben",password="iamsilly")
-    u2 = users.insert(date=datetime.now(), username="Jeremy",password="YOLO")
+    u = users.insert(date=datetime.now(), username="Ben", password="iamsilly")
+    u2 = users.insert(date=datetime.now(), username="Jeremy", password="YOLO")
 
     # Creating posts, note the date field
     p = u.add_post(date=datetime.now(), title="Hello World", body="My first post",
@@ -22,19 +22,19 @@ if __name__ == '__main__':
 
     print "Getting comments from Jeremy..."
     for c in u2.get_comments():
-        print c.user, ',', c.text
+        print c.text, ',', c.date
 
-    print "Getting comments from Hello World post..."
+    print "\nGetting comments from Hello World post..."
     for c in p.get_comments():
-        print c.user, ',', c.text
+        print c.text, ',', c.date
 
-    print "Getting posts from newest to oldest..."
+    print "\nGetting posts from newest to oldest..."
     for p in posts.get_by_date():
-        print p.title, p.tags
+        print "%s\n%s\n%s\n%s %s\n" % (p.title, p.user, p.body, ', '.join(p.tags), p.date)
 
-    print "Getting posts with certain tag..."
+    print "\nGetting posts with tag 'original'..."
     for p in posts.get_by_tag('original'):
-        print p.title, p.tags
+        print "%s\n%s\n%s\n%s %s\n" % (p.title, p.user, p.body, ', '.join(p.tags), p.date)
 
     # Cleaning up
     users.remove_all()

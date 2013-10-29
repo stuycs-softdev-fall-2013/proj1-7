@@ -2,6 +2,7 @@
 from models.base import Collection, Model
 from models.post import Post
 from models.comment import Comment
+from settings import USER_COLLECTION
 
 
 class UserModel(Model):
@@ -24,7 +25,7 @@ class UserModel(Model):
     def get_blog_posts(self, **kwargs):
         return self.posts.find(user=self.username, **kwargs)
 
-    # Get comments made by the user
+    # Get comments made by the user, with other parameters
     def get_comments(self, **kwargs):
         return self.comments.find(user=self.username, **kwargs)
 
@@ -38,7 +39,7 @@ class UserModel(Model):
 class User(Collection):
 
     def __init__(self):
-        super(User, self).__init__('users', UserModel)
+        super(User, self).__init__(USER_COLLECTION, UserModel)
 
     # Checks if a specific user exists
     def exists(self, username):

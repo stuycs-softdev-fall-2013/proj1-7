@@ -1,6 +1,7 @@
 # Models and Collections for blog posts
 from models.base import Collection, Model
 from models.comment import Comment
+from settings import POST_COLLECTION
 
 
 class PostModel(Model):
@@ -37,7 +38,7 @@ class PostModel(Model):
 class Post(Collection):
 
     def __init__(self):
-        super(Post, self).__init__('posts', PostModel)
+        super(Post, self).__init__(POST_COLLECTION, PostModel)
 
     # Return posts sorted by date for front page
     def get_by_date(self):
@@ -45,5 +46,5 @@ class Post(Collection):
 
     # Get posts that have a certain tag
     def get_by_tag(self, tag):
-        results =  self.objects.find({'tags': {'$in': [tag]}})
+        results = self.objects.find({'tags': {'$in': [tag]}})
         return self.to_objects(results)
