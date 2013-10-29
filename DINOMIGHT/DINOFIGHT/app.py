@@ -1,6 +1,6 @@
 from flask import Flask, render_template, session, request, redirect, url_for, session
 
-import SQLogin
+import SQLogin, db
 
 app = Flask(__name__)
 
@@ -12,8 +12,10 @@ def home():
         logged_in = True
         username = session['username']
     #list of newest stories
-    #link to register/sign in if not logged in
-    #link to stories if logged in
+    if 'username' in session:
+        render_template("homepage.html",link="link to user's stories")
+    else:
+        render_template("homepage.html",link="link to register/sign in page")
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -28,7 +30,7 @@ def register():
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'GET':
-        #return login page
+        render_template("login.html")
     else:
         if checkUser(request.form['username'],request.form['password']):
             return redirect(url_for('home'))
@@ -53,6 +55,13 @@ def passchange():
 @app.route('/stories')
 def stories():
     #list of user's stories
+
+@app.route('/story/<title>', methods=['GET','POST'])
+def story(title):
+    if request.method == 'GET':
+        #check that the story hasn't been edited by user yet
+        #returns page with the story and edit box if not edited yet
+    #returns page with the story
 
 if __name__ == '__main__':
     app.debug = True
