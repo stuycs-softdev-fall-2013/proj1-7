@@ -1,6 +1,6 @@
 <head>
   <link rel="stylesheet" href="foundation.css">
-  <!link rel="stylesheet" href="normalize.css">
+  <!--link rel="stylesheet" href="normalize.css" -->
   <script src="custom.modernizr.js"></script>
   <style>
     .topdiv {background-color:#6699FF;}
@@ -27,7 +27,9 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="divider"></li>
-      <li class="has-dropdown"><a href="#">YaseenMe</a>
+      <li class="has-dropdown">
+	<a href="#">YaseenMe</a>
+	<!-- This dropdown will only show if a user is logged in -->
 	<ul class="dropdown">
 	  <li><a href="#">Account Settings</a></li>
 	  <li><a href="#">Log Out</a></li>
@@ -36,6 +38,7 @@
       <li class="divider"></li>
       <li class="has-form">
         <a href="#" class="button">Login or Sign Up</a>
+	<!-- This login button will only show if a user is not logged in -->
       </li>
       <li class="divider"></li>
       <li class="small-4 columns">
