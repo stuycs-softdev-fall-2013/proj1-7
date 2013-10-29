@@ -1,0 +1,18 @@
+<html>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+    <body>
+        <div class="container">
+            {% include "navbar.html" %}
+
+            <form method="POST">
+                <input type="text" class="form-control" placeholder="Username">
+                <input type="password" class="form-control" placeholder="Password">
+                <button class="btn btn-default btn-primary pull-right" type="Submit" name="Login">Login</button>
+            </form>
+        </div>
+    </body>
+
+
+</html>
