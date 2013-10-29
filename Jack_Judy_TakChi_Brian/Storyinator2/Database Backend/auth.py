@@ -31,8 +31,17 @@ def storyexists(title):
 
 def addstory(title, author, date):
     if not storyexists(title):
-        db.stories.insert({'title':title, 'author':author, 'date':date})
-        
+        db.stories.insert({'title':title, 'author':author, 'date':date, 'addedlines':0})
+
+def savenewstory(title):
+    story = db.stories.find_one({'title':title})
+    story['addedlines'] = story['addedlines'] + 1
+    db.stories.save(story)        
+    
+def addtostory(line,title):
+    db.lines.insert({'line':line, 'title':title})
+    increment_lines(title)
+
 def FindMine(author):
     lines=list(db.lines.find({'author':author}))
     return lines
@@ -45,6 +54,6 @@ def authorname(title):
     name = db.stories.find_one({'title':title})['author']
     return name
 
-def numberlines(title):
-    numlines=db.stories.find_one({'title':title})['lines']
-    return numlines
+def storylines(title):
+    lines=db.stories.find_one({'title':title})['lines']
+    return lines
