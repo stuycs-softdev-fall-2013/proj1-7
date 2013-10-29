@@ -16,6 +16,11 @@ def home():
 		d['loggedIn'] = True
 		return render_template("home.html", d=d)
 
+@app.route("/account")
+def account():
+	return render_template("account.html")
+
+
 if __name__ == "__main__":
 	app.debug = True
 	app.run()
