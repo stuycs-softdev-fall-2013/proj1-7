@@ -1,0 +1,45 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+
+			<a class="brand" href="/">Storyinator</a>
+
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#stories">Stories</a></li>
+					{% if d['loggedIn'] %}
+					<li><a href="/account">Account</a></li>
+					{% endif %}
+				</ul>
+
+				{% if not d['loggedIn'] %}
+				<form class="navbar-form pull-right" method="POST">
+					<input class="span2" type="text" placeholder="Username">
+					<input class="span2" type="password" placeholder="Password">
+
+					<div class="btn-group">
+						<button class="btn btn-primary">Log in</button>
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</a>
+
+						<ul class="dropdown-menu">
+							<li><a href="/login"> Google+ </a></li>
+							<li><a href="/login"> Facebook </a></li>
+							<li><a href="/register"> Register </a></li>
+						</ul>
+					</div>
+				</form>
+				{% else %}
+				<a href="/create" class="btn btn-primary pull-right">Start story</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
