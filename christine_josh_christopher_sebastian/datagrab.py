@@ -65,7 +65,7 @@ def likeEdit(editID, sourceUser):
     cursor = connection.execute(q, [targetUser])
     currentKarma = [line for line in cursor]
     q = "update account_info set karma=? where username=?"
-    connection.execute(q, currentKarma[0][0]+1, [targetUser])
+    connection.execute(q, [currentKarma[0][0]+1, targetUser])
     q = "update account_info set liked_edits=? where username=?"
     connection.execute(q, [updatedLikedEdits, sourceUser])
     connection.commit()
@@ -110,7 +110,7 @@ def dislikeEdit(editID, sourceUser):
     cursor = connection.execute(q, [targetUser])
     currentKarma = [line for line in cursor]
     q = "update account_info set karma=? where username=?"
-    connection.execute(q, currentKarma[0][0]-1, [targetUser])
+    connection.execute(q, [currentKarma[0][0]-1, targetUser])
     q = "update account_info set disliked_edits=? where username=?"
     connection.execute(q, [updatedDislikedEdits, sourceUser])
     connection.commit()
@@ -129,13 +129,33 @@ def dislikeStory(storyID, user):
     pass
 
 
-def newEdit(storyID, user):
-    #user adds a new edit to the story with ID storyID
-    connection = sqlite3.connect('OnceUponData.db')    
-    pass
+def newEdit(storyID, text, user):
+    #user adds a new edit (text) to the story with ID storyID
+    #returns False if trying to edit root story ('Once upon a time')
+    connection = sqlite3.connect('OnceUponData.db')
+    if storyID == 0:
+        return False
+    q = "select id from edits"
+    cursor = connection.execute(q)
+    existingIDs = [x for x in cursor]
+    maxID = -1
+    for x in range (0,len(existingIDs)):
+        if existingIDs[x][0] > maxID:
+            maxID = existingIDs[x][0]
+    editID = maxID + 1
+    q = "insert into edits values(?,?,?)"
+    connection.execute(q,[editID,text,user])
+    q = "select edits from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    edits = [x for x in cursor]
+    edits = edits[0][0].encode('ascii','ignore')
+    edits = edits + ",%i"%(editID)
+    q = "update stories set edits=? where id=?"
+    connection.execute(q,[edits,storyID])
+    connection.commit()
 
 
-def newStory(storyID, user):
-    #user forks the story with ID storyID
+def newStory(name, storyID, user):
+    #user forks the story with ID storyID and calls it name
     connection = sqlite3.connect('OnceUponData.db')    
     pass
