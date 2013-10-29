@@ -10,9 +10,9 @@ def home():
 	for i in range(3):
 		d['stories'].append(story)
 
-	if request.method == "GET":
+	if request.method == "GET": #GET
 		return render_template("home.html", d=d)
-	else:
+	else: #POST
 		d['loggedIn'] = True
 		return render_template("home.html", d=d)
 
