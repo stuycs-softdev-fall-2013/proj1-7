@@ -5,10 +5,12 @@
         <div class="container">
             {% include "navbar.html" %}
 
-            <form method="POST">
-                <input type="text" class="form-control" placeholder="Username">
-                <input type="password" class="form-control" placeholder="Password">
-                <button class="btn btn-default btn-primary pull-right" type="Submit" name="Login">Login</button>
+            <form method="POST" class="pull-right">
+                <div class="input-group input-group-lg">  
+                    <input type="text" class="form-control" placeholder="Username">
+                    <input type="password" class="form-control" placeholder="Password">
+                    <button class="btn btn-default btn-primary pull-right" type="Submit" name="Login">Login</button>
+            </div>
             </form>
         </div>
     </body>
