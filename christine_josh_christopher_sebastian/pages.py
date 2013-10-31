@@ -7,24 +7,31 @@ def homepage_loggedout():
     stories = [
             {
                 "id":1234,
-                "title":"Banana",
-                "description":"Killer Bananas Attack Things"
+                "title":"Banana Story",
+                "description":"The Killer Bananas Attack Things..."
             },
             {
-                "id":5634,
+                "id":1235,
+                "title":"The Dino attack",
+                "description":"Attacked by dinosaurs ....."
+            },
+            {
+                "id":5632,
+                "title":"Quotes from Stuy",
+                "description":"Stuy teachers on their good days..."
+            },
+            {
+                "id":1236,
                 "title":"Once Upon a Time...",
                 "description":"Once Upon a Time, in the magical land of..."
             },
+            
             {
                 "id":1237,
                 "title":"The End of Time",
                 "description":"Doom approaches..."
             },
-            {
-                "id":1238,
-                "title":"Blah Blah",
-                "description":"blah"
-            }
+           
             ]
     return render_template('home.html', stories=stories);
 
