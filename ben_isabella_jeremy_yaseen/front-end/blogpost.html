@@ -31,7 +31,7 @@
 	<a href="#">YaseenMe</a>
 	<!-- This dropdown will only show if a user is logged in -->
 	<ul class="dropdown">
-	  <li><a href="#">Account Settings</a></li>
+	  <li><a href="#">Account Page</a></li>
 	  <li><a href="#">Log Out</a></li>
 	</ul>
       </li>
@@ -79,11 +79,11 @@
     <div class="section">
       <p class="title" data-section="title"><a href="#"><u>ARCHIVES</u></a></p>
     </div>
-    <div class="section active">
+    <div class="section">
       <p class="title" data-section="title"><a href="#">March 2013</a></p>
       <div class="content" data-section="content">
 	<ul class="side-nav">
-	  <li class="active"><a class="archive" href="#">Post 1</a></li>
+	  <li><a class="archive" href="#">Post 1</a></li>
 	  <li><a class="archive" href="#">Post 2</a></li>
 	</ul>
       </div>
@@ -127,17 +127,29 @@
   <div class="row">
     <div class="large-12 columns">
       <fieldset>
-	<legend class="blogtitle"><h2 >Comments</h2></legend>
+	<!--legend class="blogtitle"><h2 >Comments</h2></legend-->
 	<div class="row">
+
+	  <form>
+	    <fieldset>
+	      <legend class="blogtitle"><h4>Leave a Comment</h4></legend>
+	      <div class="row">
+		<div class="large-12 columns">
+		  <textarea placeholder="Type here..."></textarea>
+		</div>
+	      </div>
+	      <a href="#" class="button small">Comment!</a>
+	    </fieldset>
+
+	  </form>
+
 	  <dl>
-	    <dt><u><a href="#">User3</a>:</u></dt>
-	    <dd>at <i>10/23/2013 7:20</i><br>This is User3's comment.</dd>
 	    <dt><u><a href="#">User4</a>:</u></dt>
-	    <dd>at <i>10/28/2013 21:18</i><br>This is User4's comment. And, for some reason, User4's comment is really long. So long that it touches the edge and goes back to the beginning so Yaseen can see what it looks like when dictionary data elements have multiple lines!</dd>
+	    <dd>at <i>10/28/2013 7:20</i><br>This is User4's comment.</dd>
+	    <dt><u><a href="#">User3</a>:</u></dt>
+	    <dd>at <i>10/23/2013 21:18</i><br>This is User3's comment. And, for some reason, User3's comment is really long. So long that it touches the edge and goes back to the beginning so Yaseen can see what it looks like when dictionary data elements have multiple lines!</dd>
 	  </dl>
-	  <ul class="no-bullet">
-	    <li><blockquote>Asek alkjinn suhek wjhsdkj djhiuwhfe fifjs kaajehsfk wafweneunceun ahfkad skfbasdkhf aks d.<cite><a href="#">OG Loc</a> : 10/14/2013</cite></blockquote>
-	  </ul>
+
 	</div>
       </fieldset>
     </div>

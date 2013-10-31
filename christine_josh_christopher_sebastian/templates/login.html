@@ -1,15 +1,19 @@
 <html>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    {% include "style.html" %}
 
     <body>
+        {% include "navbar.html" %}
         <div class="container">
-            {% include "navbar.html" %}
 
-            <form method="POST">
-                <input type="text" class="form-control" placeholder="Username">
-                <input type="password" class="form-control" placeholder="Password">
-                <button class="btn btn-default btn-primary pull-right" type="Submit" name="Login">Login</button>
+            <form role="form" method="POST" class="form-horizontal pull-right">
+                <div class="input-group input-group-lg">  
+                    <input type="text" class="form-control" placeholder="Username">
+                    <input type="password" class="form-control" placeholder="Password">
+                    <span class="form-group ">
+                        <button class="btn btn-default btn-primary" type="Submit" name="Login">Login</button>
+                        <a href="/dumbass"><small>Forgot Password?</small></a>
+                    </span>
+                </div>
             </form>
         </div>
     </body>
