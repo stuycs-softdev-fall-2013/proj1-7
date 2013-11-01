@@ -27,22 +27,11 @@ def index():
     # link to each post
     pass
 
-@app.route("post1")
-def post1():
-    # look at post 1
+@app.route("/viewpost")
+def viewpost():
+    # look at post x
     # load comments
-    pass
-
-@app.route("post2")
-def post2():
-    # look at post 2
-    # load comments
-    pass
-
-@app.route("post3")
-def post3():
-    # look at post 3
-    # load comments
+    # add comments
     pass
 
 @app.route("/writepost")
