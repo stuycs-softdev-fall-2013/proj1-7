@@ -45,8 +45,9 @@ def logout():
 def login():
     return render_template('login.html');
 
+@app.route('/register')
 def register():
-    pass
+    return render_template('register.html')
 
 @app.route('/stories/<int:storyid>')
 def stories(storyid):
@@ -68,8 +69,9 @@ def stories(storyid):
             }
     return render_template('story.html', story=story)
 
-def profile(userid):
-    pass
+@app.route('/profile')
+def profile(userid=0):
+    return render_template('profile.html')
 
 
 if __name__ == '__main__':
