@@ -2,8 +2,6 @@
 
 from pymongo import MongoClient
 
-#client = MongoClient('db.stuycs.org')
-#client.authenticate('softdev','softdev')
 client = MongoClient()
 db = client.KMNH
 users = db.users
@@ -34,8 +32,14 @@ def reset(usr, oldpwd, newpwd):
     return False
 
 def isAdmin(usr):
-    if usr == None: return False
+    if not exists(usr): return False
     return users.find_one({'usr':usr})['admin']
+
+def exists(usr):
+    if (usr == None or
+        users.find({'usr':usr}).count() == 0:
+        return False
+    return True
 
 if(__name__ == "__main__"):
     
