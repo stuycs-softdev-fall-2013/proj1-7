@@ -10,4 +10,4 @@
 - - -
 
 * Database: SQLite3
-* Front End Framework:
+* Front End Framework: Bootstrap
