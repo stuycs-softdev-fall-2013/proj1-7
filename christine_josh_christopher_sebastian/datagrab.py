@@ -226,7 +226,7 @@ def newEdit(storyID, text, user):
     prevMax = [x for x in cursor]
     editID = prevMax[0][0] + 1
     q = "update max_ids set max_edit_id=?"
-    connection.execut(q,[editID])
+    connection.execute(q,[editID])
     q = "insert into edits values(?,?,?)"
     connection.execute(q,[editID,text,user])
     q = "select edits from stories where id=?"
