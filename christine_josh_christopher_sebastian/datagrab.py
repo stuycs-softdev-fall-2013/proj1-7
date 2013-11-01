@@ -221,14 +221,12 @@ def newEdit(storyID, text, user):
     connection = sqlite3.connect('OnceUponData.db')
     if storyID == 0:
         return False
-    q = "select id from edits"
+    q = "select max_edit_id from max_ids"
     cursor = connection.execute(q)
-    existingIDs = [x for x in cursor]
-    maxID = -1
-    for x in range (0,len(existingIDs)):
-        if existingIDs[x][0] > maxID:
-            maxID = existingIDs[x][0]
-    editID = maxID + 1
+    prevMax = [x for x in cursor]
+    editID = prevMax[0][0] + 1
+    q = "update max_ids set max_edit_id=?"
+    connection.execut(q,[editID])
     q = "insert into edits values(?,?,?)"
     connection.execute(q,[editID,text,user])
     q = "select edits from stories where id=?"
@@ -243,8 +241,20 @@ def newEdit(storyID, text, user):
 
 def newStory(name, storyID, user):
     #user forks the story with ID storyID and calls it name
-    connection = sqlite3.connect('OnceUponData.db')    
-    pass
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select max_story_id from max_ids"
+    cursor = connection.execute(q)
+    prevMax = [x for x in cursor]
+    newID = prevMax[0][0] + 1
+    q = "update max_ids set max_story_id=?"
+    cursor = connection.execute(q,[newID])
+    q = "select * from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    data = [x for x in cursor]
+    q = "insert into stories values(?,?,?,?,?,?)"
+    connection.execute(q,[newID, name, data[0][2], data[0][3], storyID, user])
+    connection.commit()
+
 
 def getStory(storyID):
     #returns the story with ID storyID as a single string
