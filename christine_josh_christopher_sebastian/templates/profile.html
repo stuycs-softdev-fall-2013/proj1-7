@@ -1,0 +1,81 @@
+<html>
+<link type= "text/css" rel= "stylesheet" href="css/bootstrap.css"/>
+<script src="js/bootstrap.js"></script>
+    <body>
+     <!-- nav bar-->  
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+    <a href="/" class="navbar-brand" >Onesuppon</a>
+
+    <div class="btn-group navbar-nav navbar-right">
+        <!-- % if logged_in % -->  
+            <a href="/profile" class="btn btn-default navbar-btn">Profile</a>
+            <a href="/logout" class="btn btn-default navbar-btn">Logout</a>
+        
+    </div>
+	</nav> 
+
+<div class="container">
+
+		<h3>User Profile</h3>
+			Welcome User, <br>
+<div>
+<br>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">User Contributions</div>
+		<div class="panel-body">
+   
+		<table class="table table-hover">
+
+		</table>
+   </div>
+</div>   <br>
+   
+   <div class="panel panel-default">
+		<div class="panel-heading">Popular Stories</div>
+		<div class="panel-body">
+		<div class="list-group">
+                {% for story in stories %}
+                <a href="/stories/{{ story.id }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                    <p class="list-group-item-text">{{ story.description }}</p>
+                </a>
+                {% endfor %}
+		<table class="table table-hover">
+
+		</table>
+   
+		</div>
+	</div>
+	</div>
+	<br>
+	<div class="panel panel-default">
+		<div class="panel-heading">Stories Recommended</div>
+		<div class="panel-body">
+		<div class="list-group">
+                {% for story in stories %}
+                <a href="/stories/{{ story.id }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                    <p class="list-group-item-text">{{ story.description }}</p>
+                </a>
+                {% endfor %}
+		<table class="table table-hover">
+
+		</table>
+   
+		</div>
+	</div>
+	
+  </div>
+
+</div>  
+	Account Options:<br><br>
+  <a href="/dumbass"><big>Change Password</big></a> <br>
+  <a href="/dumbass"><big>Delete Account</big></a> <br><br>
+  
+     <button class="btn btn-default btn-primary" type="Back" name="back">Homepage</button>
+    </body>
+
+
+
+</html>
