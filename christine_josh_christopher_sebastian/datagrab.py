@@ -257,21 +257,23 @@ def newStory(name, storyID, user):
 
 
 def getStory(storyID):
-    #returns the story with ID storyID as a single string
+    #returns the story with ID storyID as a list of tuples containing each edit
+    #with it's id
     connection = sqlite3.connect('OnceUponData.db')
     q = "select edits from stories where id=?"
     cursor = connection.execute(q,[storyID])
     editIDs = [x for x in cursor]
     editIDs = editIDs[0][0].encode('ascii','ignore')
     editIDs = editIDs.split(',')
-    story = ""
+    story = []
     for editID in editIDs:
         q = "select sentence from edits where id=?"
         cursor = connection.execute(q,[editID])
         edit = [x for x in cursor]
         edit = edit[0][0].encode('ascii','ignore')
-        story = story + " " + edit
-    return story[1:]
+        editTuple = (edit, int(editID))
+        story.append(editTuple)
+    return story
 
 def getUserKarma(user):
     #returns the karma of user
@@ -291,3 +293,27 @@ def getStoryKarma(storyID):
     karma = karma[0][0]
     return karma
         
+
+def getAllStories():
+    #returns a list of tuples containing the title and id of each story
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select title,id from stories"
+    cursor = connection.execute(q)
+    stories = [x for x in cursor]
+
+    for i in range (0,len(stories)):
+        stories[i] = (stories[i][0].encode('ascii','ignore'),stories[i][1])
+        
+
+    return stories
+    #editIDs = editIDs[0][0].encode('ascii','ignore')
+    #editIDs = editIDs.split(',')
+    #story = []
+    #for editID in editIDs:
+    #    q = "select sentence from edits where id=?"
+    #    cursor = connection.execute(q,[editID])
+    #    edit = [x for x in cursor]
+    #    edit = edit[0][0].encode('ascii','ignore')
+    #    editTuple = (edit, editID)
+    #    story.append(editTuple)
+    #return story
