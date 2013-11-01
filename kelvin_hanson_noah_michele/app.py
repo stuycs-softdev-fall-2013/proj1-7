@@ -34,7 +34,7 @@ def register():
     if password != cpassword:
         return render_template('register.html',
                                message='Passwords do not match')
-    auth.insert(username, password)
+    auth.addUser(username, password)
     return redirect(url_for('home'))
 
 

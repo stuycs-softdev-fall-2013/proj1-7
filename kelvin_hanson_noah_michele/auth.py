@@ -41,6 +41,8 @@ def exists(usr):
         return False
     return True
 
+
+
 if(__name__ == "__main__"):
     
     print addUser("user", "password")
