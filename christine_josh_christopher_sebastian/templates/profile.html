@@ -1,25 +1,13 @@
 <html>
-<link type= "text/css" rel= "stylesheet" href="css/bootstrap.css"/>
-<script src="js/bootstrap.js"></script>
-    <body>
-     <!-- nav bar-->  
-    <nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <a href="/" class="navbar-brand" >Onesuppon</a>
 
-    <div class="btn-group navbar-nav navbar-right">
-        <!-- % if logged_in % -->  
-            <a href="/profile" class="btn btn-default navbar-btn">Profile</a>
-            <a href="/logout" class="btn btn-default navbar-btn">Logout</a>
-        
-    </div>
-	</nav> 
+    {% include "style.html" %}
 
 <div class="container">
 
 		<h3>User Profile</h3>
 			Welcome User, <br>
 <div>
-<br>
+  {% include "navbar.html" %}
 <div class="container">
 	<div class="panel panel-default">
 		<div class="panel-heading">User Contributions</div>
