@@ -10,7 +10,7 @@ comms = Comment()
 
 """ 1) Get the latest posts and pass them to a template.
     2) Let the template know (through a boolean variable),
-whether or not a user is logged in."""
+    whether or not a user is logged in."""
 @app.route("/")
 def home():
     pass
@@ -46,7 +46,7 @@ def logout():
 
 
 """ 1) Method should be GET
-    2) Get a user with that name using user.find_one(**kwargs)
+    2) Get a user with that name using users.find_one(**kwargs)
     3) If the user exists, then pass the user to the user template"""
 @app.route("/users/<user>")
 def user_page(user):
