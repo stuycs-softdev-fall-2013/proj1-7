@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 from pymongo import MongoClient
-from settings import DB_NAME
+from settings import DB_NAME, ES_REPEAT
 import sched, time
 
 es = Elasticsearch()
@@ -17,8 +17,7 @@ def index():
             if key != '_id':
                 p[key] = cursor[key]
         es.index(index='bloginator', doc_type='post', id=cursor['_id'], body=p)
-    print 'hello'
-    index_task.enter(5, 1, index, ())
+    index_task.enter(ES_REPEAT, 1, index, ())
 
 
 def search(keyword):
@@ -28,5 +27,5 @@ def search(keyword):
     return posts
 
 if __name__ == '__main__':
-    index_task.enter(5, 1, index, ())
+    index_task.enter(ES_REPEAT, 1, index, ())
     index_task.run()
