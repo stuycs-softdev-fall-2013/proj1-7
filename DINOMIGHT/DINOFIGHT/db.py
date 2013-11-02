@@ -52,5 +52,41 @@ def get_story(storyid):
     connection.close()
     return story
 
-def db_filename():
-    return db
+# Login stuff:
+
+from werkzeug.security import generate_password_hash, check_password_hash
+def register_user(username, pw):
+	pw = pw.encode('ascii')
+	conn = sqlite3.connect(db)
+	c = conn.cursor()
+	u = c.execute("SELECT username FROM logins WHERE username=(?)", (username,)).fetchone()
+	if (u != None):
+		conn.close()
+		return False
+	c.execute("INSERT INTO logins VALUES(?,?)", (username, encrypt(pw)))
+	conn.commit()
+	conn.close()
+
+	return True
+
+def check_user(username,pw):
+	pw = pw.encode('ascii')
+        conn = sqlite3.connect(db)
+        c = conn.cursor()
+        c.execute("SELECT pw FROM logins WHERE username=(?)", (username,))
+        u = c.fetchone()
+        if u != None:
+                ans = check_password_hash(u[0].encode('ascii'), pw)
+                conn.close()		
+                return ans
+        return False
+
+def change_pass(username, pw):
+    pw = pw.encode('ascii')
+    conn = sqlite3.connect(db)
+    c = conn.cursor()
+    c.execute("UPDATE logins SET pw=? WHERE username=?",(encrypt(pw),username))
+    conn.commit()
+
+def encrypt(pw):
+    return generate_password_hash(pw)
