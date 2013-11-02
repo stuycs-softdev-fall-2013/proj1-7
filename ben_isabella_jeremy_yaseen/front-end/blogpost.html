@@ -28,6 +28,9 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="divider"></li>
+      
+      {% if loggedin %}
+
       <li class="has-dropdown">
 	<a href="#">{{user.username}}</a>
 	<!-- This dropdown will only show if a user is logged in -->
@@ -36,11 +39,13 @@
 	  <li><a href="#">Log Out</a></li>
 	</ul>
       </li>
-      <li class="divider"></li>
+      {% else %}
       <li class="has-form">
         <a href="#" class="button secondary">Login or Sign Up</a>
 	<!-- This login button will only show if a user is not logged in -->
       </li>
+      {% endif %}
+
       <li class="divider"></li>
       <li class="small-4 columns">
 	<div class="row collapse">
