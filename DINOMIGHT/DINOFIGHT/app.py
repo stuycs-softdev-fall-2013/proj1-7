@@ -21,13 +21,14 @@ def home():
 def register():
     if request.method == 'GET':
         #return register page
-        pass
+        return render_template('register.html');
     else:
-        if db.registerUser(request.form['username'],request.form['password']):
+        if db.register_user(request.form['username'],request.form['password']):
             #redirect to home? sign in?
-            pass
+            return redirect(url_for('home'))
         else:
             #redirect to same page with an error message
+            return render_template('register.html', error='Username already exists')
             pass
 
 @app.route('/login', methods=['GET','POST'])
@@ -35,7 +36,7 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     else:
-        if db.checkUser(request.form['username'],request.form['password']):
+        if db.check_user(request.form['username'],request.form['password']):
             return redirect(url_for('home'))
         else:
             return render_template("login.html", error="Wrong username/password combination")
@@ -52,7 +53,7 @@ def passchange():
     if request.method == 'GET':
         #return password change page
         pass
-    elif changePass(request.form['username'],request.form['password']):
+    elif change_pass(request.form['username'],request.form['password']):
         pass
         #return password change success page
     else:
