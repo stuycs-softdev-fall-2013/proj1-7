@@ -2,6 +2,12 @@ import sqlite3
 
 db = "storyinator.db"
 
+connection = sqlite3.connect(db)
+connection.execute("CREATE TABLE IF NOT EXISTS users(usern TEXT, passw TEXT)")
+# need code to create the other tables, similar to the above
+connection.commit()
+connection.close()
+
 def add_story(user,title):
     #Add story to Storyinfo
     #Return the story id of the new story
