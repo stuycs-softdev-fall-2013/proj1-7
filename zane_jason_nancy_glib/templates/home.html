@@ -11,9 +11,9 @@
   
   <body>
     {% include "navbar.html" %}
-    {% if error %}
+    {% if d['error'] %}
     	<div class="alert alert-error" align="center"
-    		 style="width:350px; margin:0px auto 0px auto">
+    		 order="width:350px; margin:0px auto 0px auto">
       	  Incorrect username and password combination.
     	</div>
     {% endif %}
@@ -23,13 +23,27 @@
 	<p> Welcome to the Storyinator. </p>
       </div>
     </div>
-    
+
     <div class="container">
+		<ul class="nav nav-tabs">
+			{% if d['order'] == 'popular' %}
+				<li class="active">
+					<a href="/">Popular</a>
+				</li>
+				<li><a href="/home-recent">Recent</a></li>
+			{% else %}
+				<li><a href='/'>Popular</a></li>
+				<li class="active">
+					<a href="/home-recent">Recent</a>
+				</li>
+			{% endif %}
+		</ul>
+
       <a id="stories"></a>
-      {% for story in stories %}
+      {% for story in d['stories'] %}
       	  <h3> <a href="/story/{{story['title']}}">{{story['title']}}</a></h3>
       	  <div class="well">
-	    {{ story['story'] }}
+	    	{{ story['story'] }}
       	  </div>
       {% endfor %}
     </div>

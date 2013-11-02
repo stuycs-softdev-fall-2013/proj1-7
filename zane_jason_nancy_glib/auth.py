@@ -3,7 +3,7 @@ from pymongo import MongoClient
 connection = MongoClient()
 db = connection.database
 
-def getStories():
+def getStories(order):
     stories = [s for s in db.story.find()]
     return stories
 
