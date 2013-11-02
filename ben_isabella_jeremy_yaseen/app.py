@@ -124,22 +124,20 @@ def user_page(user):
         c. see test.py for how to do this"""
 @app.route("/posts/<id>", methods=["GET","POST"])
 def post(id):
-    target_post = posts.find_one(id=id)
-    if request.method=="GET":
-        if "username" in session:
-            return render_template(target_post=target_post, user=u)
+    p = posts.find_one(id=id)
+    if "username" in session:
+        username = session["username"]
+        u = users.find_one(username=username)
+        if request.method == "GET":
+            return render_template(post=p, user=u)
         else:
-            return render_template(target_post=target_post)
+            #I'm assuming you can only comment if you're logged in
+            comment = request.form["comment"]
+            p.add_comment(user=u, text=comment)
+            return render_template("post.html", post=p, user=u)
     else:
-        #I'm assuming you can only comment if you're logged in
-        if "username" in session:
-            username = session["username"]
-            u = users.find_one(username=username)
-            comment=request.form["comment"]
-            target_post.add_comment(user=u, text=comment)
-            return render_template(target_post=target_post, user=u)
-        else:
-            return render_template(target_post=target_post)
+        return render_template("post.html", post=p)
+
 
 """ 1) Get the post using posts.find_one(**kwargs)
     2) Replace kwargs with author and date
@@ -147,8 +145,9 @@ def post(id):
     got"""
 @app.route("/posts/<author>/<date>")
 def post_by_author(author, date):
-    target_post = posts.find_one(author=author,date=date)
-    return redirect(url_for("post", id = id(target_post)))
+    target_post = posts.find_one(author=author, date=date)
+    return redirect(url_for("post", id=target_post._id))
+
 
 """ 1) If method is GET...
         a. If user is in session
@@ -170,8 +169,8 @@ def create_post():
             title=request.form["title"]
             body=request.form["body"]
             tags=request.form["tags"]
-            u.add_post(title=title, body=body, tags=tags)
-            #Return success page
+            p = u.add_post(title=title, body=body, tags=tags)
+            return redirect(url_for("post", id=p._id))
     else:
         return redirect(url_for("home"))
 
