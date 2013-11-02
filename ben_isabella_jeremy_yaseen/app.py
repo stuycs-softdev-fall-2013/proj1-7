@@ -103,7 +103,7 @@ def change():
 """ 1) Method should be GET
     2) Get a user with that name using users.find_one(**kwargs)
     3) If the user exists, then pass the user to the user template"""
-@app.route("/users/<user>", methods=["GET","POST"])
+@app.route("/users/<user>", methods=["GET"])
 def user_page(user):
     if users.exists(user):
         target_user = users.find_one(username=user)
@@ -123,8 +123,22 @@ def user_page(user):
         c. see test.py for how to do this"""
 @app.route("/posts/<id>", methods=["GET","POST"])
 def post(id):
-    pass
-
+    target_post = posts.find_one(id=id)
+    if request.method=="GET":
+        if "username" in session:
+            return render_template(target_post=target_post, user=u)
+        else:
+            return render_template(target_post=target_post)
+    else:
+        #I'm assuming you can only comment if you're logged in
+        if "username" in session:
+            username = session["username"]
+            u = users.find_one(username=username)
+            comment=request.form["comment"]
+            target_post.add_comment(user=u, text=comment)
+            return render_template(target_post=target_post, user=u)
+        else:
+            return render_template(target_post=target_post)
 
 """ 1) Get the post using posts.find_one(**kwargs)
     2) Replace kwargs with author and date
@@ -132,8 +146,8 @@ def post(id):
     got"""
 @app.route("/posts/<author>/<date>")
 def post_by_author(author, date):
-    pass
-
+    target_post = posts.find_one(author=author,date=date)
+    return redirect(url_for("post", id = id(target_post)))
 
 """ 1) If method is GET...
         a. If user is in session
