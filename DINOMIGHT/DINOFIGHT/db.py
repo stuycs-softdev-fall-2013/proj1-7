@@ -27,7 +27,7 @@ def add_sentence_to_story(user,storyid,sentence):
 def get_sentence(sentenceid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    sentence = c.execute("SELECT sentence FROM sentenceinfo WHERE sentenceid = (?)",(sentenceid,).fetchone();
+    sentence = c.execute("SELECT sentence FROM sentenceinfo WHERE sentenceid = (?)",(sentenceid,)).fetchone();
     connection.commit()
     connection.close()
     return sentence
