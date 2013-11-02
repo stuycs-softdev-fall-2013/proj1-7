@@ -49,6 +49,9 @@ def story(id):
     if 'user' in session:
         loggedIn=True
     title, story = auth.getStory(id)
+    if request.method == "POST":
+        line = request.form['lines']
+        auth.add(id, lines)
     return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<id>")
