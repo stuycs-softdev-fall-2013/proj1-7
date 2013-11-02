@@ -1,39 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Storyinator</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang = "en">
+  
+  <head>
+    {% include "lib.html" %}
 
-		{% include "lib.html" %}
-	</head>
+    <title> Storyinator </title>    
 
-
-	<body>
-		{% include "navbar.html" %}
-
-		<div class="container">
-			<div class="hero-unit">
-				<h1>The Storyinator</h1>
-				<p>Welcome to the Storyinator. Feel free to browse around the existing stories. If you want to
-				begin making stories, get started by creating an account.</p>
-			</div>
-		</div>
-
-		<div class="container">
-			{% for story in d['stories'] %}
-				<h4> {{ story[0] }} </h4>
-				<div class="well">
-					{% for line in story[1:] %}
-						{{ line }}<br>
-					{% endfor%}
-				</div>
-			{% endfor %}
-		</div>
-
-		<hr>
-		<footer>
-			<p>&copy; League of Awesome 2013</p>
-		</footer>
-	</body>
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+    {% if error %}
+    <div class="alert alert-error" style="width:350px; margin:0px auto 0px auto" align="center">
+      Incorrect username and password combination.
+    </div>
+    {% endif %}
+    <div class="container">
+      
+      <div class="hero-unit">
+	<h1> The Storyinator </h1>
+	<p> Welcome to the Storyinator. </p>
+      </div>
+      
+    </div>
+    
+    <div class="container">
+      <h4> Story Title </h4>
+      <div class="well">
+	Story 1
+      </div>
+      <h4> Story Title </h4>
+      <div class="well">
+	Story 2
+      </div>
+      <h4> Story Title </h4>
+      <div class="well">
+	Story 3
+      </div>
+    </div>
+    
+    <hr>
+    
+    <footer>
+      <p> &copy; League of Awesome 2013 </p>
+    </footer>
+  
+  </body>
+  
 </html>
