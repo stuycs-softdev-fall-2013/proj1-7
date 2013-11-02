@@ -24,7 +24,22 @@ def home():
         - if it is, put the username in session""" 
 @app.route("/login", methods=["POST","GET"])
 def login():
-    pass
+    if "username" in session:
+        return redirect("/")
+    else:
+        if request.method=="GET":
+            return render_template("login.html")
+        else:
+            username=request.form["username"].encode("ascii","ignore")
+            password=request.form["password"].encode("ascii","ignore")
+            if users.exists(self, name):
+                if len(users.find(username=username, password=password)) > 0:
+                    session["username"]=username
+                    return redirect("/")
+                else:
+                    return redirect("/login")
+            else:
+                return redirect("/register")
 
 
 """ 1) If users is already in session, go home.
@@ -33,9 +48,25 @@ def login():
         - grab a list of the users with the name using users.find(**kwargs)
         - check if the length of the list is greater than 0
         - if it ISN'T, register the user using users.insert(**kwargs)"""
-@app.route("/register")
+@app.route("/register", methods=["POST","GET"])
 def register():
-    pass
+    if "username" in session:
+        return redirect("/")
+    else:
+        if request.method=="GET":
+            return render_template("register.html")
+        else:
+            username=request.form["username"].encode("ascii","ignore")
+            password=request.form["password"].encode("ascii","ignore")
+            if request.form["button"]=="Submit":
+                if users.exists(self,username):
+                    return render_template("register.html")
+                else:
+                    users.insert(date=datetime.now(), username=username, password=password)
+                    session["username"]=username
+                    return redirect("/")
+            else:
+                return render_template("register.html")
 
 """ Already done"""
 @app.route("/logout")
@@ -44,13 +75,30 @@ def logout():
         session.pop("username")
     return redirect("/login")
 
+@app.route("/change", methods=["GET","POST"])
+def change():
+    if request.method=="GET":
+        return render_template("change.html")
+    else:
+        username=request.form["username"].encode("ascii","ignore")
+        oldPw=request.form["old password"].encode("ascii","ignore")
+        newPw=request.form["new password"].encode("ascii","ignore")
+        if users.exists(self, username):
+            users.find_one(username=username).change_password(self,oldPw,newPw)
+        else:
+            return render_template("change.html")
+            
 
 """ 1) Method should be GET
     2) Get a user with that name using users.find_one(**kwargs)
     3) If the user exists, then pass the user to the user template"""
-@app.route("/users/<user>")
+@app.route("/users/<user>", methods=["GET","POST"])
 def user_page(user):
-    pass
+    u=users.find_one(user)
+    if users.exists(self,user):
+        return render_template()
+    else:
+        return redirect("/")
 
 
 """ 1) Same method as above, but for posts.find_one(**kwargs)
@@ -58,7 +106,7 @@ def user_page(user):
         a. get the comments from the form
         b. add the comment using comms.insert(**kwargs)
         c. see test.py for how to do this"""
-@app.route("/posts/<id>")
+@app.route("/posts/<id>", methods=["GET","POST"])
 def post(id):
     pass
 
@@ -83,7 +131,17 @@ def post_by_author(author, date):
             posts.insert (see test.py)"""
 @app.route("/create-post")
 def create_post():
-    pass
+    if "username" in session:
+        if request.method=="GET":
+            return render_template("create_post.html")
+        else:
+            title=request.form["title"]
+            body=request.form["body"]
+            tags=request.form["tags"]
+            u = request.session["username"]
+            u.add_post(date=datetime.now(),title=title,body=body,tags=tags)
+    else:
+        return redirect("/")
 
 
 """ 1) Grab the keyword in url from request object (request.args)
