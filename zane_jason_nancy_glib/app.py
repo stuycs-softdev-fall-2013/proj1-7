@@ -43,6 +43,8 @@ def register():
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
+    if 'user' not in session:
+        return redirect(url_for('home'))
     if request.method == 'GET':
         return render_template("create.html")
     else:
@@ -59,6 +61,8 @@ def logout():
 
 @app.route("/account", methods =['GET', 'POST'])
 def account():
+    if 'user' not in session:
+        return redirect(url_for('home'))
     if request.method == 'GET':
         return render_template("account.html", error = False, success = False, loggedIn = True)
     else:
