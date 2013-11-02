@@ -12,29 +12,20 @@ def getInfo():
 @app.route("/", methods = ['GET', 'POST'])
 def home():
     stories = auth.getStories()
-    story = """ 
-            <h4> <a href="%s"></a> </h4> 
-            <div class="well">
-            %s
-            </div>
-            """
-    page = ""
-    for s in stories:
-        page = page + story%(s[u'title'], s[u'story'])
     if 'user' in session:
-        return render_template("home.html", loggedIn=True, error=False, page=page)
+        return render_template("home.html", loggedIn=True, error=False, stories=stories)
 
     if request.method == 'GET':
-        return render_template("home.html", loggedIn=False, error=False, page=page)
+        return render_template("home.html", loggedIn=False, error=False, stories=stories)
 
     if request.form['button'] == 'Log in':
         user, pw = getInfo()
         if auth.login(user, pw):
             session['user'] = user
-            return render_template("home.html", loggedIn=True, error=False, page=page)
+            return render_template("home.html", loggedIn=True, error=False, stories=stories)
 		
          #login failure
-        return render_template("home.html", loggedIn=False, error=True, page=page)
+        return render_template("home.html", loggedIn=False, error=True, stories=stories)
 
     if request.form['button'] == 'Register':
         return redirect(url_for('register'))

@@ -24,7 +24,13 @@
     </div>
     
     <div class="container">
-      {{page}}
+      {% for story in stories %}
+      <h3> <a href="/story">{{story[u'title']}}</a></h3>
+      <div class="well">
+	{{story[u'story']}}
+      </div>
+      {% endfor %}
+      {{stories}}
     </div>
     
     <hr>
