@@ -29,7 +29,7 @@
     <ul class="right">
       <li class="divider"></li>
       
-      {% if user %}
+      {% if not user == "none" %}
 
       <li class="has-dropdown">
 	<a href="#">{{user.username}}</a>
