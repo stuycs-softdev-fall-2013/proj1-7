@@ -1,4 +1,4 @@
-StuyPress
+##### StuyPress
 
 ## Members
 * Noah (Leader)
@@ -16,7 +16,7 @@ StuyPress
 
 ## 10/28
 * Make Templates
-##11/1
+## 11/1
 * Changed all templates to use Foundation 4
 * Made everything prettier
 * Added Template for blogs
