@@ -42,12 +42,12 @@ def register():
         else:
             return render_template("register.html", error = True)
 
-@app.route("/story/<title>")
-def story(title): 
+@app.route("/story/<id>")
+def story(id): 
     loggedIn=False
     if 'user' in session:
         loggedIn=True
-    story = auth.getStory(title)
+    title, story = auth.getStory(id)
     return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/create", methods=['GET', 'POST'])
@@ -60,6 +60,7 @@ def create():
         title = request.form['title']
         story = request.form['story']
         author = session['user']
+        session['id'] = session['id'] + 1
         auth.create(author, title, story)
         return redirect(url_for('home'))
 
