@@ -42,26 +42,26 @@ def home():
 		
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
-	if request.method == 'GET':
-		return render_template("register.html", error = False)
-	else:
-		user, pw = getInfo()
-		if auth.register(user,pw):
-			session['user'] = user
-			return redirect(url_for('home'))
-		else:
-			return render_template("register.html", error = True)
+    if request.method == 'GET':
+        return render_template("register.html", error = False)
+    else:
+        user, pw = getInfo()
+        if auth.register(user,pw):
+            session['user'] = user
+            return redirect(url_for('home'))
+        else:
+            return render_template("register.html", error = True)
 
-@app.route("/story/<title>")
-def story(title): 
+@app.route("/story/<eyed>")
+def story(eyed): 
     loggedIn=False
     if 'user' in session:
         loggedIn=True
-    title, story = auth.getStory(title)
+    author, title, story = auth.getStory(eyed)
     if request.method == "POST":
         line = request.form['lines']
-        auth.add(title, lines)
-    return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
+        auth.add(id, lines)
+    return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<id>")
 def profile(id):
@@ -88,7 +88,6 @@ def create():
         title = request.form['title']
         story = request.form['story']
         author = session['user']
-        session['id'] = session['id'] + 1
         auth.create(author, title, story)
         return redirect(url_for('home'))
 

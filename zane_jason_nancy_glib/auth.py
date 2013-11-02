@@ -7,11 +7,10 @@ def getStories(order):
     stories = [s for s in db.story.find()]
     return stories
 
-def getStory(title):
-    story = [s for s in db.story.find({'title':title})]
+def getStory(eyeD):
+    story = [s for s in db.story.find({'_id':eyeD})]
     story = story[0]
-    story = story[u'story']
-    return story
+    return story[u'author'], story[u'title'], story[u'story']
 
 def getStoryID(eyeD):
     story = db.story.find_one({'_id':eyeD})
