@@ -29,7 +29,7 @@
     <ul class="right">
       <li class="divider"></li>
       
-      {% if loggedin %}
+      {% if user %}
 
       <li class="has-dropdown">
 	<a href="#">{{user.username}}</a>
@@ -47,7 +47,7 @@
       {% endif %}
 
       <li class="divider"></li>
-      <li class="small-4 columns">
+      <li class="small-7 columns">
 	<div class="row collapse">
           <div class="large-9 columns">
             <input type="text" placeholder="Search">
@@ -62,7 +62,7 @@
 </nav>
 </div>
 <br>
-{% block "page content" %}
+
 <div class="row topdiv">
   <div class="large-11 large-centered columns">
     <br>
@@ -165,7 +165,7 @@
   </div>
 </div>
 
-{% endblock %}
+
 
 <script src="../static/js/zepto.js"></script>
 
