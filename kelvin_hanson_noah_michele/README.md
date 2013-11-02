@@ -15,9 +15,9 @@ StuyPress
 * capcha (maybe not)
 
 ## 10/28
-*Make Templates
+* Make Templates
 ##11/1
-*Changed all templates to use Foundation 4
-*Made everything prettier
-*Added Template for blogs
-*Frontend nearly complete
+* Changed all templates to use Foundation 4
+* Made everything prettier
+* Added Template for blogs
+* Frontend nearly complete
