@@ -24,8 +24,9 @@
     </div>
     
     <div class="container">
+      <a id="stories"></a>
       {% for story in stories %}
-      	  <h3> <a href="/story">{{story['title']}}</a></h3>
+      	  <h3> <a href="/story/{{story['title']}}">{{story['title']}}</a></h3>
       	  <div class="well">
 	    {{ story['story'] }}
       	  </div>

@@ -42,8 +42,8 @@ def register():
         else:
             return render_template("register.html", error = True)
 
-@app.route("/story")
-def story(): 
+@app.route("/story/<title>")
+def story(title): 
     story = auth.getStory(title)
     return render_template("story.html", title=title, story=story)
 
