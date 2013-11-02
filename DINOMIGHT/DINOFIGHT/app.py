@@ -23,7 +23,7 @@ def register():
         #return register page
         pass
     else:
-        if registerUser(request.form['username'],request.form['password']):
+        if db.registerUser(request.form['username'],request.form['password']):
             #redirect to home? sign in?
             pass
         else:
@@ -35,7 +35,7 @@ def login():
     if request.method == 'GET':
         return render_template("login.html")
     else:
-        if checkUser(request.form['username'],request.form['password']):
+        if db.checkUser(request.form['username'],request.form['password']):
             return redirect(url_for('home'))
         else:
             return render_template("login.html", error="Wrong username/password combination")
@@ -51,18 +51,23 @@ def logout():
 def passchange():
     if request.method == 'GET':
         #return password change page
+        pass
     elif changePass(request.form['username'],request.form['password']):
+        pass
         #return password change success page
     else:
+        pass
         #redirect to same page with an error message
 
 @app.route('/stories')
 def stories():
+    pass
     #list of user's stories
 
 @app.route('/story/<title>', methods=['GET','POST'])
 def story(title):
     if request.method == 'GET':
+        pass
         #check that the story hasn't been edited by user yet
         #returns page with the story and edit box if not edited yet
     #returns page with the story
