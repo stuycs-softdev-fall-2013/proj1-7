@@ -72,7 +72,7 @@ def story(eyed):
 
 @app.route("/profile/<eyed>")
 def profile(eyed):
-    d['loggedIn'] = ('user' in session)
+    d = {'loggedIn': 'user' in session}
 
     user,made,contrib = auth.getInfo(eyed)
 
