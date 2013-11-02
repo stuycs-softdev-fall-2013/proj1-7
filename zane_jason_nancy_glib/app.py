@@ -17,7 +17,8 @@ def home():
 		return render_template("home.html", d=d)
 
 	#POST
-	logged_in = auth.login(request['usern'], request['passw'])
+	data = request.form
+	logged_in = auth.login(data['usern'], data['passw'])
 	d['logged_in'] = logged_in
 
 	return render_template("home.html", d=d)
@@ -28,6 +29,10 @@ def account():
 		d = {}
 		d['loggedIn'] = True
 	return render_template("account.html", d=d)
+
+#@app.route('/register')
+#def register():
+#	return render_template('register.html')
 
 if __name__ == "__main__":
 	app.debug = True
