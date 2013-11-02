@@ -1,4 +1,5 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask
+from flask import render_template, session, request, redirect, url_for
 import auth
 
 app = Flask(__name__)
@@ -70,20 +71,29 @@ def logout():
 
 @app.route("/account", methods =['GET', 'POST'])
 def account():
-    if 'user' not in session:
-        return redirect(url_for('home'))
-    if request.method == 'GET':
-        return render_template("account.html", error = False, success = False, loggedIn = True)
-    else:
-        user = session['user']
-        pw = request.form['pw']
-        npw = request.form['npw']
-        npwcf = request.form['npwcf']
-        if npw == npwcf and auth.changePass(user,pw, npw):
-            return render_template("account.html", error = False, success = True, loggedIn = True)
-        else:
-            return render_template("account.html", error = True, success = False, loggedIn = True)
+	if 'user' not in session:
+		return redirect(url_for('home'))
+	
+	d = {}
+	d['loggedIn'] = True
+
+	if request.method == 'GET':
+   		d['error'] = False
+    	d['success'] = False
+    	return render_template("account.html", d=d)
+
+	#POST
+	user = session['user']
+	pw = request.form['pw']
+	npw = request.form['npw']
+	npwcf = request.form['npwcf']
+	if npw == npwcf and auth.changePass(user, pw, npw):
+		return render_template("account.html", d=d)
+	else:
+		d['error'] = True
+		d['success'] = False
+		return render_template("account.html", d=d)
 
 if __name__ == "__main__":
-    app.debug = True
-    app.run()
+	app.debug = True
+	app.run()

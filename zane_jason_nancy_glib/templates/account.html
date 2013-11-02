@@ -8,18 +8,25 @@
 
   <body>
     {% include "navbar.html" %}
-    {% if error %}
+    {% if d['error'] %}
     	<div class="alert alert-error" align="center"
     	 	 style="width:350px; margin:0px auto 0px auto">
       	  Password was not changed successfully.
     	</div>
     {% endif %}
-    {% if success %}
+    {% if d['success'] %}
     	<div class= "alert alert-success" align="center"
     	 	 style="width:350px; margin:0px auto 0px auto">
       	  Password was changed successfully.
     	</div>
     {% endif %}
+
+    {% for story in d['owned_stories']%}
+    {% endfor %}
+
+    {% for story in d['contrib_stories']%}
+    {% endfor %}
+
     <form align="center" method="POST">
       <h3> Change Password </h3>
       <input type="password" name="pw" placeholder="Password"><br>
