@@ -8,6 +8,15 @@
 
   <body>
     {% include "navbar.html" %}
+    {% if error %}
+    <div class="alert alert-error" style="width:350px; margin:0px auto 0px auto" align="center">
+      Password was not changed successfully.
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class= "alert alert-success" style="width:350px; margin:0px auto 0px auto" align="center">
+    </div>
+    {% endif %}
     <form align="center" method="POST">
       <h3> Change Password </h3>
       <p> Current Password: <input type="password" name="pw" placeholder="********"> </p>
