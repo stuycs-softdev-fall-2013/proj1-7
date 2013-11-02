@@ -2819,7 +2819,7 @@ label.error {
 /* Wrapped around .top-bar to contain to grid width */
 .contain-to-grid {
   width: 100%;
-  background: #111111; }
+  background: #222222; }
   .contain-to-grid .top-bar {
     margin-bottom: 0; }
 
@@ -2847,7 +2847,7 @@ label.error {
   height: 45px;
   line-height: 45px;
   position: relative;
-  background: #111111;
+  background: #222222;
   margin-bottom: 0; }
   .top-bar ul {
     margin-bottom: 0;
@@ -2918,7 +2918,7 @@ label.error {
     height: auto;
     background: transparent; }
     .top-bar.expanded .title-area {
-      background: #111111; }
+      background: #222222; }
     .top-bar.expanded .toggle-topbar a {
       color: #888888; }
       .top-bar.expanded .toggle-topbar a span {
@@ -2931,7 +2931,8 @@ label.error {
   width: auto;
   -webkit-transition: left 300ms ease-out;
   -moz-transition: left 300ms ease-out;
-  transition: left 300ms ease-out; }
+  transition: left 300ms ease-out;
+  background: #222222;}
   .top-bar-section ul {
     width: 100%;
     height: auto;
@@ -3038,7 +3039,7 @@ label.error {
 
 @media only screen and (min-width: 58.75em) {
   .top-bar {
-    background: #111111;
+    background: #222222;
     *zoom: 1;
     overflow: visible; }
     .top-bar:before, .top-bar:after {
@@ -3087,7 +3088,7 @@ label.error {
     .top-bar-section li a:not(.button) {
       padding: 0 15px;
       line-height: 45px;
-      background: #111111; }
+      background: #222222; }
       .top-bar-section li a:not(.button):hover {
         background: black; }
     .top-bar-section .has-dropdown > a {
@@ -3113,7 +3114,7 @@ label.error {
       content: "\00bb";
       top: 1em;
       margin-top: -7px;
-      right: 5px; }
+      right: 5px;}
     .top-bar-section .dropdown {
       left: 0;
       top: auto;
@@ -3140,14 +3141,15 @@ label.error {
       height: 45px;
       width: 0; }
     .top-bar-section .has-form {
-      background: #111111;
+      background: #222222;
       padding: 0 15px;
       height: 45px; }
     .top-bar-section ul.right li .dropdown {
       left: auto;
-      right: 0; }
+      right: 0;}
       .top-bar-section ul.right li .dropdown li .dropdown {
-        right: 100%; }
+        right: 100%;
+	background: #222222; }
 
   .no-js .top-bar-section ul li:hover > a {
     background: black;
