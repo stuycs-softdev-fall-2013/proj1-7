@@ -20,6 +20,7 @@ def home():
 	d['loggedIn'] = False
 
 	if 'user' in session:
+		d['loggedIn'] = True
 		return render_template("home.html", d=d)
 
 	if request.method == 'GET':
