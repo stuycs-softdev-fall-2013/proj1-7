@@ -18,7 +18,7 @@ def home():
         username = session["username"]
         u = users.find_one(username=username)
         return render_template("index.html", posts=ordered_posts, user=u)
-    return render_template("index.html", posts=ordered_posts)
+    return render_template("index.html", posts=ordered_posts, user="none")
 
 
 """ 1) If user is already in session, go home.
@@ -112,7 +112,7 @@ def user_page(user):
             username = session["username"]
             u = users.find_one(username=username)
             return render_template(target_user=target_user, user=u)
-        return render_template(target_user=target_user)
+        return render_template(target_user=target_user, user="none")
     else:
         return redirect(url_for("home"))
 
@@ -136,7 +136,7 @@ def post(id):
             p.add_comment(user=u, text=comment)
             return render_template("post.html", post=p, user=u)
     else:
-        return render_template("post.html", post=p)
+        return render_template("post.html", post=p, user="none")
 
 
 """ 1) Get the post using posts.find_one(**kwargs)
