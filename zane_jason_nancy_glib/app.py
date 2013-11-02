@@ -61,7 +61,7 @@ def story(eyed):
     author, title, story = auth.getStory(eyed)
     if request.method == "POST":
         line = request.form['lines']
-        auth.add(id, lines)
+        auth.add(eyed, lines)
     return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<id>")
