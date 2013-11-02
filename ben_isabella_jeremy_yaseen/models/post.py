@@ -6,8 +6,8 @@ from settings import POST_COLLECTION
 
 class PostModel(Model):
 
-    def __init__(self, db, objects, obj):
-        super(PostModel, self).__init__(db, objects, obj)
+    def __init__(self, db, collection, obj):
+        super(PostModel, self).__init__(db, collection, obj)
         self.user = obj['user']
         self.title = obj['title']
         self.body = obj['body']
@@ -17,9 +17,7 @@ class PostModel(Model):
 
     # Adds a comment on this post
     def add_comment(self, **kwargs):
-        new_args = kwargs
-        new_args['post_id'] = self._id
-        return self.comments.insert(**new_args)
+        return self.comments.insert(post_id=self._id, **kwargs)
 
     # Gets comments on this post
     def get_comments(self):
@@ -43,8 +41,3 @@ class Post(Collection):
     # Return posts sorted by date for front page
     def get_by_date(self):
         return self.sort_by([('date', -1)])
-
-    # Get posts that have a certain tag
-    def get_by_tag(self, tag):
-        results = self.objects.find({'tags': {'$in': [tag]}})
-        return self.to_objects(results)

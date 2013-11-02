@@ -29,3 +29,7 @@ def search(keyword):
 if __name__ == '__main__':
     index_task.enter(ES_REPEAT, 1, index, ())
     index_task.run()
+
+
+def flush():
+    es.indices.flush('bloginator')
