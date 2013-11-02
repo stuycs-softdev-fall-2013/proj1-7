@@ -43,16 +43,16 @@ def register():
         else:
             return render_template("register.html", error = True)
 
-@app.route("/story/<id>")
-def story(id): 
+@app.route("/story/<eyed>")
+def story(eyed): 
     loggedIn=False
     if 'user' in session:
         loggedIn=True
-    title, story = auth.getStory(id)
+    author, title, story = auth.getStory(eyed)
     if request.method == "POST":
         line = request.form['lines']
         auth.add(id, lines)
-    return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
+    return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<id>")
 def profile(id):
@@ -78,7 +78,6 @@ def create():
         title = request.form['title']
         story = request.form['story']
         author = session['user']
-        session['id'] = session['id'] + 1
         auth.create(author, title, story)
         return redirect(url_for('home'))
 
