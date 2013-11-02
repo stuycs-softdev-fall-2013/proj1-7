@@ -2,11 +2,13 @@ import sqlite3
 
 db = "storyinator.db"
 
-connection = sqlite3.connect(db)
-connection.execute("CREATE TABLE IF NOT EXISTS users(usern TEXT, passw TEXT)")
-# need code to create the other tables, similar to the above
-connection.commit()
-connection.close()
+with open("create_tables", 'r') as table_text:
+    connection = sqlite3.connect(db)
+    for cmd in table_text.readlines():
+        connection.execute(cmd);
+    # need code to create the other tables, similar to the above
+    connection.commit()
+    connection.close()
 
 def add_story(user,title):
     #Add story to Storyinfo
@@ -21,11 +23,11 @@ def add_story(user,title):
 
 def add_sentence_to_story(user,storyid,sentence):
     #Add sentence to story
-    #Return the setence id of the new sentence
+    #Return the sentence id of the new sentence
     connection = sqlite3.connect(db)
     c = connection.cursor()
     c.execute("INSERT INTO sentenceinfo VALUES (?,?,?,?)", (user,storyid,sentence,0))
-    sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE user=(?) AND story = (?) AND sentence = (?)",(user,title,setence)).fetchone();
+    sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE user=(?) AND story = (?) AND sentence = (?)",(user,title,sentence)).fetchone();
     connection.commit()
     connection.close()
     return sentenceid
@@ -49,3 +51,6 @@ def get_story(storyid):
     connection.commit()
     connection.close()
     return story
+
+def db_filename():
+    return db
