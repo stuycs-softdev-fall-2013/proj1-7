@@ -9,6 +9,8 @@ def getStories():
 
 def getStory(title):
     story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
+    story = story[0]
+    story = story[u'story']
     return story
 
 def create(author, title, story):
