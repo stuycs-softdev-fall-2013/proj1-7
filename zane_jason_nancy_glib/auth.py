@@ -3,6 +3,10 @@ from pymongo import MongoClient
 connection = MongoClient()
 db = connection.database
 
+def getStories():
+    stories = [s for s in db.story.find({}, fields={'_id':False, 'title':True, 'story':True})]
+    return stories
+
 def getStory(title):
     story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
     return story[0]
