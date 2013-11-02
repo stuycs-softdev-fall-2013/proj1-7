@@ -64,16 +64,16 @@ def story(eyed):
         auth.add(eyed, lines)
     return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
-@app.route("/profile/<id>")
-def profile(id):
+@app.route("/profile/<eyed>")
+def profile(eyed):
     d['loggedIn'] = False
     if 'user' in session:
         d['loggedIn'] = True
     user,made,contrib = auth.getInfo(id)
     for s in made:
-        s['title'] = auth.getTitle(s['id'])
+        s['title'] = auth.getTitle(s['eyed'])
     for s in contrib:
-        s['title'] = auth.getTitle(s['id'])
+        s['title'] = auth.getTitle(s['eyed'])
     d['owned_stories'] = made
     d['contrib_stories'] = contrib
     return render_template("profile.html", user=user, d=d)
