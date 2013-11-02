@@ -3,6 +3,10 @@ from pymongo import MongoClient
 connection = MongoClient()
 db = connection.database
 
+def getStory(title):
+    story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
+    return story[0]
+
 def create(author, title, story):
     db.story.insert({'author':author, 'title':title, 'story':story})
 

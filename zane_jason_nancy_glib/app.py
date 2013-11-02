@@ -41,6 +41,11 @@ def register():
         else:
             return render_template("register.html", error = True)
 
+@app.route("/story")
+def story(title):
+    story = auth.getStory(title)
+    return render_template("story.html", title=title, story=story)
+
 @app.route("/create", methods=['GET', 'POST'])
 def create():
     if 'user' not in session:
