@@ -1,6 +1,6 @@
 from flask import Flask, render_template, session, request, redirect, url_for, session
 
-import SQLogin, db
+import db
 
 app = Flask(__name__)
 
@@ -21,11 +21,14 @@ def home():
 def register():
     if request.method == 'GET':
         #return register page
+        pass
     else:
         if registerUser(request.form['username'],request.form['password']):
             #redirect to home? sign in?
+            pass
         else:
             #redirect to same page with an error message
+            pass
 
 @app.route('/login', methods=['GET','POST'])
 def login():
