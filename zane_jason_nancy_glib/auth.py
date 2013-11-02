@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 connection = MongoClient()
 db = connection.database
@@ -8,7 +9,7 @@ def getStories(order):
     return stories
 
 def getStory(eyeD):
-    story = [s for s in db.story.find({'_id':eyeD})]
+    story = [s for s in db.story.find({'_id':ObjectId(eyeD)})]
     story = story[0]
     return story[u'author'], story[u'title'], story[u'story']
 
@@ -17,7 +18,7 @@ def getStoryID(eyeD):
     return story
 
 def create(author, title, story):
-    db.story.insert({'author':author, 'title':title, 'story':story})
+    return db.story.insert({'author':author, 'title':title, 'story':story})
 
 def register(user, pw):
     if not checkuser(user):

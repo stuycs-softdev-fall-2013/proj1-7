@@ -24,7 +24,6 @@ def home():
 		return render_template("home.html", d=d)
 
 	if request.method == 'GET':
-		d['loggedIn'] = False
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Log in':
@@ -53,15 +52,15 @@ def register():
         else:
             return render_template("register.html", error = True)
 
-@app.route("/story/<eyed>")
+@app.route("/story/<eyed>", methods=['GET','POST'])
 def story(eyed): 
     loggedIn=False
     if 'user' in session:
         loggedIn=True
     author, title, story = auth.getStory(eyed)
     if request.method == "POST":
-        line = request.form['lines']
-        auth.add(eyed, lines)
+	    line = request.form['lines']
+	    auth.add(eyed, lines)
     return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<eyed>")
@@ -89,8 +88,7 @@ def create():
         title = request.form['title']
         story = request.form['story']
         author = session['user']
-        auth.create(author, title, story)
-        return redirect(url_for('home'))
+	return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():
