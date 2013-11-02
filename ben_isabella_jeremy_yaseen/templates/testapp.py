@@ -1,16 +1,9 @@
 #!/usr/local/bin/python
 from flask import Flask, render_template, session, redirect, request, url_for
-from models import User, Post, Comment
 import utils
 
 app = Flask(__name__)
-users = User()
-posts = Post()
-comms = Comment()
 
-
-""" 1) Get the latest posts and pass them to a template.
-    2) Let the template know whether or not a user is logged in."""
 @app.route("/")
 def home():
     ordered_posts = posts.get_by_date()
@@ -188,6 +181,9 @@ def search():
         u = users.find_one(username=username)
         return render_template("search_results.html", results=results, user=u)
     return render_template("search_results.html", results=results)
+
+
+
 
 
 if __name__ == '__main__':

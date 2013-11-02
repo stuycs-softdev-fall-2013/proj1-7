@@ -16,28 +16,21 @@
       Incorrect username and password combination.
     </div>
     {% endif %}
-    <div class="container">
-      
+    <div class="container">  
       <div class="hero-unit">
 	<h1> The Storyinator </h1>
 	<p> Welcome to the Storyinator. </p>
       </div>
-      
     </div>
     
     <div class="container">
-      <h4> Story Title </h4>
-      <div class="well">
-	Story 1
-      </div>
-      <h4> Story Title </h4>
-      <div class="well">
-	Story 2
-      </div>
-      <h4> Story Title </h4>
-      <div class="well">
-	Story 3
-      </div>
+      <a id="stories"></a>
+      {% for story in stories %}
+      	  <h3> <a href="/story/{{story['title']}}">{{story['title']}}</a></h3>
+      	  <div class="well">
+	    {{ story['story'] }}
+      	  </div>
+      {% endfor %}
     </div>
     
     <hr>
@@ -45,7 +38,6 @@
     <footer>
       <p> &copy; League of Awesome 2013 </p>
     </footer>
-  
   </body>
   
 </html>

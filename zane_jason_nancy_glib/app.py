@@ -11,20 +11,21 @@ def getInfo():
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
+    stories = auth.getStories()
     if 'user' in session:
-        return render_template("home.html", loggedIn=True, error=False)
+        return render_template("home.html", loggedIn=True, error=False, stories=stories)
 
     if request.method == 'GET':
-        return render_template("home.html", loggedIn=False, error=False)
+        return render_template("home.html", loggedIn=False, error=False, stories=stories)
 
     if request.form['button'] == 'Log in':
         user, pw = getInfo()
         if auth.login(user, pw):
             session['user'] = user
-            return render_template("home.html", loggedIn=True, error=False)
+            return render_template("home.html", loggedIn=True, error=False, stories=stories)
 		
          #login failure
-        return render_template("home.html", loggedIn=False, error=True)
+        return render_template("home.html", loggedIn=False, error=True, stories=stories)
 
     if request.form['button'] == 'Register':
         return redirect(url_for('register'))
@@ -41,10 +42,20 @@ def register():
         else:
             return render_template("register.html", error = True)
 
+@app.route("/story/<title>")
+def story(title): 
+    loggedIn=False
+    if 'user' in session:
+        loggedIn=True
+    story = auth.getStory(title)
+    return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
+
 @app.route("/create", methods=['GET', 'POST'])
 def create():
+    if 'user' not in session:
+        return redirect(url_for('home'))
     if request.method == 'GET':
-        return render_template("create.html")
+        return render_template("create.html", loggedIn=True)
     else:
         title = request.form['title']
         story = request.form['story']
@@ -59,6 +70,8 @@ def logout():
 
 @app.route("/account", methods =['GET', 'POST'])
 def account():
+    if 'user' not in session:
+        return redirect(url_for('home'))
     if request.method == 'GET':
         return render_template("account.html", error = False, success = False, loggedIn = True)
     else:

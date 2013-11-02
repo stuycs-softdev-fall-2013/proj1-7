@@ -1,8 +1,7 @@
 from pymongo import MongoClient
 
-connection = MongoClient('db.stuycs.org')
-db = connection.admin
-db.authenticate('softdev','softdev')
+connection = MongoClient()
+db = connection.database
 def register(user, pw):
     if checkuser(user) == False:
         db.login.insert({'user':user, 'pass':pw})
@@ -42,10 +41,12 @@ def addtostory(line,title):
     db.lines.insert({'line':line, 'title':title})
     increment_lines(title)
 
-def FindMine(author):
-    lines=list(db.lines.find({'author':author}))
-    return lines
-
+def getmine(author):
+    story= [s for s in db.stories.find({}, fields={'_id':False, 'author':author})]
+    return story
+def getall():
+    stories = [s for s in db.stories.find({}, fields={'_id':False, 'title':True, 'story':True})]
+    return stories
 def deletestory(title):
     if storyexists(title):
         db.stories.remove({'title':title})

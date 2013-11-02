@@ -34,9 +34,7 @@ class UserModel(Model):
 
     # Adds a post under the users page
     def add_post(self, **kwargs):
-        new_args = kwargs
-        new_args['user'] = self.username
-        return self.posts.insert(**new_args)
+        return self.posts.insert(user=self.username, **kwargs)
 
 
 class User(Collection):
