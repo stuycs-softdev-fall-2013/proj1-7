@@ -72,16 +72,19 @@ def story(eyed):
 
 @app.route("/profile/<eyed>")
 def profile(eyed):
-    d['loggedIn'] = False
-    if 'user' in session:
-        d['loggedIn'] = True
+    d['loggedIn'] = ('user' in session)
+
     user,made,contrib = auth.getInfo(eyed)
+
     for s in made:
         s['title'] = auth.getTitle(s['eyed'])
+
     for s in contrib:
         s['title'] = auth.getTitle(s['eyed'])
+
     d['owned_stories'] = made
     d['contrib_stories'] = contrib
+    
     return render_template("profile.html", user=user, d=d)
 
 @app.route("/create", methods=['GET', 'POST'])
