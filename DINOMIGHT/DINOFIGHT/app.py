@@ -13,9 +13,9 @@ def home():
         username = session['username']
     #list of newest stories
     if 'username' in session:
-        render_template("homepage.html",link="link to user's stories")
+        return render_template("homepage.html",link="link to user's stories")
     else:
-        render_template("homepage.html",link="link to register/sign in page")
+        return render_template("homepage.html",link="link to register/sign in page")
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -30,11 +30,12 @@ def register():
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'GET':
-        render_template("login.html")
+        return render_template("login.html")
     else:
         if checkUser(request.form['username'],request.form['password']):
             return redirect(url_for('home'))
         else:
+            return render_template("login.html", error="Wrong username/password combination")
             #redirect to same page with an error message
 
 @app.route('/logout')

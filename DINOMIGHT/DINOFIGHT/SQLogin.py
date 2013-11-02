@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
 userdata_filename = "keys.dat"
-secret_key = "uniquellama"
 
 #ensure db & table exist; should probably be fixed later
 connection = sqlite3.connect(userdata_filename)
