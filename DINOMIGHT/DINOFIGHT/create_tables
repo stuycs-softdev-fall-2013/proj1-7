@@ -1,3 +1,3 @@
-CREATE TABLE logins(username TEXT, pw TEXT);
-CREATE TABLE storyinfo(storyid INTEGER PRIMARY KEY autoincrement, username TEXT, title TEXT);
-CREATE TABLE sentenceinfo(sentenceid INTEGER PRIMARY KEY autoincrement, username TEXT,storyid INTEGER,sentence TEXT, num_inappropriate INTEGERS);
+CREATE TABLE IF NOT EXISTS logins(username TEXT, pw TEXT);
+CREATE TABLE IF NOT EXISTS storyinfo(storyid INTEGER PRIMARY KEY autoincrement, username TEXT, title TEXT);
+CREATE TABLE IF NOT EXISTS sentenceinfo(sentenceid INTEGER PRIMARY KEY autoincrement, username TEXT,storyid INTEGER,sentence TEXT, num_inappropriate INTEGERS);
