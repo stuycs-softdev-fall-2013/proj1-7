@@ -78,7 +78,8 @@ def account():
         user = session['user']
         pw = request.form['pw']
         npw = request.form['npw']
-        if auth.changePass(user,pw, npw):
+        npwcf = request.form['npwcf']
+        if npw == npwcf and auth.changePass(user,pw, npw):
             return render_template("account.html", error = False, success = True, loggedIn = True)
         else:
             return render_template("account.html", error = True, success = False, loggedIn = True)
