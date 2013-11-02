@@ -4,13 +4,17 @@ connection = MongoClient()
 db = connection.database
 
 def getStories():
-    stories = [s for s in db.story.find({}, fields={'_id':False, 'title':True, 'story':True})]
+    stories = [s for s in db.story.find()]
     return stories
 
 def getStory(title):
-    story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
+    story = [s for s in db.story.find({'title':title})]
     story = story[0]
     story = story[u'story']
+    return story
+
+def getStoryID(eyeD):
+    story = db.story.find_one({'_id':eyeD})
     return story
 
 def create(author, title, story):
