@@ -30,9 +30,10 @@ def account():
 		d['loggedIn'] = True
 	return render_template("account.html", d=d)
 
-#@app.route('/register')
-#def register():
-#	return render_template('register.html')
+@app.route('/register')
+def register():
+	d = {}
+	return render_template('register.html', d=d)
 
 if __name__ == "__main__":
 	app.debug = True
