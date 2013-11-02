@@ -118,15 +118,101 @@ def dislikeEdit(editID, sourceUser):
 
 
 def likeStory(storyID, user):
-    #user is adding one to the karma of the story with the ID storyID
+    #user is adding one to the karma of story with storyID
+    #returns False if a user tries to like their own story or like a story twice
     connection = sqlite3.connect('OnceUponData.db')
-    pass
+    q = "select user from stories where id=?"
+    cursor = connection.execute(q, [storyID])
+    targetUser = [line for line in cursor]
+    targetUser = targetUser[0][0].encode('ascii','inore')
 
+    if targetUser == user:
+        return False
+    q = "select liked_stories from account_info where username=?"
+    cursor = connection.execute(q, [user])
+    likedStories = [line for line in cursor]
+    q = "select disliked_stories from account_info where username=?"
+    cursor = connection.execute(q, [user])
+    dislikedStories = [line for line in cursor]
+
+    
+    if likedStories[0][0] != '':
+        likedStories = likedStories[0][0].split(',')
+        for story in likedStories:
+            if story == "%i"%(storyID):
+                return False
+        updatedLikedStories = ",".join(LikedStories) + ",%i"%(storyID)
+    else:
+        updatedLikedStories = "%i"%(storyID)
+
+
+    if dislikedStories[0][0] != '':
+        dislikedStories = dislikedStories[0][0].split(',')
+        for story in dislikedStories:
+            if story == "%i"%(storyID):
+                return False
+        
+
+    q = "select karma from account_info where username=?"
+    cursor = connection.execute(q, [targetUser])
+    currentKarma = [line for line in cursor]
+    q = "update account_info set karma=? where username=?"
+    connection.execute(q, [currentKarma[0][0]+1, targetUser])
+
+    q = "select karma from stories where id=?"
+    cursor = connection.execute(q, [storyID])
+    currentStoryKarma = [line for line in cursor]
+    q = "update stories set karma=? where id=?"
+    connection.execute(q, [currentStoryKarma[0][0]+1, storyID])
+
+    q = "update account_info set liked_stories=? where username=?"
+    connection.execute(q, [updatedLikedStories, user])
+    connection.commit()
+    return True
 
 def dislikeStory(storyID, user):
-    #user is subtracting one from the karma of the story with the ID storyID
+    #user is subtracting one from the karma of story with storyID
+    #returns False if a user tries to dislike their own story or dislike a story twice
     connection = sqlite3.connect('OnceUponData.db')
-    pass
+    q = "select user from stories where id=?"
+    cursor = connection.execute(q, [storyID])
+    targetUser = [line for line in cursor]
+    targetUser = targetUser[0][0].encode('ascii','inore')
+
+    if targetUser == user:
+        return False
+    q = "select liked_stories from account_info where username=?"
+    cursor = connection.execute(q, [user])
+    likedStories = [line for line in cursor]
+    q = "select disliked_stories from account_info where username=?"
+    cursor = connection.execute(q, [user])
+    dislikedStories = [line for line in cursor]
+
+    
+    if likedStories[0][0] != '':
+        likedStories = likedStories[0][0].split(',')
+        for story in likedStories:
+            if story == "%i"%(storyID):
+                return False
+
+    if dislikedStories[0][0] != '':
+        dislikedStories = dislikedStories[0][0].split(',')
+        for story in dislikedStories:
+            if story == "%i"%(storyID):
+                return False
+        updatedDislikedStories = ",".join(dislikedStories) + ",%i"%(storyID)
+    else:
+        updatedDislikedStories = "%i"%(storyID)
+
+    q = "select karma from account_info where username=?"
+    cursor = connection.execute(q, [targetUser])
+    currentKarma = [line for line in cursor]
+    q = "update account_info set karma=? where username=?"
+    connection.execute(q, [currentKarma[0][0]-1, targetUser])
+    q = "update account_info set disliked_stories=? where username=?"
+    connection.execute(q, [updatedDislikedStories, user])
+    connection.commit()
+    return True
 
 
 def newEdit(storyID, text, user):
@@ -135,14 +221,12 @@ def newEdit(storyID, text, user):
     connection = sqlite3.connect('OnceUponData.db')
     if storyID == 0:
         return False
-    q = "select id from edits"
+    q = "select max_edit_id from max_ids"
     cursor = connection.execute(q)
-    existingIDs = [x for x in cursor]
-    maxID = -1
-    for x in range (0,len(existingIDs)):
-        if existingIDs[x][0] > maxID:
-            maxID = existingIDs[x][0]
-    editID = maxID + 1
+    prevMax = [x for x in cursor]
+    editID = prevMax[0][0] + 1
+    q = "update max_ids set max_edit_id=?"
+    connection.execute(q,[editID])
     q = "insert into edits values(?,?,?)"
     connection.execute(q,[editID,text,user])
     q = "select edits from stories where id=?"
@@ -157,5 +241,53 @@ def newEdit(storyID, text, user):
 
 def newStory(name, storyID, user):
     #user forks the story with ID storyID and calls it name
-    connection = sqlite3.connect('OnceUponData.db')    
-    pass
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select max_story_id from max_ids"
+    cursor = connection.execute(q)
+    prevMax = [x for x in cursor]
+    newID = prevMax[0][0] + 1
+    q = "update max_ids set max_story_id=?"
+    cursor = connection.execute(q,[newID])
+    q = "select * from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    data = [x for x in cursor]
+    q = "insert into stories values(?,?,?,?,?,?)"
+    connection.execute(q,[newID, name, data[0][2], data[0][3], storyID, user])
+    connection.commit()
+
+
+def getStory(storyID):
+    #returns the story with ID storyID as a single string
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select edits from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    editIDs = [x for x in cursor]
+    editIDs = editIDs[0][0].encode('ascii','ignore')
+    editIDs = editIDs.split(',')
+    story = ""
+    for editID in editIDs:
+        q = "select sentence from edits where id=?"
+        cursor = connection.execute(q,[editID])
+        edit = [x for x in cursor]
+        edit = edit[0][0].encode('ascii','ignore')
+        story = story + " " + edit
+    return story[1:]
+
+def getUserKarma(user):
+    #returns the karma of user
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select karma from account_info where username=?"
+    cursor = connection.execute(q,[user])
+    karma = [x for x in cursor]
+    karma = karma[0][0]
+    return karma
+
+def getStoryKarma(storyID):
+    #returns the karma of story with ID storyID
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select karma from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    karma = [x for x in cursor]
+    karma = karma[0][0]
+    return karma
+        

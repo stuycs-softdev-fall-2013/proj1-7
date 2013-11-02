@@ -1,41 +1,192 @@
-<html><head><title>Register</title></head>
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Signup</title>
+
+  
+  <link rel="stylesheet" href="css/foundation.css">
+  
+
+  <script src="js/vendor/custom.modernizr.js"></script>
+
+</head>
 <body>
-<br>
-<br>
-<h1><font size = "40" face = "Garamond" color = "green" >REGISTRATIONS</font></h1>
-<h4><font color = "blue" face = "Garamond">
-Enter your desired username and password!
-</font></h4>
+
+<nav class="top-bar">
+<ul class="title-area">
+<!-- Title Area -->
+<li class="name">
+<h1>
+<a href="home.html">
+StuyPress
+</a>
+</h1>
+</li>
+<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+</ul>
+</nav>
+<!-- End Top Bar -->
+<!-- Main Page Content and Sidebar -->
+<div class="row">
+<!-- Contact Details -->
+<div class="large-9 columns">
+<h3>Registrations</h3>
+<p>New to wordpress? No problem! Just fill out the information and you're ready to go! If you have any questions, feel free to go to FAQ and email us </p>
+<div class="section-container tabs" data-section>
+<section class="section">
+<h5 class="title"><a href="#panel1">Let the sushi roll!</a></h5>
+<div class="content" data-slug="panel1">
 <form method = "post">
-<table border = "1" cellpadding = 5 cellspacing = 5>
-<tr><th>
-<font color = "blue" face = "Garamond">Username:</font> 
-<input type = "text" name = Username> <br>
-</th></tr>
-<br>
-<tr><th>
-<font color = "blue" face = "Garamond">Password:</font> 
-<input type = "password" name = Password> <br>
-</th></tr>
-<br>
-<tr><th>
-<font color = "blue" face = "Garamond">Confirm Password:</font>
-<input type = "password" name =CPassword> <br>
-</th></tr>
-</table>
-<br>
-<input type = "submit" value = "Enter">
-<br>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline">ID</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourName" placeholder="Choose Your Desired Username">
+</div>
+</div>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline"> Password</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourEmail" placeholder="Choose Your Desired Password">
+</div>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline"> Confirmation</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourEmail" placeholder="Confirm Your Password">
+</div>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline"> URL</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourEmail" placeholder="Choose Your Desired URL">
+</div>
+</div>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline"> Blog Title</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourEmail" placeholder="Choose Your Blog Title">
+</div>
+</div>
+<div class="row collapse">
+<div class="large-2 columns">
+<label class="inline"> Description</label>
+</div>
+<div class="large-10 columns">
+<input type="text" id="yourEmail" placeholder="Enter a description for your blog!">
+</div>
+</div>
+<button type="submit" class="radius button">Sign Me up!</button>
 </form>
-<style>
-body
-{
-background-color:orange;
-}
-</style>
+</div>
+</section>
+<section class="section">
+<h5 class="title"><a href="#panel2">FAQ</a></h5>
+<div class="content" data-slug="panel2">
+<ul class="large-block-grid-5">
+<li><a href="mailto:kelvinmei1996@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-prn2/1396033_401394253323164_1133144106_n.jpg">Kelvin Mei</a></li>
+<li><a href="mailto:noah.rosenberg.3785@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash3/539144_10200945062689087_550469522_n.jpg">Noah Rosenberg</a></li>
+<li><a href="mailto:michele.lin.5@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash2/299897_263421840349607_249968209_n.jpg">Michele Lin</a></li>
+<li><a href="mailto:hanson.lin1@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-frc3/1377208_10202034258808728_696298387_n.jpg">Hanson Lin</a></li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<!-- End Contact Details -->
+<!-- Sidebar -->
+ 
+<div class="large-3 columns">
+<!-- Clicking this placeholder fires the mapModal Reveal modal -->
+<p>
+<img src="img/Logo.png"><br />
+</p>
+<p>
+345 Chambers St<br />
+New York, 10282
+</p>
+</div>
+<!-- End Sidebar -->
+</div>
+<!-- End Main Content and Sidebar -->
+<!-- Footer -->
+<footer class="row">
+<div class="large-12 columns">
+<hr />
+<div class="row">
+<div class="large-6 columns">
+<p>&copy; Copyright SoftDev Period 7</p>
+</div>
+<div class="large-6 columns">
+<ul class="inline-list right">
+<li><a href="https://www.facebook.com/noah.rosenberg3?fref=ts">Noah (Supreme Leader)</a></li>
+<li><a href="https://www.facebook.com/its.only.lifee?fref=ts">Kelvin (Frontend)</a></li>
+<li><a href="https://www.facebook.com/michele.lin.5?fref=ts">Michele (Middleware)</a></li>
+<li><a href="https://www.facebook.com/kyo341?fref=ts">Hanson (Backend)</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<!-- End Footer -->
 
-
-
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  
+  <script src="js/foundation.min.js"></script>
+  <!--
+  
+  <script src="js/foundation/foundation.js"></script>
+  
+  <script src="js/foundation/foundation.interchange.js"></script>
+  
+  <script src="js/foundation/foundation.abide.js"></script>
+  
+  <script src="js/foundation/foundation.dropdown.js"></script>
+  
+  <script src="js/foundation/foundation.placeholder.js"></script>
+  
+  <script src="js/foundation/foundation.forms.js"></script>
+  
+  <script src="js/foundation/foundation.alerts.js"></script>
+  
+  <script src="js/foundation/foundation.magellan.js"></script>
+  
+  <script src="js/foundation/foundation.reveal.js"></script>
+  
+  <script src="js/foundation/foundation.tooltips.js"></script>
+  
+  <script src="js/foundation/foundation.clearing.js"></script>
+  
+  <script src="js/foundation/foundation.cookie.js"></script>
+  
+  <script src="js/foundation/foundation.joyride.js"></script>
+  
+  <script src="js/foundation/foundation.orbit.js"></script>
+  
+  <script src="js/foundation/foundation.section.js"></script>
+  
+  <script src="js/foundation/foundation.topbar.js"></script>
+  
+  -->
+  
+  <script>
+    $(document).foundation();
+  </script>
 
 </body>
 </html>

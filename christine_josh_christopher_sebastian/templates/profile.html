@@ -1,0 +1,62 @@
+<html>
+    {% include "style.html" %}
+    <body>
+        {% include "navbar.html" %}
+        <div class="container">
+
+            <h3>User Profile</h3>
+
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">User Contributions</div>
+                <div class="panel-body">
+
+                    <table class="table table-hover">
+
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Popular Stories</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for story in stories %}
+                        <a href="/stories/{{ story.id }}" class="list-group-item">
+                            <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                            <p class="list-group-item-text">{{ story.description }}</p>
+                        </a>
+                        {% endfor %}
+                        <table class="table table-hover">
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Stories Recommended</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for story in stories %}
+                        <a href="/stories/{{ story.id }}" class="list-group-item">
+                            <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                            <p class="list-group-item-text">{{ story.description }}</p>
+                        </a>
+                        {% endfor %}
+                        <table class="table table-hover">
+
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>  
+    </body>
+
+
+
+</html>

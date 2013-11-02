@@ -1,10 +1,10 @@
 <html>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" />
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+    {% include "style.html" %}
 
     <body>
+        {% include "navbar.html" %}
         <div class="container">
-            {% include "navbar.html" %}
 
             <div class="list-group">
                 {% for story in stories %}

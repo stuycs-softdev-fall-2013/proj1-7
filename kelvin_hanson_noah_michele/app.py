@@ -12,7 +12,7 @@ def home():
         return render_template('home.html')
     username = request.form['Username']
     password = request.form['Password']
-    if auth.authenticate(username, password):
+    if auth.auth(username, password):
         session['username'] = username
         #redirect to main blog page
     return render_template(
@@ -34,8 +34,9 @@ def register():
     if password != cpassword:
         return render_template('register.html',
                                message='Passwords do not match')
-    auth.insert(username, password)
+    auth.addUser(username, password)
     return redirect(url_for('home'))
+
 
 @app.route('/logout')
 def logout():
