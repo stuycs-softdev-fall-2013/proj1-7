@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 from flask import Flask, render_template, session, redirect, request, url_for
 from models import User, Post, Comment
 import utils
