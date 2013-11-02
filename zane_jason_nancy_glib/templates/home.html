@@ -25,12 +25,11 @@
     
     <div class="container">
       {% for story in stories %}
-      <h3> <a href="/story">{{story[title]}}</a></h3>
-      <div class="well">
-	{{story[story]}}
-      </div>
+      	  <h3> <a href="/story">{{story['title']}}</a></h3>
+      	  <div class="well">
+			{{ story['story'] }}
+      	  </div>
       {% endfor %}
-      {{stories}}
     </div>
     
     <hr>
@@ -38,8 +37,6 @@
     <footer>
       <p> &copy; League of Awesome 2013 </p>
     </footer>
-    
-	{% include "google-login.html" %}
   </body>
   
 </html>
