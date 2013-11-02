@@ -42,10 +42,13 @@ def register():
         else:
             return render_template("register.html", error = True)
 
-@app.route("/story")
-def story(title):
+@app.route("/story/<title>")
+def story(title): 
+    loggedIn=False
+    if 'user' in session:
+        loggedIn=True
     story = auth.getStory(title)
-    return render_template("story.html", title=title, story=story)
+    return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
