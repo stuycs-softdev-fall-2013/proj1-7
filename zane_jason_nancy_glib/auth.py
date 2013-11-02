@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import datetime
 
 connection = MongoClient()
 db = connection.database
@@ -22,7 +23,7 @@ def create(author, title, story):
 
 def register(user, pw):
     if not checkuser(user):
-        db.login.insert({'user':user, 'pass':pw})
+        db.login.insert({'user':user, 'pass':pw, 'owned':[],'contributed':[],'timestamp':datetime.datetime.now()})
         return True
     else:
         return False
