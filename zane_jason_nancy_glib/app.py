@@ -1,31 +1,34 @@
 from flask import Flask
 from flask import render_template, request, session
+from pymongo import MongoClient
+import auth
+
+client = MongoClient()
+db = client.db
 
 app = Flask(__name__)
 app.secret_key = "secret key"
 
 @app.route('/', methods=["GET", "POST"])
 def home():
-	d = {'stories': []}
-	story = ["Title", "Line.", "Another line.", "A third line."]
-	for i in range(3):
-		d['stories'].append(story)
+	d = auth.load_stories()
 
 	if request.method == "GET": #GET
 		return render_template("home.html", d=d)
-	else: #POST
-		session['user'] = "user"
-		d['loggedIn'] = True
-		return render_template("home.html", d=d)
 
-@app.route("/account")
+	#POST
+	logged_in = auth.login(request['usern'], request['passw'])
+	d['logged_in'] = logged_in
+
+	return render_template("home.html", d=d)
+
+@app.route('/account')
 def account():
 	if (session['user'] == "user"):
 		d = {}
 		d['loggedIn'] = True
 	return render_template("account.html", d=d)
 
-
 if __name__ == "__main__":
 	app.debug = True
-	app.run(port = 5005)
+	app.run(port = 5000)
