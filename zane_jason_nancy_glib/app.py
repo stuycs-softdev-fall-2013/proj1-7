@@ -12,20 +12,22 @@ def getInfo():
 @app.route("/", methods = ['GET', 'POST'])
 def home():
     if 'user' in session:
-        return render_template("home.html", loggedIn = True, error = False)
-    elif request.method == 'GET':
-        return render_template("home.html", loggedIn = False, error = False)
-    else:
-        if request.form['button'] == 'Log in':
-            user, pw = getInfo()
-            if auth.login(user,pw):
-                session['user'] = user
-                return render_template("home.html", loggedIn = True, error = False)
-            else:
-                return render_template("home.html", loggedIn = False, error = True)
-            
-        else:
-            return redirect(url_for('register'))
+        return render_template("home.html", loggedIn=True, error=False)
+
+    if request.method == 'GET':
+        return render_template("home.html", loggedIn=False, error=False)
+
+    if request.form['button'] == 'Log in':
+        user, pw = getInfo()
+        if auth.login(user, pw):
+            session['user'] = user
+            return render_template("home.html", loggedIn=True, error=False)
+		
+		#login failure
+        return render_template("home.html", loggedIn=False, error=True)
+
+	if request.form['button'] == 'Register':
+    	return redirect(url_for('register'))
         
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
