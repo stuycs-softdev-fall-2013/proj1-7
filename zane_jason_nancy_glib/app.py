@@ -23,11 +23,11 @@ def home():
             session['user'] = user
             return render_template("home.html", loggedIn=True, error=False)
 		
-		#login failure
+         #login failure
         return render_template("home.html", loggedIn=False, error=True)
 
-	if request.form['button'] == 'Register':
-    	return redirect(url_for('register'))
+    if request.form['button'] == 'Register':
+        return redirect(url_for('register'))
         
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
@@ -40,6 +40,17 @@ def register():
             return redirect(url_for('home'))
         else:
             return render_template("register.html", error = True)
+
+@app.route("/create", methods=['GET', 'POST'])
+def create():
+    if request.method == 'GET':
+        return render_template("create.html")
+    else:
+        title = request.form['title']
+        story = request.form['story']
+        author = session['user']
+        auth.create(author, title, story)
+        return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():

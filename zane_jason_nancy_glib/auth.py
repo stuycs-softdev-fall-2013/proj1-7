@@ -3,6 +3,9 @@ from pymongo import MongoClient
 connection = MongoClient()
 db = connection.database
 
+def create(author, title, story):
+    db.story.insert({'author':author, 'title':title, 'story':story})
+
 def register(user, pw):
     if not checkuser(user):
         db.login.insert({'user':user, 'pass':pw})

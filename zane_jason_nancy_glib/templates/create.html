@@ -7,9 +7,9 @@
   
   <body>
     {% include "navbar.html" %}
-    <form method="POST">
+    <form method="POST" style="margin:auto auto auto 20px">
       <h3> Title: <input type="text" name="title"> </h3>
-      <p> <input type="text" name="story" style="width:300px"> </p>
+      <p> <textarea name="story" style="width:300px; height:300px; resize:none"required></textarea></p>
       <input type="submit" name="button" value="Create">
     </form>
   </body>
