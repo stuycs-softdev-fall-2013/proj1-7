@@ -43,7 +43,7 @@ def register():
             return render_template("register.html", error = True)
 
 @app.route("/story")
-def story(title):
+def story(): 
     story = auth.getStory(title)
     return render_template("story.html", title=title, story=story)
 
