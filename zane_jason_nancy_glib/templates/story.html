@@ -8,6 +8,14 @@
   <body>
     {% include "navbar.html" %}
     <h3 align="center"> {{title}} </h3>
+    <h4 align="center"> Created by {{author}} </h4>
     <p align="center">{{story}}</p>
+
+    <form method="POST" align="center">
+      <h4> Add to the story below: </h4>
+      <textarea name="lines" style="width:300px; height=300px; resize:none" required></textarea>
+      <br>
+      <input type="submit" name="button" value="Add">
+    </form>
   </body>
 </html>

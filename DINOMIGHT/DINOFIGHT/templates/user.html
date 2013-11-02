@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>{{username}}</title>
+  </head>
+  <h1>{{username}}</h1>
+  <ul>
+    {% for s in stories %}
+    <li><a href="{{s.storyid}}">{{s.title}}</a></li>
+    {% endfor %}
+  </ul>
+</html>

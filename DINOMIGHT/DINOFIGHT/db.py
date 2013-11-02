@@ -36,7 +36,6 @@ def get_sentence(sentenceid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
     sentence = c.execute("SELECT sentence FROM sentenceinfo WHERE sentenceid = (?)",(sentenceid,)).fetchone();
-    connection.commit()
     connection.close()
     return sentence
     
@@ -48,9 +47,22 @@ def get_story(storyid):
     story = ''
     for sentence in sentences:
         story += sentence
-    connection.commit()
     connection.close()
     return story
+
+
+def stories_for_user(username):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    stories = c.execute("SELECT storyid FROM storyinfo WHERE username=(?)",(username,)).fetchall()
+    connection.close()
+    return stories
+
+
+def get_title(storyid):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()
 
 # Login stuff:
 

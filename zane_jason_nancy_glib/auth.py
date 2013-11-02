@@ -3,14 +3,17 @@ from pymongo import MongoClient
 connection = MongoClient()
 db = connection.database
 
-def getStories():
-    stories = [s for s in db.story.find({}, fields={'_id':False, 'title':True, 'story':True})]
+def getStories(order):
+    stories = [s for s in db.story.find()]
     return stories
 
-def getStory(title):
-    story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
+def getStory(eyeD):
+    story = [s for s in db.story.find({'_id':eyeD})]
     story = story[0]
-    story = story[u'story']
+    return story[u'author'], story[u'title'], story[u'story']
+
+def getStoryID(eyeD):
+    story = db.story.find_one({'_id':eyeD})
     return story
 
 def create(author, title, story):
