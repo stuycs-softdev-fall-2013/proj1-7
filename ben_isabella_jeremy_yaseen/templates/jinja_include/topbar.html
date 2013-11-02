@@ -1,0 +1,48 @@
+<div class="">
+<nav class="top-bar blogtitle">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+      <h1><a href="#">BlogNation</a></h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="divider"></li>
+      
+      {% if not user == "none" %}
+
+      <li class="has-dropdown">
+	<a href="#">{{user.username}}</a>
+	<!-- This dropdown will only show if a user is logged in -->
+	<ul class="dropdown">
+	  <li><a href="#">Account Page</a></li>
+	  <li><a href="#">Log Out</a></li>
+	</ul>
+      </li>
+      {% else %}
+      <li class="has-form">
+        <a href="#" class="button secondary">Login or Sign Up</a>
+	<!-- This login button will only show if a user is not logged in -->
+      </li>
+      {% endif %}
+
+      <li class="divider"></li>
+      <li class="small-7 columns">
+	<div class="row collapse">
+          <div class="large-9 columns">
+            <input type="text" placeholder="Search">
+          </div>
+          <div class="large-3 columns">
+            <a href="#" class="button secondary prefix">Go</a>
+          </div>
+	</div>
+      </li>
+    </ul>
+  </section>
+</nav>
+</div>
+<br>
