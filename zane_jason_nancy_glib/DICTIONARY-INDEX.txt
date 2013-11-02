@@ -1,11 +1,11 @@
 USER DICTIONARY:
-{'name': <string username>, 'password': <string password>, 'stories': <list of story dictionaries>}
+{'name': <string username>, 'password': <string password>, 'stories': <list of story ids>, 'lines':<list of line ids>}
 
-STORY DICTIONARY (will automatically have _ids when inserted into collection):
-{'author': <string username; can't put whole user dictionary here because of security, will have to create get methods>, 'text': <line dictionary; first will be title, the rest the text>, 'timestamp': <datetime object>, 'completed':<boolean>}
+STORY DICTIONARY:
+{'author': <user id>, 'text': <list of line ids; first will be title, the rest the text>, 'timestamp': <datetime object>, 'completed':<boolean>}
 
 LINE DICTIONARY:
-{'author': <string username>, 'text':<string>, 'timestamp':<UTC datetime object>'selected':<boolean>}
+{'author': <user id>, 'text':<string>, 'timestamp':<UTC datetime object>'selected':<boolean>}
 
 
 
