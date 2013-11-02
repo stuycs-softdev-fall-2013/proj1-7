@@ -75,7 +75,7 @@ def profile(eyed):
     d['loggedIn'] = False
     if 'user' in session:
         d['loggedIn'] = True
-    user,made,contrib = auth.getInfo(id)
+    user,made,contrib = auth.getInfo(eyed)
     for s in made:
         s['title'] = auth.getTitle(s['eyed'])
     for s in contrib:
