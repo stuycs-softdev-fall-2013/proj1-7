@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    {% include "lib.html" %}
+    <title> Register </title>
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+    {% if error %}
+    <div class="alert alert-error" style="width:350px; margin:0px auto 0px auto" align="center">
+      User exists already. Please login.
+    </div>
+    {% endif %}
+    
+    <form method="POST" align="center">
+      <h3> Register Below </h3>
+      <p> Username: <input type="text" name="username" placeholder="Username"> </p>
+      <p> Password: <input type="password" name="password" placeholder="*********"> </p>
+      <button class="btn" name="button" value="Register">Register</button>
+    </form>
+  </body>
+
+</html>

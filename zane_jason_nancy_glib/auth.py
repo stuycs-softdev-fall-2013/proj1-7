@@ -1,16 +1,21 @@
 from pymongo import MongoClient
 
-#connection = MongoClient('db.stuycs.org')
-#db = connection.admin
-#db.authenticate('softdev','softdev')
 connection = MongoClient()
 db = connection.database
 
+def getStory(title):
+    story = [s for s in db.story.find({'title':title}, fields={'_id':False, 'story':True})]
+    return story[0]
+
+def create(author, title, story):
+    db.story.insert({'author':author, 'title':title, 'story':story})
 
 def register(user, pw):
-    if checkuser(user) == False:
+    if not checkuser(user):
         db.login.insert({'user':user, 'pass':pw})
         return True
+    else:
+        return False
     
 def checkuser(user):
     users = [user for user in db.login.find({'user':user},

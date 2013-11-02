@@ -26,6 +26,11 @@ def search(keyword):
     posts = [p['_source'] for p in results['hits']['hits']]
     return posts
 
+
+def flush():
+    es.indices.flush('bloginator')
+    
+    
 if __name__ == '__main__':
     index_task.enter(ES_REPEAT, 1, index, ())
     index_task.run()

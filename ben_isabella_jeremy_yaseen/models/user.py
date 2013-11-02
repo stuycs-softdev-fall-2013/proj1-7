@@ -7,8 +7,8 @@ from settings import USER_COLLECTION
 
 class UserModel(Model):
 
-    def __init__(self, db, objects, obj):
-        super(UserModel, self).__init__(db, objects, obj)
+    def __init__(self, db, collection, obj):
+        super(UserModel, self).__init__(db, collection, obj)
         self.username = obj['username']
         self.password = obj['password']
         self.date = obj['date']
@@ -20,6 +20,9 @@ class UserModel(Model):
     def change_password(self, oldpass, newpass):
         if oldpass == self.password:
             self.password = newpass
+            self.collection.update({'_id': self._id}, password=newpass)
+            return True
+        return False
 
     # Get blog posts made by this user, and with other arguments
     def get_blog_posts(self, **kwargs):

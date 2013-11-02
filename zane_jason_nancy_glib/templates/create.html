@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Create Your Own Story </title>
+    {% include "lib.html" %}
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+    <form method="POST" style="margin:auto auto auto 20px">
+      <h3> Title: <input type="text" name="title"> </h3>
+      <p> <textarea name="story" style="width:300px; height:300px; resize:none"required></textarea></p>
+      <input type="submit" name="button" value="Create">
+    </form>
+  </body>
+
+</html>
