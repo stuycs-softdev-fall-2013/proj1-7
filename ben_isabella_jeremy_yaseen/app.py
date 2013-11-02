@@ -9,11 +9,15 @@ comms = Comment()
 
 
 """ 1) Get the latest posts and pass them to a template.
-    2) Let the template know (through a boolean variable),
-    whether or not a user is logged in."""
+    2) Let the template know whether or not a user is logged in."""
 @app.route("/")
 def home():
-    pass
+    ordered_posts = posts.get_by_date()
+    if "username" in session:
+        username = session["username"]
+        u = users.find_one(username=username)
+        return render_template("index.html", posts=ordered_posts, user=u)
+    return render_template("index.html", posts=ordered_posts)
 
 
 """ 1) If user is already in session, go home.
@@ -21,25 +25,26 @@ def home():
     3) If method is POST, check the form submissions
         - grab a list of users with the name and password using users.find(**kwargs)
         - check if the length of the list is greater than 0
-        - if it is, put the username in session""" 
+        - if it is, put the username in session"""
 @app.route("/login", methods=["POST","GET"])
 def login():
     if "username" in session:
-        return redirect("/")
+        return redirect(url_for("home"))
     else:
-        if request.method=="GET":
+        if request.method == "GET":
             return render_template("login.html")
         else:
-            username=request.form["username"].encode("ascii","ignore")
-            password=request.form["password"].encode("ascii","ignore")
-            if users.exists(self, name):
-                if len(users.find(username=username, password=password)) > 0:
-                    session["username"]=username
-                    return redirect("/")
+            username = request.form["username"]
+            password = request.form["password"]
+            if users.exists(username):
+                if users.find_one(username=username, password=password):
+                    session["username"] = username
+                    return redirect(url_for("home"))
                 else:
-                    return redirect("/login")
+                    #Add some error message
+                    return render_template("login.html")
             else:
-                return redirect("/register")
+                return redirect(url_for("register"))
 
 
 """ 1) If users is already in session, go home.
@@ -51,54 +56,65 @@ def login():
 @app.route("/register", methods=["POST","GET"])
 def register():
     if "username" in session:
-        return redirect("/")
+        return redirect(url_for("home"))
     else:
-        if request.method=="GET":
+        if request.method == "GET":
             return render_template("register.html")
         else:
-            username=request.form["username"].encode("ascii","ignore")
-            password=request.form["password"].encode("ascii","ignore")
-            if request.form["button"]=="Submit":
-                if users.exists(self,username):
+            username=request.form["username"]
+            password=request.form["password"]
+            if request.form["button"] == "Submit":
+                if users.exists(username):
+                    #Add an error message here
                     return render_template("register.html")
                 else:
-                    users.insert(date=datetime.now(), username=username, password=password)
-                    session["username"]=username
-                    return redirect("/")
+                    users.insert(username=username, password=password)
+                    session["username"] = username
+                    return redirect(url_for("home"))
             else:
                 return render_template("register.html")
+
 
 """ Already done"""
 @app.route("/logout")
 def logout():
     if "username" in session:
         session.pop("username")
-    return redirect("/login")
+    return redirect(url_for("login"))
+
 
 @app.route("/change", methods=["GET","POST"])
 def change():
-    if request.method=="GET":
-        return render_template("change.html")
-    else:
-        username=request.form["username"].encode("ascii","ignore")
-        oldPw=request.form["old password"].encode("ascii","ignore")
-        newPw=request.form["new password"].encode("ascii","ignore")
-        if users.exists(self, username):
-            users.find_one(username=username).change_password(self,oldPw,newPw)
+    if "username" in session:
+        username = session["username"]
+        u = users.find_one(username=username)
+        if request.method == "GET":
+            return render_template("change.html", user=u)
         else:
-            return render_template("change.html")
-            
+            username = session["username"]
+            oldpw = request.form["old-password"]
+            newpw = request.form["new-password"]
+            if users.find_one(username=username).change_password(oldpw, newpw):
+                return redirect(url_for("home"))
+            else:
+                #Add some error message
+                return render_template("change.html", user=u)
+
 
 """ 1) Method should be GET
     2) Get a user with that name using users.find_one(**kwargs)
     3) If the user exists, then pass the user to the user template"""
 @app.route("/users/<user>", methods=["GET","POST"])
 def user_page(user):
-    u=users.find_one(user)
-    if users.exists(self,user):
-        return render_template()
+    if users.exists(user):
+        target_user = users.find_one(username=user)
+        if "username" in session:
+            username = session["username"]
+            u = users.find_one(username=username)
+            return render_template(target_user=target_user, user=u)
+        return render_template(target_user=target_user)
     else:
-        return redirect("/")
+        return redirect(url_for("home"))
 
 
 """ 1) Same method as above, but for posts.find_one(**kwargs)
@@ -127,21 +143,23 @@ def post_by_author(author, date):
         b. Get the form submissions
             - insert the post with the values from the form with
             posts.insert(**kwargs)
-            - Be sure to include the username, and the current date in 
+            - Be sure to include the username, and the current date in
             posts.insert (see test.py)"""
 @app.route("/create-post")
 def create_post():
     if "username" in session:
-        if request.method=="GET":
-            return render_template("create_post.html")
+        username = session["username"]
+        u = users.find_one(username=username)
+        if request.method == "GET":
+            return render_template("create_post.html", user=u)
         else:
             title=request.form["title"]
             body=request.form["body"]
             tags=request.form["tags"]
-            u = request.session["username"]
-            u.add_post(date=datetime.now(),title=title,body=body,tags=tags)
+            u.add_post(title=title, body=body, tags=tags)
+            #Return success page
     else:
-        return redirect("/")
+        return redirect(url_for("home"))
 
 
 """ 1) Grab the keyword in url from request object (request.args)
@@ -150,7 +168,13 @@ def create_post():
     4) If there are results, pass the results to the search_results template"""
 @app.route("/search")
 def search():
-    pass
+    keyword = request.args.get("keyword")
+    results = utils.search(keyword)
+    if "username" in session:
+        username = session["username"]
+        u = users.find_one(username=username)
+        return render_template("search_results.html", results=results, user=u)
+    return render_template("search_results.html", results=results)
 
 
 if __name__ == '__main__':
