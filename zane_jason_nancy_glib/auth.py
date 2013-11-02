@@ -1,19 +1,31 @@
 from pymongo import MongoClient
 
-client = MongoClient()
-db = client.db
+connection = MongoClient()
+db = connection.database
 
-def load_stories():
-	d = {'stories':[]}
+def register(user, pw):
+    if not checkuser(user):
+        db.login.insert({'user':user, 'pass':pw})
+        return True
+    else:
+        return False
+    
+def checkuser(user):
+    users = [user for user in db.login.find({'user':user},
+                                            fields={'_id':False,'user':True})]
+    return len(users)!=0
 
-	d['stories'] = [["Title %d"%(x+1), "Line.", "Another line.",
-					 "A third line."] for x in range(5)]
+def changePass(user, pw, npw):
+    if login(user,pw):
+        db.login.update({'user':user}, {'$set': {'pass':npw}})
+        return True
+    else:
+        return False
 
-	return d
-
-def login(usern, passw):
-	cursor = db.users.find({'usern': usern, 'passw': passw},
-							fields={'_id': False})
-	users = [user for user in cursor]
-
-	return len(users) > 0
+def login(user, pw):
+    users = [user for user in db.login.find({'user':user}, 
+                                           fields={'_id':False,'user':True, 'pass':True})]
+    if len(users) != 0:
+        return users[0]['pass'] == pw
+    else:
+        return False
