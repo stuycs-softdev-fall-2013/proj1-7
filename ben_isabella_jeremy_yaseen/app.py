@@ -91,10 +91,9 @@ def change():
         if request.method == "GET":
             return render_template("change.html", user=u)
         else:
-            username = session["username"]
             oldpw = request.form["old-password"]
             newpw = request.form["new-password"]
-            if users.find_one(username=username).change_password(oldpw, newpw):
+            if u.change_password(oldpw, newpw):
                 return redirect(url_for("home"))
             else:
                 #Add some error message
