@@ -18,23 +18,39 @@ def login():
 @app.route("/register")
 def register():
     # register user
+    # create user page
     pass
 
 @app.route("/index")
 def index():
     # list of blog posts
+    # link to each post
     pass
 
-@app.route("post1")
-def post1():
-    # look at post 1
+@app.route("/viewpost")
+def viewpost():
+    # look at post x
+    # load comments
+    # add comments
     pass
 
 @app.route("/writepost")
 def writepost():
-    # if admin, create a new post
-    # else, redirect somewhere
+    # if logged in, create a new post
+    # else, redirect to login
     pass
+
+@app.route("/deletepost")
+def deletepost():
+    # if logged in, delete your own posts
+    # if admin, delete any post
+    # else, redirect to login
+    pass
+
+@app.route("/userpage")
+def userpage():
+    # if logged in, display your username, posts, and comments
+    # else, redirect to login
     
 if __name__ == "__main__":
     app.debug=True

@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Welcome</title>
+  <title>%(title)s</title>
 
   
   <link rel="stylesheet" href="css/foundation.css">
@@ -16,83 +16,86 @@
 </head>
 <body>
 
- <div class="row">
-<div class="large-3 columns">
-<h1><img src="img/Logo.png" ></h1>
-</div>
-<div class="large-9 columns">
-<ul class="right button-group">
-<li><a href="login.html" class="button">Login</a></li>
-<li><a href="register.html" class="button">Register</a></li>
-
-</ul>
-</div>
-</div>
-<!-- End Header and Nav -->
- 
-<!-- First Band (Slider) -->
+<!-- Nav Bar -->
  
 <div class="row">
 <div class="large-12 columns">
-<div id="slider">
-<ul data-orbit>
-<li>
-<img src="img/Banner.jpg">
-</li>
-<li>
-<img src="img/Banner2.jpg">
-</li>
-<li>
-<img src="img/Banner3.jpg">
-</li>
-<li>
-<img src="img/Banner4.jpg">
-</li>
-
+<div class="nav-bar right">
+<ul class="button-group">
+<li><a href="home.html" class="button">Home</a></li>
+<li><a href="login.html" class="button">Login</a></li>
+<li><a href="register.html" class="button">Register</a></li>
 </ul>
 </div>
+<h1>%(btitle)s <small>%(bdescription)s</small></h1>
 <hr />
 </div>
 </div>
-<!-- Three-up Content Blocks -->
+ 
+<!-- End Nav -->
+ 
+ 
+<!-- Main Page Content and Sidebar -->
  
 <div class="row">
-<div class="large-4 columns">
-<img src="img/Section.jpg" >
-<h4>Quick and Simple registration</h4>
-<p> Not much personal information is required! We don't even need your name! Just grab an ID, password, url link and you're set!</p>
-</div>
-<div class="large-4 columns">
-<img src="img/Section3.jpg" >
-<h4>View Tons of blogs without an account!</h4>
-<p>
-Too Lazy to make an account? Or you just want to check out your friend's blog on the go without the hassle? Start Viewing blogs <a href = "#"> Here </a>
-</p>
-</div>
-<div class="large-4 columns">
-<img src="img/Section2.jpg" >
-<h4>It's free! Just have fun!</h4>
-<p>Get crazy with it!</p>
-</div>
-</div>
-<!-- Call to Action Panel -->
+ 
+<!-- Main Blog Content -->
+<div class="large-9 columns" role="content">
+ 
+<article>
+ 
+<h3><a href="#">Blog Post Title</a></h3>
+<h6>Written by <a href="#">%(name)s</a> on %(dates)s</h6>
+ 
 <div class="row">
-<div class="large-12 columns">
+<div class="large-6 columns">
+<!-- Text goes here -->
+</div>
+<div class="large-6 columns">
+<!-- if needed img src="http://placehold.it/400x240&text=[img]" / -->
+</div>
+</div>
+</article>
+ 
+<hr />
+ 
+ 
+</div>
+ 
+<!-- End Main Content -->
+ 
+ 
+<!-- Sidebar -->
+ 
+<aside class="large-3 columns">
+ 
+<h5>Archives</h5>
+<ul class="side-nav">
+<li><a href="#">Yesterday</a></li>
+<li><a href="#">Last Week</a></li>
+<li><a href="#">Last Month</a></li>
+<li><a href="#">Last Year</a></li>
+<li><a href="#">All</a></li>
+</ul>
+ 
 <div class="panel">
-<h4>View the Github!</h4>
-<div class="row">
-<div class="large-9 columns">
-<p>Visit our Software Development website and our github!</p>
+<h5>Featured</h5>
+<p>
+%(randomblog)s
+</p>
+<a href="#">Read More &rarr;</a>
 </div>
-<div class="large-3 columns">
-<a href="http://stuycs-softdev.github.io/" class="radius button right">Poof!</a>
+ 
+</aside>
+ 
+<!-- End Sidebar -->
 </div>
-</div>
-</div>
-</div>
-</div>
+ 
+<!-- End Main Content and Sidebar -->
+ 
  
 <!-- Footer -->
+ 
 <footer class="row">
 <div class="large-12 columns">
 <hr />
