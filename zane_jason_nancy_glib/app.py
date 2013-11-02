@@ -51,6 +51,20 @@ def story(id):
     title, story = auth.getStory(id)
     return render_template("story.html", title=title, story=story, loggedIn=loggedIn)
 
+@app.route("/profile/<id>")
+def profile(id):
+    d['loggedIn'] = False
+    if 'user' in session:
+        d['loggedIn'] = True
+    user,made,contrib = auth.getInfo(id)
+    for s in made:
+        s['title'] = auth.getTitle(s['id'])
+    for s in contrib:
+        s['title'] = auth.getTitle(s['id'])
+    d['owned_stories'] = made
+    d['contrib_stories'] = contrib
+    return render_template("profile.html", user=user, d=d)
+
 @app.route("/create", methods=['GET', 'POST'])
 def create():
     if 'user' not in session:
