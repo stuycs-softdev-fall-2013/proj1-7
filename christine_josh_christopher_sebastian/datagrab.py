@@ -1,5 +1,32 @@
 import sqlite3
 
+def createDB() :
+    #used to create the database if the database doesn't exist
+    #returns True if database is created, False if it already existed
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select name from sqlite_master where type='table';"
+    cursor = connection.execute(q)
+    tables = [x for x in cursor]
+    if tables != []:
+        return False
+    q = "create table account_info(username text, password text, karma integer, liked_stories text, disliked_stories text, liked_edits text, disliked_edits text);"
+    connection.execute(q)
+    q = "create table edits(id int, sentence text, user text);"
+    connection.execute(q)
+    q = "create table max_ids(max_edit_id int, max_story_id int);"
+    connection.execute(q)
+    q = "create table stories(id int, title text, edits text, karma int, parent_story int, user text);"
+    connection.execute(q)
+    q = "insert into account_info values('admin', 'admin', 0, '', '', '', '');"
+    connection.execute(q)
+    q = "insert into edits values(0,'Once upon a time','admin');"
+    connection.execute(q)
+    q = "insert into stories values(0, 'OUAT', 0, 0, -1, 'admin');"
+    connection.execute(q)
+    connection.commit()
+    return True
+
+
 def addUser(username, password):
     #used in the register page to create accounts
     #returns False if the username already exists
