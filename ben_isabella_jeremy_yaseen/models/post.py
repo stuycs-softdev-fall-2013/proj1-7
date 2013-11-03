@@ -13,7 +13,6 @@ class PostModel(Model):
         self.body = obj['body']
         self.tags = obj['tags']
         self.upvotes = obj['upvotes']
-        self.date = obj['date']
         self.comments = Comment()
 
     # Increases the upvotes on a post
