@@ -8,6 +8,14 @@ a {
 	color:inherit;
 	border-bottom:.1em solid black;
 }
+ul {
+	list-style: none;
+}
+.content {
+	width:75%;
+	margin:auto;
+	text-align:justify;
+}
 #header {
 	width:100%;
 	position:relative;
@@ -27,7 +35,6 @@ div.centered>*
 }
 ul.menu {
 	padding:5px;
-	list-style: none;
 	padding:10px;
 }
 ul.menu > li {
