@@ -16,7 +16,7 @@ def home():
 
 @app.route("/")
 def hoome():
-    return render_template("index.html",posts=posts)
+    return render_template("index.html")
 
 @app.route("/register")
 def signup():

@@ -105,6 +105,8 @@ def user_page(user):
 @app.route("/posts/<id>", methods=["GET","POST"])
 def post(id):
     p = posts.find_one(id=id)
+    postuser= p.user
+    allposts= postuser.get_posts()
     if "username" in session:
         username = session["username"]
         u = users.find_one(username=username)
