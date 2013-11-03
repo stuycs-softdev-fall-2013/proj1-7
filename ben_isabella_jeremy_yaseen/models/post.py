@@ -45,8 +45,8 @@ class Post(Collection):
         super(Post, self).__init__(POST_COLLECTION, PostModel)
 
     def insert(self, **kwargs):
-        super(Post, self).insert(upvotes=0, **kwargs)
+        return super(Post, self).insert(upvotes=0, **kwargs)
 
-    # Return posts sorted by date for front page
-    def get_by_date(self):
-        return self.sort_by([('date', -1)])
+    # Return most popular posts
+    def get_most_voted(self):
+        return self.sort_by([('upvotes', -1), ('date', -1)])

@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
     # Adding comment to first post
     p.add_comment(user="Jeremy", text="this is stupid")
+    p.vote_up()
 
     print "Getting comments from Jeremy..."
     for c in u2.get_comments():
@@ -31,7 +32,7 @@ if __name__ == '__main__':
 
     print "\nGetting posts from newest to oldest..."
     for p in posts.get_by_date():
-        print "%s\n%s\n%s\n%s %s\n" % (p.title, p.user, p.body, ', '.join(p.tags), p.date)
+        print "%s\n%s\n%s\nTags: %s, %s upvotes %s\n" % (p.title, p.user, p.body, ', '.join(p.tags), p.upvotes, p.date)
 
     print "\nGetting posts with tag 'original'..."
     for p in utils.search('original'):

@@ -68,3 +68,7 @@ class Collection(object):
     # Return model objects forted by certain values
     def sort_by(self, sort_vals):
         return self.to_objects(self.objects.find({}).sort(sort_vals))
+
+    # Gets anything by date
+    def get_by_date(self):
+        return self.sort_by([('date', -1)])
