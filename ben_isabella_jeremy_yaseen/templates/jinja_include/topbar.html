@@ -13,7 +13,7 @@
     <ul class="right">
       <li class="divider"></li>
       
-      {% if not user == "none" %}
+      {% if user is defined %}
 
       <li class="has-dropdown">
 	<a href="#">{{user.username}}</a>

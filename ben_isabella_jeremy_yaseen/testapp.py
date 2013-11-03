@@ -8,7 +8,7 @@ u={"username":"ME"}
 
 @app.route("/")
 def home():
-    return render_template("index.html", user="none")
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
