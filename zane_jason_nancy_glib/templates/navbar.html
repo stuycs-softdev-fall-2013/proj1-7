@@ -1,0 +1,67 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse"
+      		  data-target=".nav-collapse">
+      </button>
+      
+      <a class="brand" href="/"> Storyinator </a>
+      
+      <div class="nav-collapse collapse">
+		<ul class="nav">
+	  	  {% if loggedIn or (d and d['loggedIn'])%}
+	  	  <li> <a href="/account"> Account </a> </li>
+	  	  <li> <a href="/profile/{{ d['usern'] }}"> Profile </a> </li>
+	  	  <li> <a href="/create"> Create Story </a> </li>
+	  	  {% endif %}
+		</ul>
+		
+		{% if not (loggedIn or (d and d['loggedIn'])) %} 
+			<form class="navbar-form pull-right" method="POST">
+	  	  	  <input class="span2" type="text" name="username"
+	  	  	  		 placeholder="Username">
+	  	  	  <input class="span2" type="password" name="password"
+	  	  	  		 placeholder="Password">
+	  	  	  <div class="btn-group">
+	    		<button class="btn btn-primary" name="button"
+	    				value="Log in">
+	    			Log in
+	    		</button>
+	    		<button class="btn btn-primary dropdown-toggle"
+	    				data-toggle="dropdown">
+	      	  	  <span class="caret"> <span>
+	    		</button>
+	    		<ul class="dropdown-menu">
+	      	  	  <li>
+	      			<span id="signinButton">
+		  	  	  	  <span
+		     	 	 	 class="g-signin"
+		     	 	 	 data-callback="signinCallback"
+		     	 	 	 data-clientid="CLIENT_ID"
+		     	 	 	 data-cookiepolicy="single_host_origin"
+		     	 	 	 data-requestvisibleactions="http://schemas.google.com/AddActivity"
+		     	 	 	 data-scope="https://www.googleapis.com/auth/plus.login">
+		  	  	  	  </span>
+	      			</span>
+	      	  	  </li>
+	      	  	  <li><a href="/temp"> Facebook </a> </li>
+	      	  	  <li><a href="/register"> Register </a> </li>
+	    		</ul>
+	  	  	  </div>
+			</form>
+		{% else %}
+			<a href="/logout" class="btn btn-primary pull-right">
+				Logout
+			</a>
+		{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if d['login-failure'] %}
+    <div class="alert alert-error" align="center"
+    	 style="width:350px; margin:0px auto 10px auto">
+      Incorrect username and password combination.
+    </div>
+{% endif %}

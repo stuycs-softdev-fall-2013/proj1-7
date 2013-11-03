@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+  
+  <head>
+    {% include "lib.html" %}
+
+    <title> Storyinator </title>    
+
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+
+    <div class="container">  
+      <div class="hero-unit">
+	<h1> The Storyinator </h1>
+	<p> Welcome to the Storyinator. </p>
+      </div>
+    </div>
+
+    <div class="container">
+		<ul class="nav nav-tabs">
+			{% if d['order'] == 'popular' %}
+				<li class="active">
+					<a href="/">Popular</a>
+				</li>
+				<li><a href="/home-recent">Recent</a></li>
+			{% else %}
+				<li><a href='/'>Popular</a></li>
+				<li class="active">
+					<a href="/home-recent">Recent</a>
+				</li>
+			{% endif %}
+		</ul>
+
+      <a id="stories"></a>
+      {% for story in d['stories'] %}
+      	  <h3>
+      	  	<a href="/story/{{ story['_id'] }}">
+      	  	  {{ story['title'] }}
+      	  	</a>
+      	  	<span class="pull-right">
+      	  	  <a href='/upvote/{{ story["id"] }}' class="btn btn-success">
+      	  	    Good
+      	  	  </a>
+      	  	  <a href='/downvote/{{ story["id"] }}' class="btn btn-danger">
+      	  	    Bad
+      	  	  </a>
+
+      	  	  {{ story['karma'] }}
+      	  	</span>
+      	  </h3>
+
+      	  <div class="well">
+      	    {% for line in story['lines'] %}
+      	      {{ line }}
+      	    {% endfor %}
+      	  </div>
+      {% endfor %}
+      {% if d['page_num'] != 1 %}
+	  <a href="{{ d['path'] }}/{{ d['page_num']-1 }}"
+	    class="btn btn-inverse"> Prev page </a>
+	  {% endif %}
+	  {% if not d['page_num'] != d['num_pages'] %}
+	  <div class="pull-right">
+	  	<a href="{{ d['path'] }}/{{ d['page_num']+1 }}"
+	  	   class="btn btn-inverse"> Next page </a>
+	  </div>
+	  {% endif %}
+    </div>
+
+
+    <hr>
+    
+    <footer>
+      <p> &copy; League of Awesome 2013 </p>
+    </footer>
+  </body>
+  
+</html>

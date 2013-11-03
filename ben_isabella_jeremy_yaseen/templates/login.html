@@ -1,0 +1,48 @@
+{% include "jinja_include/headtag.html" %}
+
+<body>
+
+{% include "jinja_include/topbar.html" %}
+
+<div class="row">
+  <div class="large-7 large-centered columns blogtitle">
+    <div class="row">
+      <div class="large-12 columns">
+	<form class="large-12 columns" method="POST">
+	  <fieldset>
+	    <legend class="blogtitle">Log In</legend>
+	    <div class="row">
+	      <div class="large-12 columns">
+		{% if error is defined %}
+		{% if error == "badlogin" %}
+		<h4 style="color:red;">Incorrect Log In Info</h4>
+		{% endif %}
+		{% endif %}
+		<label class="topdiv-text">Username</label>
+		<input type="text" name="username">
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="large-12 columns">
+		<label class="topdiv-text">Password</label>
+		<input type="password" name="password">
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="large-12 columns">
+		<input type="submit" name="Submit" value="Sign In" class="button small secondary">
+	      </div>
+	    </div>
+	    or <a href="/register">Sign Up</a>
+	  </fieldset>
+	</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "jinja_include/scripts.html" %}
+
+</body>
+
+

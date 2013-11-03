@@ -1,0 +1,21 @@
+<html>
+
+    {% include "style.html" %}
+
+    <body>
+        {% include "navbar.html" %}
+        <div class="container">
+
+            <div class="list-group">
+                {% for story in stories %}
+                <a href="/stories/{{ story.id }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ story.title }}</h4>
+                    <p class="list-group-item-text">{{ story.description }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        
+    </div>
+    </body>
+
+</html>

@@ -1,5 +1,5 @@
-Team Awesome
-=============
+Blog Nation
+===========
 
 ## Members
 * Benjamin Attal (Leader)
@@ -23,7 +23,7 @@ Team Awesome
 * There will be a search bar to find posts, tags, and comments
 * [ElasticSearch] (http://www.elasticsearch.org/)
     * MongoDB lends itself to searching very well, but (as a sort of pet project), I would like to use ElasticSearch on the backend because of its utilities, and its speed
-    * Data from MongoDB and ElasticSearch are stored as JSON documents, so it will be easy for the ElasticSearch server to index data from MongoDB
+    * Data from MongoDB and ElasticSearch are stored as JSON-like documents, so it will be easy for the ElasticSearch server to index data from MongoDB
     * [Official Python client for ES] (https://github.com/elasticsearch/elasticsearch-py)
 
 ## Time table

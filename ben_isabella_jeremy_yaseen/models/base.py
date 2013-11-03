@@ -1,17 +1,21 @@
 # Models and Collections (abstract classes)
-
 # Models represent individual entries in a database, while Collections
 # represent entire collections in a databse
-from settings import DB_NAME
 from pymongo import MongoClient
+from datetime import datetime
+from settings import DB_NAME
 
 
 class Model(object):
 
-    def __init__(self, db, objects, obj=None):
+    def __init__(self, db, collection, obj=None):
         self.db = db
-        self.objects = objects
+        self.collection = collection
         self._id = obj['_id']
+
+    # Gets _id
+    def get_id(self):
+        return self._id
 
     # Removes the object from database
     def remove(self):
@@ -30,7 +34,9 @@ class Collection(object):
     # Converts list of dict objects to Model objects
     def to_objects(self, objs):
         model = self.model
-        return [model(self.db, self.objects, o) for o in objs]
+        if objs:
+            return [model(self.db, self.objects, o) for o in objs]
+        return None
 
     # Returns a model list corresponding to find in database
     def find(self, **kwargs):
@@ -39,16 +45,21 @@ class Collection(object):
     # Returns a model object corresponding to find_one in database
     def find_one(self, **kwargs):
         model = self.model
-        return model(self.db, self.objects, self.objects.find_one(kwargs))
-
-    # Return model objects forted by certain values
-    def sort_by(self, sort_vals):
-        return self.to_objects(self.objects.find({}).sort(sort_vals))
+        objs = self.objects.find_one(kwargs)
+        if objs:
+            return model(self.db, self, objs)
+        return None
 
     # Inserts objects into collection
     def insert(self, **kwargs):
+        new_args = kwargs
+        new_args['date'] = datetime.now()
         id = self.objects.insert(kwargs)
         return self.find_one(_id=id)
+
+    # Updates objects in the collection
+    def update(self, conds, **kwargs):
+        self.objects.update(conds, {'$set': kwargs})
 
     # Remove all objects in the collection
     def remove_all(self):
@@ -57,3 +68,11 @@ class Collection(object):
     # Remove objects based on keyword parameters
     def remove(self, **kwargs):
         self.objects.remove(kwargs)
+
+    # Return model objects forted by certain values
+    def sort_by(self, sort_vals):
+        return self.to_objects(self.objects.find({}).sort(sort_vals))
+
+    # Gets anything by date
+    def get_by_date(self):
+        return self.sort_by([('date', -1)])

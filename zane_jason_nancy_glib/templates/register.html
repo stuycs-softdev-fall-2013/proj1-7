@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    {% include "lib.html" %}
+    <title> Register </title>
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+    {% if d['usern-used'] %}
+    <div class="alert alert-error" style="width:350px; margin:0px auto 0px auto" align="center">
+      User exists already
+    </div>
+    {% endif %}
+    {% if d['passw-mismatch'] %}
+    <div class="alert alert-error" style="width:350px; margin:0px auto 0px auto" align="center">
+      Passwords do not match
+    </div>
+    {% endif %}
+    
+    <form method="POST" align="center">
+      <h3> Register Below </h3>
+      <input type="text" name="username" placeholder="Username"> <br>
+      <input type="password" name="password" placeholder="Password"> <br>
+      <input type="password" name="password-confirm"
+      		 placeholder="Confirm password"> <br>
+      <button class="btn" name="button" value="Register">Register</button>
+    </form>
+  </body>
+
+</html>

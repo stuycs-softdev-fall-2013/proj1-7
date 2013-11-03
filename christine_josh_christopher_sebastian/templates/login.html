@@ -1,0 +1,22 @@
+<html>
+    {% include "style.html" %}
+
+    <body>
+        {% include "navbar.html" %}
+        <div class="container">
+
+            <form role="form" method="POST" class="form-horizontal pull-right">
+                <div class="input-group input-group-lg">  
+                    <input type="text" class="form-control" placeholder="Username">
+                    <input type="password" class="form-control" placeholder="Password">
+                    <span class="form-group ">
+                        <button class="btn btn-default btn-primary" type="Submit" name="Login">Login</button>
+                        <a href="/dumbass"><small>Forgot Password?</small></a>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </body>
+
+
+</html>
