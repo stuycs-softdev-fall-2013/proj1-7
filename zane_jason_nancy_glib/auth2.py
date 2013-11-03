@@ -54,11 +54,10 @@ def add_line(author, line, story_id):
 def get_stories(order, page_num):
 	if order == 'recent':
 		return get_recent_stories(page_num)
-
-	if order == 'popular':
+	elif order == 'popular':
 		return get_popular_stories(page_num)
-
-	return False
+	else:
+		return get_least_popular_stories(page_num)
 
 #return a page-worth of stories sorted by recency
 def get_recent_stories(page_num):
@@ -80,6 +79,19 @@ def get_popular_stories(page_num):
 
 	sorted_stories = sorted(stories, key=lambda k: k['karma'])
 	sorted_stories.reverse()
+
+	#replace line ids with line text
+	for story in sorted_stories:
+		for i in range(len(story['lines'])):
+			story['lines'][i] = get_line_text(story['lines'][i])
+
+	return sorted_stories[(page_num-1) * PAGE_LEN : page_num * PAGE_LEN]
+
+#return a page-worth of stories sorted by reverse popularity
+def get_least_popular_stories(page_num):
+	stories = db.stories.find()
+
+	sorted_stories = sorted(stories, key=lambda k: k['karma'])
 
 	#replace line ids with line text
 	for story in sorted_stories:
@@ -191,5 +203,15 @@ def downvote(usern, story_id):
 			db.stories.update({'_id': story_id},
 					  	  	  {'$inc': {'karma': -1}})
 
+def get_upvoted(usern):
+	user = get_user(usern)
+	story_ids = user['upvoted']
 
+	return story_ids
 
+def get_downvoted(usern):
+	user = get_user(usern)
+	story_ids = user['downvoted']
+
+	return story_ids
+	

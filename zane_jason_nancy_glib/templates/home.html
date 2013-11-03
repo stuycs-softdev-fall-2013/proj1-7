@@ -23,14 +23,24 @@
 		<ul class="nav nav-tabs">
 			{% if d['order'] == 'popular' %}
 				<li class="active">
-					<a href="/">Popular</a>
+					<a href='/home-popular'>Popular</a>
 				</li>
-				<li><a href="/home-recent">Recent</a></li>
 			{% else %}
-				<li><a href='/'>Popular</a></li>
+				<li><a href='/home-popular'>Popular</a></li>
+			{% endif %}
+			{% if d['order'] == 'recent' %}
 				<li class="active">
 					<a href="/home-recent">Recent</a>
 				</li>
+			{% else %}
+				<li><a href='/home-recent'>Recent</a></li>
+			{% endif %}
+			{% if d['order'] == 'least-popular' %}
+				<li class="active">
+					<a href="/home-least-popular">Least popular</a>
+				</li>
+			{% else %}
+				<li><a href='/home-least-popular'>Least popular</a></li>
 			{% endif %}
 		</ul>
 
@@ -41,14 +51,27 @@
       	  	  {{ story['title'] }}
       	  	</a>
       	  	<span class="pull-right">
-      	  	  <a href='/upvote/{{ story["_id"] }}' class="btn btn-success">
-      	  	    Good
-      	  	  </a>
-      	  	  <a href='/downvote/{{ story["_id"] }}' class="btn btn-danger">
-      	  	    Bad
-      	  	  </a>
 
-      	  	  {{ story['karma'] }}
+      	  	  {% if d['loggedIn'] == true %}
+      	  	  <form method="POST" class='span3'>
+      	  	  	  <input type='submit' class="btn btn-success"
+      	  	  	  		 name='button' value="Upvote"/>
+      	  	  	  <input type='submit' class="btn btn-danger"
+      	  	  	  		 name='button' value='Downvote'/>
+      	  	  	  <input type='hidden' name='story_id'
+      	  	  	  		 value='{{ story["_id"] }}'/>
+      	  	  </form>
+      	  	  {% endif  %}
+
+			  {% if story['_id'] in d['upvoted'] %}
+			  <span class="span1" style="color:green">
+      	  	  {% elif story['_id'] in d['downvoted'] %}
+			  <span class="span1"style="color:red">
+      	  	  {% else %}
+      	  	  <span class="span1">
+      	  	  {% endif %}
+      	  	    {{ story['karma'] }}
+      	  	  </span>
       	  	</span>
       	  </h3>
 
@@ -58,7 +81,6 @@
       	    {% endfor %}
       	  </div>
       {% endfor %}
-      {% if d['loggedIn'] %}
       	  {% if d['page_num'] != 1 %}
 	  	  <a href="{{ d['path'] }}/{{ d['page_num']-1 }}"
 	    	class="btn btn-inverse"> Prev page </a>
@@ -68,7 +90,6 @@
 	  		<a href="{{ d['path'] }}/{{ d['page_num']+1 }}"
 	  	   	   class="btn btn-inverse"> Next page </a>
 	  	  </div>
-	  	  {% endif %}
 	  {% endif %}
     </div>
 

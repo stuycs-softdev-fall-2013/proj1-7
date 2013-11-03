@@ -15,9 +15,12 @@ def root():
 	return redirect(url_for('home'))
 
 @app.route("/home-recent", methods = ['GET', 'POST'])
+@app.route("/home-least-popular", methods = ['GET', 'POST'])
 @app.route("/home-popular", methods = ['GET', 'POST'])
 @app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
 @app.route("/home-popular/page/<page_num>", methods = ['GET', 'POST'])
+@app.route("/home-least-popular/page/<page_num>",
+		   methods = ['GET', 'POST'])
 def home(page_num=1):
 	page_num = int(page_num)
 
@@ -25,8 +28,10 @@ def home(page_num=1):
 
 	if request.path.find('home-recent') != -1:
 		d['order'] = 'recent'
-	else:
+	elif request.path.find('home-popular') != -1:
 		d['order'] = 'popular'
+	else:
+		d['order'] = 'least-popular'
 
 	path = request.base_url
 	d['stories'] = auth.get_stories(d['order'], page_num)
@@ -37,9 +42,19 @@ def home(page_num=1):
 	d['num_pages'] = auth.get_num_pages()
 			
 	if 'user' in session:
+		usern = session['user']
 		d['loggedIn'] = True
-		d['usern'] = session['user']
-		return render_template("home.html", d=d)
+		d['downvoted'] = auth.get_downvoted(usern)
+		d['upvoted'] = auth.get_upvoted(usern)
+
+		if request.method == "GET":
+			return render_template("home.html", d=d)
+		elif request.form['button'] == "Upvote":
+			auth.upvote(usern, request.form['story_id'])
+			return redirect(request.url)
+		elif request.form['button'] == "Downvote":
+			auth.downvote(usern, request.form['story_id'])
+			return redirect(request.url)
 
 	if request.method == 'GET':
 		return render_template("home.html", d=d)
@@ -161,20 +176,6 @@ def account():
 	d['error'] = True
 	d['success'] = False
 	return render_template("account.html", d=d)
-
-@app.route('/upvote/<story_id>')
-def upvote(story_id):
-	if 'user' in session:
-		auth.upvote(session['user'], story_id)
-
-	return redirect(url_for('home'))
-
-@app.route('/downvote/<story_id>')
-def downvote(story_id):
-	if 'user' in session:
-		auth.downvote(session['user'], story_id)
-
-	return redirect(url_for('home'))
 
 if __name__ == "__main__":
 	app.debug = True
