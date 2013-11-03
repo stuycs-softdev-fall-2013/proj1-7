@@ -1,6 +1,20 @@
 body {
 	padding: 0;
 	margin: 0;
+	color:#0a0a0a;
+}
+a {
+	text-decoration:none;
+	color:inherit;
+	border-bottom:.1em solid black;
+}
+ul {
+	list-style: none;
+}
+.content {
+	width:75%;
+	margin:auto;
+	text-align:justify;
 }
 #header {
 	width:100%;
@@ -9,17 +23,11 @@ body {
 }
 div.centered
 {
-	position:absolute;
-	left:50%;
-}
-div.centered>*
-{
-	position:relative;
-	left:-50%;
+	width:450px;
+	margin:auto;
 }
 ul.menu {
 	padding:5px;
-	list-style: none;
 	padding:10px;
 }
 ul.menu > li {
