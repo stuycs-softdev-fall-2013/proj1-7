@@ -54,7 +54,7 @@ def get_story(storyid):
 def stories_for_user(username):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    stories = c.execute("SELECT storyid FROM storyinfo WHERE username=(?)",(username,)).fetchall()
+    stories = c.execute("SELECT DISTINCT storyid FROM storyinfo WHERE username=(?)",(username,)).fetchall()
     connection.close()
     return stories
 
@@ -69,6 +69,8 @@ def incr_inappropriates(sentenceid):
     c = connection.cursor()
     old_inapprop = c.execute("SELECT num_inappropriate FROM sentenceinfo WHERE sentenceid=(?)",(sentenceid))
     c.execute("UPDATE sentenceinfo SET num_inappropriate=(?) WHERE sentenceid = (?)",(old_inapprop + 1,sentenceid))
+    connection.commit()
+    connection.close()
 
 # Login stuff:
 

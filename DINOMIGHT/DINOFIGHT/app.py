@@ -24,7 +24,8 @@ def register():
         #return register page
         return render_template('register.html');
     else:
-        if request.form['username'] == request.form['pw_verify']:
+        if request.form['password'] != request.form['pw_verify']:
+            print request.form['username'], request.form['pw_verify']
             return render_template('register.html', error='Passwords do not match')
         if db.register_user(request.form['username'],request.form['password']):
             #redirect to home? sign in?

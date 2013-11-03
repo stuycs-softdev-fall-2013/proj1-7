@@ -4,8 +4,9 @@
     <title>Register</title>
   </head>
   {% if error %}
-  <div class="error">
+  <div id="error">
     {{error}}
+  <hr>
   </div>
   {% endif %}
   <body>
@@ -22,3 +23,13 @@
     <address></address>
   </body> 
 </html>
+
+
+<style>
+  #error {
+  width:100%;
+  background-color:F0D8D8;
+  color:D90000;
+  font-size:2em;
+  }
+</style>
