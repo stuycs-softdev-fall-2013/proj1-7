@@ -88,6 +88,7 @@ def create():
         title = request.form['title']
         story = request.form['story']
         author = session['user']
+	auth.create(author, title, story)
 	return redirect(url_for('home'))
 
 @app.route("/logout")
