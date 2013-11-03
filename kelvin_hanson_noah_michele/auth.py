@@ -37,8 +37,8 @@ def isAdmin(usr):
     return users.find_one({'usr':usr})['admin']
 
 def exists(usr):
-    if (usr == None or
-        users.find({'usr':usr}).count() == 0:
+    if (usr == None or 
+        users.find({'usr':usr}).count()) == 0:
         return False
     return True
 
