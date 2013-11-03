@@ -4,14 +4,16 @@
     <title>{{username}}</title>
   </head>
   <h1>{{username}}</h1>
+  <h2>Stories by {{username}}:</h2>
   <ul>
     {% for s in originals %}
     <li><a href="/story/{{s}}">{{s}}</a></li>
     {% endfor %}
   </ul>
+  <h2>Stories contributed by {{username}}:</h2>
   <ul>
     {% for s in contribs %}
-    <li><a href="/story/{{s}}">{{s}}</a></li>
+    <li><a href="/story/{{s[1]}}">{{s[1]}}</a> <i>{{s[0]}} contributions to by {{username}}</i> </li>
     {% endfor %}
   </ul>
 </html>
