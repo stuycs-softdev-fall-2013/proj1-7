@@ -304,16 +304,4 @@ def getAllStories():
     for i in range (0,len(stories)):
         stories[i] = (stories[i][0].encode('ascii','ignore'),stories[i][1])
         
-
     return stories
-    #editIDs = editIDs[0][0].encode('ascii','ignore')
-    #editIDs = editIDs.split(',')
-    #story = []
-    #for editID in editIDs:
-    #    q = "select sentence from edits where id=?"
-    #    cursor = connection.execute(q,[editID])
-    #    edit = [x for x in cursor]
-    #    edit = edit[0][0].encode('ascii','ignore')
-    #    editTuple = (edit, editID)
-    #    story.append(editTuple)
-    #return story
