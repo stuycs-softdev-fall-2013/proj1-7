@@ -1,5 +1,8 @@
 from flask import Flask, session, redirect, request, url_for, render_template
 import auth
+import posts
+import comments
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -8,7 +11,14 @@ app.secret_key = 'secret'
 def home():
     return render_template('home.html')
 
-
+@app.route('/create', methods = ['GET', 'POST'])
+def create():
+    username = request.form['Username']
+    title = request.form['Title']
+    post = request.form['Post']
+    date = datetime.datetime.now();
+    posts.insert({'user':username, 'title':title, post:'post', 'datetime':date})
+                            
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'username' in session:
@@ -40,6 +50,11 @@ def register():
     auth.addUser(username, password)
     return redirect(url_for('home'))
 
+@app.route('/<user>/<title>', methods = ['GET', 'POST'])
+def blog(user, title):
+    blogPost = posts.getPost(user, title)
+    return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost)
+           
 
 @app.route('/logout')
 def logout():
