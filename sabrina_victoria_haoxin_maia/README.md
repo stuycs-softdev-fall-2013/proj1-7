@@ -1,10 +1,10 @@
 #The Groupinator Project
 
 ##Group Members: 
--Sabrina Khan 
--Victoria Chung
--Haoxin Luo
--Maia Ezratty
+- Sabrina Khan 
+- Victoria Chung
+- Haoxin Luo
+- Maia Ezratty
 
 ###Member Positions###
 - Leader: Sabrina Khan 
