@@ -64,6 +64,12 @@ def get_title(storyid):
     c = connection.cursor()
     return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()
 
+def incr_inappropriates(sentenceid):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    old_inapprop = c.execute("SELECT num_inappropriate FROM sentenceinfo WHERE sentenceid=(?)",(sentenceid))
+    c.execute("UPDATE sentenceinfo SET num_inappropriate=(?) WHERE sentenceid = (?)",(old_inapprop + 1,sentenceid))
+
 # Login stuff:
 
 from werkzeug.security import generate_password_hash, check_password_hash
