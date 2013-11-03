@@ -43,6 +43,11 @@ def getUserID(author):
     user = db.user.find_one({'user':author})
     return user
 
+def getInfo(author):
+    user = db.user.find_one({'user':author})
+    
+    return 
+
 def create(author, title, story):
     line = db.line.insert({'author':author, 'title':title, 'text':story, 'timestamp':datetime.datetime.now()})
     story = db.story.insert({'author':author, 'title':title, 'text':[line], 'timestamp':datetime.datetime.now(), 'completed':False})
