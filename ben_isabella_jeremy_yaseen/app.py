@@ -1,10 +1,11 @@
 #!/usr/local/bin/python
 from flask import Flask, render_template, session, redirect, request, url_for
 from models import User, Post, Comment
+from settings import SECRET_KEY
 import utils
 
 app = Flask(__name__)
-app.secret_key = "}. 2}MpuI3J[yYGg8*b9jL&;%Lyt(WhxxhlFaoadm}sQjaVF+/z`vs~#qd@ Spd8"
+app.secret_key = SECRET_KEY
 users = User()
 posts = Post()
 comms = Comment()
