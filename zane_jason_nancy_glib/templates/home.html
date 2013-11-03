@@ -43,9 +43,20 @@
       {% for story in d['stories'] %}
       	  <h3>
       	  	<a href="/story/{{ story['_id'] }}">
-      	  		{{ story['title'] }}
+      	  	  {{ story['title'] }}
       	  	</a>
+      	  	<span class="pull-right">
+      	  	  <a href='/upvote/{{ story["id"] }}' class="btn btn-success">
+      	  	    Good
+      	  	  </a>
+      	  	  <a href='/downvote/{{ story["id"] }}' class="btn btn-danger">
+      	  	    Bad
+      	  	  </a>
+
+      	  	  {{ story['karma'] }}
+      	  	</span>
       	  </h3>
+
       	  <div class="well">
       	    {% for line in story['lines'][0:5] %}
       	      {{ line }}

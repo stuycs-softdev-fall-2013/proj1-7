@@ -72,7 +72,7 @@ def story(story_id):
 	
 	if request.method == "POST":
 		lines = request.form['lines']
-		auth.add(eyed, lines, session['user'],title)
+		auth.add_line(eyed, lines, session['user'],title)
 
 	return render_template("story.html", story=story)
 
