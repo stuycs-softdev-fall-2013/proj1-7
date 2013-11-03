@@ -50,6 +50,9 @@ def home(page_num=1):
 		
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
+	if 'user' in session:
+		return redirect(url_for('home'))
+
 	if request.method == 'GET':
 		return render_template("register.html", error = False)
 
@@ -68,12 +71,12 @@ def register():
 def story(story_id): 
 	d = {'loggedIn': 'user' in session}
 
-	story = auth.get_story(story_id)
-	
 	if request.method == "POST":
 		line = request.form['line']
 		auth.add_line(session['user'], line, story_id)
 
+	story = auth.get_story(story_id)
+	
 	return render_template("story.html", story=story, d=d)
 
 @app.route("/profile/<usern>")

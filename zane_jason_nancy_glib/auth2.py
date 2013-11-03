@@ -32,14 +32,13 @@ def register(usern, passw, passwcf):
 
 #add a line to a story under an author's name
 def add_line(author, line, story_id):
+	story_id = ObjectId(story_id)
+
 	line_id = db.lines.insert({'author': author, 'text': line,
 							   'timestamp': time(), 'story': story_id})
 
 	story_id = db.stories.update({'_id': story_id},
 								 {'$push': {'lines': line_id}})
-
-	db.lines.update({'_id': line_id},
-					{'$set': {'story': story_id}})
 
 	db.users.update({'name': author},
 					{'$push': {'lines': line_id}})
@@ -92,22 +91,30 @@ def login(usern, passw):
 
 	return len(users) != 0
 
+#get a story object with line-ids replaced with line text
 def get_story(story_id):
 	story_id = ObjectId(story_id)
 	story = db.stories.find_one({'_id': story_id})
 
+	#replace line ids with line text
+	for i in range(len(story['lines'])):
+		story['lines'][i] = get_line_text(story['lines'][i])
+
 	return story
 
+#get the text from a line
 def get_line_text(line_id):
 	line = db.lines.find_one({'_id': line_id})
 
 	return line['text']
 
+#get the story of a line
 def get_line_story(line_id):
 	line = db.lines.find_one({'_id': line_id})
 
 	return db.stories.find_one({'_id': line['story']})
 
+#get a
 def get_user(usern):
 	return db.users.find_one({'name': usern.encode('UTF-8')})
 
@@ -122,9 +129,16 @@ def get_owned_stories(usern):
 def get_contrib_stories(usern):
 	user = get_user(usern)
 
-	stories = set([get_line_story(line_id) for line_id in user['lines']])
+	stories = []
+	for line_id in user['lines']:
+		stories.append(get_line_story(line_id))
+	
+	set_stories= []
+	for s in stories:
+		if s not in set_stories:
+			set_stories.append(s)
 
-	return stories
+	return set_stories
 
 def reset():
 	db.users.drop()
