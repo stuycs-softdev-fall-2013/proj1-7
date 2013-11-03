@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import datetime
 
 connection = MongoClient()
 db = connection.database
@@ -17,12 +18,19 @@ def getStoryID(eyeD):
     story = db.story.find_one({'_id':eyeD})
     return story
 
+def getUserID(author):
+    user = db.user.find_one({'user':author})
+    return user
+
 def create(author, title, story):
-    return db.story.insert({'author':author, 'title':title, 'story':story})
+    date = datetime.datetime.utcnow()
+    line = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':date})
+    story = db.story.add({'author':getUserID(author), 'title':title, 'ids':[line], 'timestamp':date, 'completed':False})
+    db.user.update({'user':author}, {'$set': {'owned':owned.append(story), 'lines':lines.extend([line])}})
 
 def register(user, pw):
     if not checkuser(user):
-        db.login.insert({'user':user, 'pass':pw})
+        db.login.insert({'user':user, 'pass':pw, 'owned':[],'contributed':[], 'lines':[]})
         return True
     else:
         return False
