@@ -17,6 +17,20 @@
     <br>
   </div>
 </div>
+<br>
+<div class="row">
+  <div class="large-8 large-centered columns blogtitle">
+    {% for p in posts %}
+    <br>
+    <h4><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h4>
+    <h6><a href="/users/{{p.user}}">{{p.user}}</a> at <i>{{p.date}}</i></h6>
+    <p><i>This has been upvoted {{p.upvotes}} time(s)</i></p>
+    <p>{{p.body}}</p>
+    <hr>
+    {% endfor %}
+  </div>
+</div>
+
 
 
 {% include "jinja_include/scripts.html" %}
