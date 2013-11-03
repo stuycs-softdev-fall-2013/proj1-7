@@ -15,7 +15,7 @@ def getInfo():
 @app.route("/home-recent", methods = ['GET', 'POST'])
 @app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
 def home(page_num=1):
-	d = {'usern': session['user']}
+	d = {}
 
 	if request.path.find('home-recent') != -1:
 		d['order'] = 'recent'
@@ -28,21 +28,19 @@ def home(page_num=1):
 			
 	if 'user' in session:
 		d['loggedIn'] = True
+		d['usern'] = session['user']
 		return render_template("home.html", d=d)
 
 	if request.method == 'GET':
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Log in':
-		user, pw = getInfo()
-
-		if auth.login(user, pw):
-			session['user'] = user
+		if auth.handle_login(form):
 			d['loggedIn'] = True
 			return render_template("home.html", d=d)
 		
 		#login failure
-		d['error'] = True
+		d['login-failure'] = True
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Register':
@@ -53,19 +51,30 @@ def register():
 	if 'user' in session:
 		return redirect(url_for('home'))
 
+	d = {'usern-used': False,
+		 'passw-mismatch': False}
+
 	if request.method == 'GET':
-		return render_template("register.html", error = False)
+		return render_template("register.html", d=d)
 
 	#POST
+	if request.form['button'] == 'Log in':
+		if handle_login(request.form):
+			render_template
+
 	usern = request.form['username']
 	passw = request.form['password']
 	passwcf = request.form['password-confirm']
 
-	if auth.register(usern, passw, passwcf):
+	errcode = auth.register(usern, passw, passwcf)
+
+	if not errcode: #success
 		session['user'] = usern
 		return redirect(url_for('home'))
 
-	return render_template("register.html", error = True)
+	for err in errcode:
+		d[err] = True
+	return render_template("register.html", d=d)
 
 @app.route("/story/<story_id>", methods=['GET','POST'])
 def story(story_id): 

@@ -18,17 +18,19 @@ def create_story(author, title, first_line):
 
 #try to register, return False on failure
 def register(usern, passw, passwcf):
+	errcode = []
 	if passw != passwcf:
-		return False
+		errcode.append('passw-mismatch')
 
 	matched_users = [user for user in db.users.find({'name': usern})]
 
 	if len(matched_users) != 0:
-		return False
+		errcode.append('usern-used')
 
-	db.users.insert({'name': usern, 'password': passw,
-					 'stories': [], 'lines': [] })
-	return True
+	if not errcode:
+		db.users.insert({'name': usern, 'password': passw,
+					 	 'stories': [], 'lines': [] })
+	return errcode
 
 #add a line to a story under an author's name
 def add_line(author, line, story_id):
@@ -144,3 +146,10 @@ def reset():
 	db.users.drop()
 	db.lines.drop()
 	db.stories.drop()
+
+def handle_login(form):
+	if login(form['usern'], form['passw']):
+		session['user'] = form['usern']
+		return True
+	
+	return False
