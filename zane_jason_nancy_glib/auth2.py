@@ -1,3 +1,4 @@
+from bson.objectid import ObjectId
 from pymongo import MongoClient
 from time import time
 
@@ -6,12 +7,11 @@ PAGE_LEN = 10 #number of stories per page
 
 #create a new story
 def create_story(author, title, first_line):
-	line_id = db.lines.insert({'author': author, 'text': first_line,
-							   'timestamp': time()})
-	
 	story_id = db.stories.insert({'author': author, 'title': title,
-								  'lines': [line_id], 'timestamp': time(),
+								  'lines': [], 'timestamp': time(),
 								  'karma': 0})
+
+	line_id = add_line(author, first_line, story_id)
 
 	db.users.update({'name': author},
 					{'$push': {'lines': line_id, 'stories': story_id}})
@@ -27,19 +27,24 @@ def register(usern, passw, passwcf):
 		return False
 
 	db.users.insert({'name': usern, 'password': passw,
-					 'owned': [], 'contributed': [], 'lines': [] })
+					 'stories': [], 'lines': [] })
 	return True
 
 #add a line to a story under an author's name
 def add_line(author, line, story_id):
 	line_id = db.lines.insert({'author': author, 'text': line,
-							   'timestamp': time()})
+							   'timestamp': time(), 'story': story_id})
 
 	story_id = db.stories.update({'_id': story_id},
-								 {'$push': {'lines': line}})
+								 {'$push': {'lines': line_id}})
+
+	db.lines.update({'_id': line_id},
+					{'$set': {'story': story_id}})
 
 	db.users.update({'name': author},
 					{'$push': {'lines': line_id}})
+
+	return line_id
 
 #return stories with a given ordering
 def get_stories(order, page_num):
@@ -88,6 +93,7 @@ def login(usern, passw):
 	return len(users) != 0
 
 def get_story(story_id):
+	story_id = ObjectId(story_id)
 	story = db.stories.find_one({'_id': story_id})
 
 	return story
@@ -96,3 +102,31 @@ def get_line_text(line_id):
 	line = db.lines.find_one({'_id': line_id})
 
 	return line['text']
+
+def get_line_story(line_id):
+	line = db.lines.find_one({'_id': line_id})
+
+	return db.stories.find_one({'_id': line['story']})
+
+def get_user(usern):
+	return db.users.find_one({'name': usern.encode('UTF-8')})
+
+def get_owned_stories(usern):
+	user = get_user(usern)
+
+	stories = [db.stories.find_one({'_id': story_id})
+			   for story_id in user['stories']]
+
+	return stories
+
+def get_contrib_stories(usern):
+	user = get_user(usern)
+
+	stories = set([get_line_story(line_id) for line_id in user['lines']])
+
+	return stories
+
+def reset():
+	db.users.drop()
+	db.lines.drop()
+	db.stories.drop()

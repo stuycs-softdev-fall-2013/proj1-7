@@ -66,32 +66,29 @@ def register():
 
 @app.route("/story/<story_id>", methods=['GET','POST'])
 def story(story_id): 
-	loggedIn = 'user' in session
+	d = {'loggedIn': 'user' in session}
 
 	story = auth.get_story(story_id)
 	
 	if request.method == "POST":
-		lines = request.form['lines']
-		auth.add_line(eyed, lines, session['user'],title)
+		line = request.form['line']
+		auth.add_line(session['user'], line, story_id)
 
-	return render_template("story.html", story=story)
+	return render_template("story.html", story=story, d=d)
 
-@app.route("/profile/<eyed>")
-def profile(eyed):
+@app.route("/profile/<usern>")
+def profile(usern):
 	d = {'loggedIn': 'user' in session}
 
-	user,made,contrib = auth.getInfo(eyed)
-
-	for s in made:
-		s['title'] = auth.getTitle(s['eyed'])
-
-	for s in contrib:
-		s['title'] = auth.getTitle(s['eyed'])
-
-	d['owned_stories'] = made
-	d['contrib_stories'] = contrib
+	user = auth.get_user(usern)
 	
-	return render_template("profile.html", user=user, d=d)
+	d['owned_stories'] = auth.get_owned_stories(usern)
+	d['contrib_stories'] = auth.get_contrib_stories(usern)
+
+	if user:	
+		return render_template("profile.html", user=user, d=d)
+	
+	return redirect(url_for('home'))
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
@@ -133,13 +130,14 @@ def account():
 	pw = request.form['pw']
 	npw = request.form['npw']
 	npwcf = request.form['npwcf']
+
 	if npw == npwcf and auth.changePass(user, pw, npw):
 		d['success'] = True
 		return render_template("account.html", d=d)
-	else:
-		d['error'] = True
-		d['success'] = False
-		return render_template("account.html", d=d)
+
+	d['error'] = True
+	d['success'] = False
+	return render_template("account.html", d=d)
 
 if __name__ == "__main__":
 	app.debug = True
