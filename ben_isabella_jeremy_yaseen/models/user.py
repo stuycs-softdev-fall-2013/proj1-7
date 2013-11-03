@@ -12,7 +12,6 @@ class UserModel(Model):
         self.username = obj['username']
         self.password = obj['password']
         self.voted = obj['voted']
-        self.date = obj['date']
         self.posts = Post()
         self.comments = Comment()
 

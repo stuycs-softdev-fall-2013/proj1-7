@@ -22,12 +22,12 @@
 <div class="large-12 columns">
 <div class="nav-bar right">
 <ul class="button-group">
-<li><a href="home.html" class="button">Home</a></li>
-<li><a href="login.html" class="button">Login</a></li>
-<li><a href="register.html" class="button">Register</a></li>
+<li><a href="home" class="button">Home</a></li>
+<li><a href="login" class="button">Login</a></li>
+<li><a href="register" class="button">Register</a></li>
 </ul>
 </div>
-<h1>%(btitle)s <small>%(bdescription)s</small></h1>
+<h1>{{name}}'s Blog</h1>
 <hr />
 </div>
 </div>
@@ -44,12 +44,12 @@
  
 <article>
  
-<h3><a href="%(link)s">%(bposttitle)s</a></h3>
-<h6>Written by <a href="%(facebook)s">%(name)s</a> on %(dates)s</h6>
+<h3><a href="%(link)s">{{bposttitle}}</a></h3>
+<h6>Written by <a href="%(facebook)s">{{name}}</a> on {{dates}}</h6>
  
 <div class="row">
 <div class="large-6 columns">
-%(post)
+{{post}}
 <!-- Text goes here -->
 </div>
 <div class="large-6 columns">
