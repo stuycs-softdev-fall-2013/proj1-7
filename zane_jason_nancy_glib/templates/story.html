@@ -11,7 +11,11 @@
 
     <div align="center">
     	<h3> {{ story['title'] }} </h3>
-    	<h4> Created by <a href="/profile/{{ story['author'] }}"> {{ story['author'] }} </a> </h4>
+    	<h4> Created by
+    	  <a href="/profile/{{ story['author'] }}">
+    	    {{ story['author'] }}
+    	  </a>
+    	</h4>
     	{% for line in story['lines'] %}
 		<p> {{ line }} </p>
     	{% endfor %}

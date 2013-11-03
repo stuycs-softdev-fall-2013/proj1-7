@@ -23,9 +23,9 @@
     {% for p in posts %}
     <br>
     <h4><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h4>
-    <h6><a href="/users/{{p.user}}">{{p.user}}</a> at <i>{{p.date}}</i></h6>
-    <p><i>This has been upvoted {{p.upvotes}} time(s)</i></p>
+    <h6><a href="/users/{{p.user}}">{{p.user}}</a> on <i>{{p.get_datestring()}}</i></h6>
     <p>{{p.body}}</p>
+    <p><i>{{p.upvotes}} upvote(s)</i></p>
     <hr>
     {% endfor %}
   </div>
