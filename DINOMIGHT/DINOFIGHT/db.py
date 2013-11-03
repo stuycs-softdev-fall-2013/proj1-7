@@ -69,6 +69,11 @@ def stories_with_user_contributions(username):
     connection.close()
     return [s[0] for s in stories]
 
+def contributions_to_story(usern, storyid):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    sentences = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND storyid=(?)", (usern, storyid)).fetchall()
+    return [s[0] for s in sentences]
 
 def get_title(storyid):
     connection = sqlite3.connect(db)
