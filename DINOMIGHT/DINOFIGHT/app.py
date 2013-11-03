@@ -77,7 +77,8 @@ def stories():
 @app.route('/story/<title>', methods=['GET','POST'])
 def story(title):
     if request.method == 'GET':
-        pass
+        sid = db.get_storyid(title)
+        return "<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
         #check that the story hasn't been edited by user yet
         #returns page with the story and edit box if not edited yet
     #returns page with the story

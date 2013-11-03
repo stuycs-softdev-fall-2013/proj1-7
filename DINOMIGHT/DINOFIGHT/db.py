@@ -5,7 +5,7 @@ db = "storyinator.db"
 with open("create_tables", 'r') as table_text:
     connection = sqlite3.connect(db)
     for cmd in table_text.readlines():
-        connection.execute(cmd);
+        connection.execute(cmd)
     # need code to create the other tables, similar to the above
     connection.commit()
     connection.close()
@@ -19,23 +19,23 @@ def add_story(user,title):
     storyid = c.execute("SELECT storyid FROM storyinfo WHERE username=(?) AND title = (?)",(user,title)).fetchone();
     connection.commit()
     connection.close()
-    return storyid
+    return storyid[0]
 
 def add_sentence_to_story(user,storyid,sentence):
     #Add sentence to story
     #Return the sentence id of the new sentence
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    c.execute("INSERT INTO sentenceinfo VALUES(?,?,?,NULL)", (user,storyid,sentence))
-    sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND story = (?) AND sentence = (?)",(user,title,sentence)).fetchone();
+    c.execute("INSERT INTO sentenceinfo VALUES(NULL, ?, ?, ?, 0)", (user, storyid, sentence))
+    sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND storyid = (?) AND sentence = (?)",(user,storyid,sentence)).fetchone()
     connection.commit()
     connection.close()
-    return sentenceid
+    return sentenceid[0]
 
 def get_sentence(sentenceid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    sentence = c.execute("SELECT sentence FROM sentenceinfo WHERE sentenceid = (?)",(sentenceid,)).fetchone();
+    sentence = c.execute("SELECT sentence FROM sentenceinfo WHERE sentenceid = (?)",(sentenceid,)).fetchone()
     connection.close()
     return sentence
     
@@ -43,13 +43,17 @@ def get_sentence(sentenceid):
 def get_story(storyid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    sentences = c.execute("SELECT sentence FROM sentenceinfo WHERE storyid = (?)"),(storyid,).fetchall();
-    story = ''
-    for sentence in sentences:
-        story += sentence
+    sentences = c.execute("SELECT sentence FROM sentenceinfo WHERE storyid = (?)",(storyid,)).fetchall()
+    story = ' '.join([sentence[0] for sentence in sentences])
     connection.close()
     return story
 
+def get_storyid(title):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    sid = c.execute("SELECT storyid FROM storyinfo WHERE title=(?)", (title,)).fetchone()
+    connection.close()
+    return sid[0]
 
 def stories_by_user(username):
     connection = sqlite3.connect(db)
