@@ -1,3 +1,4 @@
+from flask import session
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 from time import time
@@ -151,7 +152,7 @@ def reset():
 
 def handle_login(form):
 	if login(form['username'], form['password']):
-		session['user'] = form['usern']
+		session['user'] = form['username']
 		return True
 	
 	return False
