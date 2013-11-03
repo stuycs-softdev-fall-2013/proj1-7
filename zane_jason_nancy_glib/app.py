@@ -16,14 +16,16 @@ def home():
 	d = {}
 	d['order'] = "popular" if request.path == '/' else "recent"
 	d['stories'] = auth.getStories(d['order'])	
-	if not d['stories'] == []:
-		i = 0
-		for s in d['stories']:
-			s['text'] = auth.getLine(d['stories'][i]['text'][0])
-			i = i + 1
 	d['error'] = False
 	d['loggedIn'] = False
-
+	i = 0
+	for s in d['stories']:
+		s['texts'] = ""
+		while (i < len(s[u'text'])):
+			s['texts'] = s['texts'] + auth.getLine(s[u'text'][i]) + "\n"
+			i = i + 1
+		i = 0
+			
 	if 'user' in session:
 		d['loggedIn'] = True
 		return render_template("home.html", d=d)
@@ -62,11 +64,11 @@ def story(eyed):
     loggedIn=False
     if 'user' in session:
         loggedIn=True
-    author, title, story = auth.getStory(eyed)
+    story = auth.getStory(eyed)
     if request.method == "POST":
 	    lines = request.form['lines']
 	    auth.add(eyed, lines, session['user'],title)
-    return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
+    return render_template("story.html", story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<eyed>")
 def profile(eyed):

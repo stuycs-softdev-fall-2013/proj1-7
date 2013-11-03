@@ -43,7 +43,7 @@
       {% for story in d['stories'] %}
       	  <h3> <a href="/story/{{story['_id']}}">{{story['title']}}</a></h3>
       	  <div class="well">
-	    	{{story['text']}}
+	    	{{story['texts']}}
       	  </div>
       {% endfor %}
     </div>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head> 
-    <title> {{title}} </title>
+    <title> {{story['title']}} </title>
     {% include "lib.html" %}
   </head>
 
   <body>
     {% include "navbar.html" %}
-    <h3 align="center"> {{title}} </h3>
-    <h4 align="center"> Created by {{author}} </h4>
-    <p align="center">{{story}}</p>
+    <h3 align="center"> {{story['title']}} </h3>
+    <h4 align="center"> Created by {{story['author']}} </h4>
+    <p align="center">{{story['texts']}}</p>
 
     <form method="POST" align="center">
       <h4> Add to the story below: </h4>
