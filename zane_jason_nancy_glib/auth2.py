@@ -58,6 +58,11 @@ def get_recent_stories(page_num):
 	sorted_stories = sorted(stories, key=lambda k: k['timestamp'])
 	sorted_stories.reverse()
 
+	#replace line ids with line text
+	for story in sorted_stories:
+		for i in range(len(story['lines'])):
+			story['lines'][i] = get_line_text(story['lines'][i])
+
 	return sorted_stories[(page_num-1) * PAGE_LEN : page_num * PAGE_LEN]
 
 #return a page-worth of stories sorted by popularity
@@ -66,6 +71,11 @@ def get_popular_stories(page_num):
 
 	sorted_stories = sorted(stories, key=lambda k: k['karma'])
 	sorted_stories.reverse()
+
+	#replace line ids with line text
+	for story in sorted_stories:
+		for i in range(len(story['lines'])):
+			story['lines'][i] = get_line_text(story['lines'][i])
 
 	return sorted_stories[(page_num-1) * PAGE_LEN : page_num * PAGE_LEN]
 
@@ -81,3 +91,8 @@ def get_story(story_id):
 	story = db.stories.find_one({'_id': story_id})
 
 	return story
+
+def get_line_text(line_id):
+	line = db.lines.find_one({'_id': line_id})
+
+	return line['text']
