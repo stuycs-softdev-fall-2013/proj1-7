@@ -11,6 +11,7 @@
 		<ul class="nav">
 	  	  {% if loggedIn or (d and d['loggedIn'])%}
 	  	  <li> <a href="/account"> Account </a> </li>
+	  	  <li> <a href="/profile/{{ d['usern'] }}"> Profile </a> </li>
 	  	  <li> <a href="/create"> Create Story </a> </li>
 	  	  {% endif %}
 		</ul>

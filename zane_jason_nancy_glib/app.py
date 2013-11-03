@@ -15,7 +15,7 @@ def getInfo():
 @app.route("/home-recent", methods = ['GET', 'POST'])
 @app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
 def home(page_num=1):
-	d = {}
+	d = {'usern': session['user']}
 
 	if request.path.find('home-recent') != -1:
 		d['order'] = 'recent'
@@ -69,7 +69,7 @@ def register():
 
 @app.route("/story/<story_id>", methods=['GET','POST'])
 def story(story_id): 
-	d = {'loggedIn': 'user' in session}
+	d = {'loggedIn': 'user' in session, 'usern': session['user']}
 
 	if request.method == "POST":
 		line = request.form['line']
@@ -81,7 +81,7 @@ def story(story_id):
 
 @app.route("/profile/<usern>")
 def profile(usern):
-	d = {'loggedIn': 'user' in session}
+	d = {'loggedIn': 'user' in session, 'usern': session['user']}
 
 	user = auth.get_user(usern)
 	
@@ -98,8 +98,10 @@ def create():
 	if 'user' not in session:
 		return redirect(url_for('home'))
 
+	d = {'loggedIn': True, 'usern': session['user']}
+
 	if request.method == 'GET':
-		return render_template("create.html", loggedIn=True)
+		return render_template("create.html", d=d)
 
 	#POST
 	title = request.form['title']
@@ -120,8 +122,7 @@ def account():
 	if 'user' not in session:
 		return redirect(url_for('home'))
 	
-	d = {}
-	d['loggedIn'] = True
+	d = {'loggedIn': True, 'usern': session['user']}
 
 	if request.method == 'GET':
    		d['error'] = False
