@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> {{user}}'s Profile </title>
+    {% include "lib.html" %}
+  </head>
+
+  <body>
+    {% include "navbar.html" %}
+    <h2> {{user}}'s Profile </h2>
+    <br>
+    Stories started by {{user}}:
+    <ul style="list-style:none">
+      {% for story in d['owned_stories'] %}
+      <li> <a href="/story/{{story['_id']}}"> {{story['title']}} </a> </li>
+      {% endfor %}
+    </ul>
+
+    <br>
+    Stories {{user}} has contributed to:
+    <ul style="list-style:none">
+      {% for story in d['contrib_stories'] %}
+      <li> <a href="/story/{{story['_id']}}"> {{story['title']}} </a> </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
+  

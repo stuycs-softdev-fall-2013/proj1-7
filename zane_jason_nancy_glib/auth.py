@@ -1,16 +1,31 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
-#connection = MongoClient('db.stuycs.org')
-#db = connection.admin
-#db.authenticate('softdev','softdev')
 connection = MongoClient()
 db = connection.database
 
+def getStories(order):
+    stories = [s for s in db.story.find()]
+    return stories
+
+def getStory(eyeD):
+    story = [s for s in db.story.find({'_id':ObjectId(eyeD)})]
+    story = story[0]
+    return story[u'author'], story[u'title'], story[u'story']
+
+def getStoryID(eyeD):
+    story = db.story.find_one({'_id':eyeD})
+    return story
+
+def create(author, title, story):
+    return db.story.insert({'author':author, 'title':title, 'story':story})
 
 def register(user, pw):
-    if checkuser(user) == False:
+    if not checkuser(user):
         db.login.insert({'user':user, 'pass':pw})
         return True
+    else:
+        return False
     
 def checkuser(user):
     users = [user for user in db.login.find({'user':user},
