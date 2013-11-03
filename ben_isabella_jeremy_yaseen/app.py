@@ -65,16 +65,13 @@ def register():
         else:
             username=request.form["username"]
             password=request.form["password"]
-            if request.form["button"] == "Submit":
-                if users.exists(username):
-                    #Add an error message here
-                    return render_template("register.html", error="alreadyregistered")
-                else:
-                    users.insert(username=username, password=password)
-                    session["username"] = username
-                    return redirect(url_for("home"))
+            if users.exists(username):
+                #Add an error message here
+                return render_template("register.html", error="alreadyregistered")
             else:
-                return render_template("register.html")
+                users.insert(username=username, password=password)
+                session["username"] = username
+                return redirect(url_for("home"))
 
 
 """ Already done"""
