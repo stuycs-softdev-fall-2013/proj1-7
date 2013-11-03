@@ -23,12 +23,9 @@ def getUserID(author):
     return user_id
 
 def create(author, title, story):
-    title = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':datetime.datetime.now()})
-    line = db.line.add({'author':getUserID(author), 'text':story, 'timestamp':datetime.datetime.now()})
-    story = db.story.add({'author':getUserID(author), 'ids':[title,line], 'timestamp':datetime.datetime.now(), 'completed':False})
-    db.user.update({'user':author}, {'%set': {'owned':owned.append(story), 'lines':lines.extend([title,line])}})
-    #return db.story.insert({'author':author, 'title':title, 'story':story})
-
+    line = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':datetime.datetime.now()})
+    story = db.story.add({'author':getUserID(author), 'title':title, 'ids':[line], 'timestamp':datetime.datetime.now(), 'completed':False})
+    db.user.update({'user':author}, {'$set': {'owned':owned.append(story), 'lines':lines.extend([line])}})
 
 def register(user, pw):
     if not checkuser(user):
