@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 from flask import Flask, render_template, session, redirect, request, url_for
+from bson import ObjectId
 from models import User, Post, Comment
 from settings import SECRET_KEY
 import utils
@@ -56,6 +57,10 @@ def register():
             password=request.form["password"]
             if users.exists(username):
                 return render_template("register.html", error="alreadyregistered")
+            elif username == "":
+                return render_template("register.html", error="noname")
+            elif password == "":
+                return render_template("register.html", error="nopassword")
             else:
                 users.insert(username=username, password=password)
                 session["username"] = username
@@ -111,14 +116,10 @@ def post(id):
         u = users.find_one(username=username)
         if request.method == "GET":
             return render_template(post=p, user=u)
-        elif request.form["button"] == "Submit":
+        elif request.form["button"] == "Post":
             #I'm assuming you can only comment if you're logged in
             comment = request.form["comment"]
             p.add_comment(user=u, text=comment)
-            return render_template("post.html", post=p, user=u)
-        else:
-            #Vote up button was pressed
-            u.vote_up(p.get_id())
             return render_template("post.html", post=p, user=u)
     else:
         return render_template("post.html", post=p)
@@ -129,6 +130,19 @@ def post(id):
 def post_by_author(author, date):
     target_post = posts.find_one(author=author, date=date)
     return redirect(url_for("post", id=target_post.get_id()))
+
+
+@app.route("/vote-up")
+def vote_up():
+    last_page = request.args.get("last")
+    if "username" in session:
+        pid = request.args.get("pid")
+        username = session["username"]
+        u = users.find_one(username=username)
+        u.vote_up(ObjectId(pid))
+    if last_page == "posts":
+        return redirect(url_for(last_page, id=pid))
+    return redirect(url_for(last_page))
 
 
 # Page to create a post
