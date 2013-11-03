@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template, session, request, redirect, url_for
-import auth
+import auth2 as auth
 
 app = Flask(__name__)
 app.secret_key = 'secret key'
@@ -11,19 +11,21 @@ def getInfo():
 	return username, passw
 
 @app.route("/", methods = ['GET', 'POST'])
+@app.route("/page/<page_num>", methods = ['GET', 'POST'])
 @app.route("/home-recent", methods = ['GET', 'POST'])
-def home():
+@app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
+def home(page_num=1):
 	d = {}
-	d['order'] = "popular" if request.path == '/' else "recent"
-	d['stories'] = auth.getStories(d['order'])	
-	if not d['stories'] == []:
-		i = 0
-		for s in d['stories']:
-			s['text'] = auth.getLine(d['stories'][i]['text'][0])
-			i = i + 1
+
+	if request.path.find('home-recent') != -1:
+		d['order'] = 'recent'
+	else:
+		d['order'] = 'popular'
+
+	d['stories'] = auth.get_stories(d['order'], page_num)
 	d['error'] = False
 	d['loggedIn'] = False
-
+			
 	if 'user' in session:
 		d['loggedIn'] = True
 		return render_template("home.html", d=d)
@@ -33,6 +35,7 @@ def home():
 
 	if request.form['button'] == 'Log in':
 		user, pw = getInfo()
+
 		if auth.login(user, pw):
 			session['user'] = user
 			d['loggedIn'] = True
@@ -47,53 +50,65 @@ def home():
 		
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
-    if request.method == 'GET':
-        return render_template("register.html", error = False)
-    else:
-        user, pw = getInfo()
-        if auth.register(user,pw):
-            session['user'] = user
-            return redirect(url_for('home'))
-        else:
-            return render_template("register.html", error = True)
+	if 'user' in session:
+		return redirect(url_for('home'))
 
-@app.route("/story/<eyed>", methods=['GET','POST'])
-def story(eyed): 
-    loggedIn=False
-    if 'user' in session:
-        loggedIn=True
-    author, title, story = auth.getStory(eyed)
-    if request.method == "POST":
-	    lines = request.form['lines']
-	    auth.add(eyed, lines, session['user'],title)
-    return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
+	if request.method == 'GET':
+		return render_template("register.html", error = False)
 
-@app.route("/profile/<eyed>")
-def profile(eyed):
-    d['loggedIn'] = False
-    if 'user' in session:
-        d['loggedIn'] = True
-    user,made,contrib = auth.getInfo(id)
-    for s in made:
-        s['title'] = auth.getTitle(s['eyed'])
-    for s in contrib:
-        s['title'] = auth.getTitle(s['eyed'])
-    d['owned_stories'] = made
-    d['contrib_stories'] = contrib
-    return render_template("profile.html", user=user, d=d)
+	#POST
+	usern = request.form['username']
+	passw = request.form['password']
+	passwcf = request.form['password-confirm']
+
+	if auth.register(usern, passw, passwcf):
+		session['user'] = usern
+		return redirect(url_for('home'))
+
+	return render_template("register.html", error = True)
+
+@app.route("/story/<story_id>", methods=['GET','POST'])
+def story(story_id): 
+	d = {'loggedIn': 'user' in session}
+
+	if request.method == "POST":
+		line = request.form['line']
+		auth.add_line(session['user'], line, story_id)
+
+	story = auth.get_story(story_id)
+	
+	return render_template("story.html", story=story, d=d)
+
+@app.route("/profile/<usern>")
+def profile(usern):
+	d = {'loggedIn': 'user' in session}
+
+	user = auth.get_user(usern)
+	
+	d['owned_stories'] = auth.get_owned_stories(usern)
+	d['contrib_stories'] = auth.get_contrib_stories(usern)
+
+	if user:	
+		return render_template("profile.html", user=user, d=d)
+	
+	return redirect(url_for('home'))
 
 @app.route("/create", methods=['GET', 'POST'])
 def create():
-    if 'user' not in session:
-        return redirect(url_for('home'))
-    if request.method == 'GET':
-        return render_template("create.html", loggedIn=True)
-    else:
-	    title = request.form['title']
-	    story = request.form['story']
-	    author = session['user']
-	    auth.create(author, title, story)
-	    return redirect(url_for('home'))
+	if 'user' not in session:
+		return redirect(url_for('home'))
+
+	if request.method == 'GET':
+		return render_template("create.html", loggedIn=True)
+
+	#POST
+	title = request.form['title']
+	story = request.form['story']
+	author = session['user']
+
+	auth.create_story(author, title, story)
+
+	return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():
@@ -118,13 +133,14 @@ def account():
 	pw = request.form['pw']
 	npw = request.form['npw']
 	npwcf = request.form['npwcf']
+
 	if npw == npwcf and auth.changePass(user, pw, npw):
-            d['success'] = True
-            return render_template("account.html", d=d)
-	else:
-		d['error'] = True
-		d['success'] = False
+		d['success'] = True
 		return render_template("account.html", d=d)
+
+	d['error'] = True
+	d['success'] = False
+	return render_template("account.html", d=d)
 
 if __name__ == "__main__":
 	app.debug = True

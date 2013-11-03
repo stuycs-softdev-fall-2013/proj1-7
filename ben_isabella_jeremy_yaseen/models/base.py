@@ -13,6 +13,10 @@ class Model(object):
         self.collection = collection
         self._id = obj['_id']
 
+    # Gets _id
+    def get_id(self):
+        return self._id
+
     # Removes the object from database
     def remove(self):
         self.objects.remove({'_id': self._id})

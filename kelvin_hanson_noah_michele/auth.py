@@ -5,6 +5,8 @@ from pymongo import MongoClient
 client = MongoClient()
 db = client.KMNH
 users = db.users
+posts = db.posts
+comments = db.comments
 
 def addUser(usr,pwd, admin=False):
     if(usr==None or pwd==None):
@@ -35,8 +37,8 @@ def isAdmin(usr):
     return users.find_one({'usr':usr})['admin']
 
 def exists(usr):
-    if (usr == None or
-        users.find({'usr':usr}).count() == 0:
+    if (usr == None or 
+        users.find({'usr':usr}).count()) == 0:
         return False
     return True
 

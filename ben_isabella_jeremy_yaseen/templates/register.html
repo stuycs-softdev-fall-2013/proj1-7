@@ -10,12 +10,12 @@
       <div class="large-12 columns">
 	<form class="large-12 columns" method="POST">
 	  <fieldset>
-	    <legend class="blogtitle">Log In</legend>
+	    <legend class="blogtitle">Sign Up</legend>
 	    <div class="row">
 	      <div class="large-12 columns">
 		{% if error is defined %}
-		{% if error == "badlogin" %}
-		<h4 style="color:red;">Incorrect Log In Info</h4>
+		{% if error == "alreadyregistered" %}
+		<h4 style="color:red;">Already Registered</h4>
 		{% endif %}
 		{% endif %}
 		<label class="topdiv-text">Username</label>
@@ -30,10 +30,9 @@
 	    </div>
 	    <div class="row">
 	      <div class="large-12 columns">
-		<input type="submit" name="Submit" value="Sign In" class="button small secondary">
+		<input type="submit" name="Submit" value="Register" class="button small secondary">
 	      </div>
 	    </div>
-	    or <a href="/register">Sign Up</a>
 	  </fieldset>
 	</form>
       </div>
@@ -44,5 +43,3 @@
 {% include "jinja_include/scripts.html" %}
 
 </body>
-
-

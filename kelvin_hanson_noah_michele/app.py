@@ -1,4 +1,4 @@
-from flask import Flask, session, redirect, request, url_for
+from flask import Flask, session, redirect, request, url_for, render_template
 import auth
 
 app = Flask(__name__)

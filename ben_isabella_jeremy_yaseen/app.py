@@ -4,6 +4,7 @@ from models import User, Post, Comment
 import utils
 
 app = Flask(__name__)
+app.secret_key = "}. 2}MpuI3J[yYGg8*b9jL&;%Lyt(WhxxhlFaoadm}sQjaVF+/z`vs~#qd@ Spd8"
 users = User()
 posts = Post()
 comms = Comment()
@@ -43,7 +44,7 @@ def login():
                     return redirect(url_for("home"))
                 else:
                     #Add some error message
-                    return render_template("login.html")
+                    return render_template("login.html", error="badlogin")
             else:
                 return redirect(url_for("register"))
 
@@ -64,16 +65,13 @@ def register():
         else:
             username=request.form["username"]
             password=request.form["password"]
-            if request.form["button"] == "Submit":
-                if users.exists(username):
-                    #Add an error message here
-                    return render_template("register.html")
-                else:
-                    users.insert(username=username, password=password)
-                    session["username"] = username
-                    return redirect(url_for("home"))
+            if users.exists(username):
+                #Add an error message here
+                return render_template("register.html", error="alreadyregistered")
             else:
-                return render_template("register.html")
+                users.insert(username=username, password=password)
+                session["username"] = username
+                return redirect(url_for("home"))
 
 
 """ Already done"""
@@ -137,7 +135,7 @@ def post(id):
             return render_template("post.html", post=p, user=u)
         else:
             #Vote up button was pressed
-            p.vote_up()
+            u.vote_up(p.get_id())
             return render_template("post.html", post=p, user=u)
     else:
         return render_template("post.html", post=p)
@@ -150,7 +148,7 @@ def post(id):
 @app.route("/posts/<author>/<date>")
 def post_by_author(author, date):
     target_post = posts.find_one(author=author, date=date)
-    return redirect(url_for("post", id=target_post._id))
+    return redirect(url_for("post", id=target_post.get_id()))
 
 
 """ 1) If method is GET...
@@ -174,7 +172,7 @@ def create_post():
             body=request.form["body"]
             tags=request.form["tags"]
             p = u.add_post(title=title, body=body, tags=tags)
-            return redirect(url_for("post", id=p._id))
+            return redirect(url_for("post", id=p.get_id()))
     else:
         return redirect(url_for("home"))
 

@@ -1,5 +1,5 @@
 USER DICTIONARY:
-{'name': <string username>, 'password': <string password>, 'owned': <list of story ids owned>, 'contributed': <list of story ids contributed>, 'lines':<list of line ids>}
+{'name': <string username>, 'password': <string password>, 'owned': <list of story ids owned>, 'lines':<list of line ids>}
 
 STORY DICTIONARY:
 {'author': <user id>, 'text': <list of line ids; first will be title, the rest the text>, 'timestamp': <datetime object>, 'completed':<boolean>}
