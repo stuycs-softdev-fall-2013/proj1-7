@@ -7,12 +7,19 @@
   
   <body>
     {% include "navbar.html" %}
+    {% if d['title-error'] %}
+    <div class="alert alert-error" align="center"
+    	 style="width 350px; margin:0px auto 0px auto">
+    	 You must have a title
+    </div>
+    {% endif %}
 
     <form method="POST" style="margin:auto auto auto 20px" align="center">
-      <h3> Title: <input type="text" name="title"> </h3>
-      <textarea name="story" style="width:300px; height:300px; resize:none"required></textarea>
+      <h3> Title: <input type="text" name="title"/> </h3>
+      <input type='text' name='story'
+      		 style='width:300px;'/>
       <br>
-      <input type="submit" name="button" value="Create">
+      <input type="submit" name="button" value="Create"/>
     </form>
   </body>
 

@@ -11,6 +11,7 @@
 		<ul class="nav">
 	  	  {% if loggedIn or (d and d['loggedIn'])%}
 	  	  <li> <a href="/account"> Account </a> </li>
+	  	  <li> <a href="/profile/{{ d['usern'] }}"> Profile </a> </li>
 	  	  <li> <a href="/create"> Create Story </a> </li>
 	  	  {% endif %}
 		</ul>
@@ -43,7 +44,6 @@
 		  	  	  	  </span>
 	      			</span>
 	      	  	  </li>
-	      	  	  <li><a href="/temp"> Facebook </a> </li>
 	      	  	  <li><a href="/register"> Register </a> </li>
 	    		</ul>
 	  	  	  </div>
@@ -57,3 +57,10 @@
     </div>
   </div>
 </div>
+
+{% if d['login-failure'] %}
+    <div class="alert alert-error" align="center"
+    	 style="width:350px; margin:0px auto 10px auto">
+      Incorrect username and password combination.
+    </div>
+{% endif %}

@@ -11,7 +11,11 @@
 
     <div align="center">
     	<h3> {{ story['title'] }} </h3>
-    	<h4> Created by {{ story['author'] }} </h4>
+    	<h4> Created by
+    	  <a href="/profile/{{ story['author'] }}">
+    	    {{ story['author'] }}
+    	  </a>
+    	</h4>
     	{% for line in story['lines'] %}
 		<p> {{ line }} </p>
     	{% endfor %}
@@ -19,7 +23,9 @@
 		{% if d['loggedIn'] %}
     	<form method="POST" align="center">
       	  <h4> Add to the story below: </h4>
-      	  <textarea name="line" style="width:300px; height=300px; resize:none" required></textarea>
+      	  <textarea name="line"
+      	  			style="width:300px; height=300px; resize:none">
+      	  </textarea>
       	  <br>
       	  <input type="submit" name="button" value="Add">
     	</form>

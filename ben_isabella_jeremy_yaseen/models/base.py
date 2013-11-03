@@ -11,11 +11,16 @@ class Model(object):
     def __init__(self, db, collection, obj=None):
         self.db = db
         self.collection = collection
+        self.date = obj['date']
         self._id = obj['_id']
 
     # Gets _id
     def get_id(self):
         return self._id
+
+    # Gets the date converted to a string
+    def get_datestring(self):
+        return self.date.strftime('%A, %B %d')
 
     # Removes the object from database
     def remove(self):
@@ -54,7 +59,7 @@ class Collection(object):
     def insert(self, **kwargs):
         new_args = kwargs
         new_args['date'] = datetime.now()
-        id = self.objects.insert(kwargs)
+        id = self.objects.insert(new_args)
         return self.find_one(_id=id)
 
     # Updates objects in the collection

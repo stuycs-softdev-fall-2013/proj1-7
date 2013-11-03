@@ -1,0 +1,7 @@
+/* INIT 
+*	TODO:
+*	-CSS for seamless story listing
+*/
+.stories > li {
+	margin:.5em;
+}
