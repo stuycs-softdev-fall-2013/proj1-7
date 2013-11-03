@@ -20,18 +20,11 @@ ul {
 	width:100%;
 	position:relative;
 	margin-bottom:10px;
-	height:100px;
 }
 div.centered
 {
-	position:absolute;
-	left:50%;
-}
-div.centered>*
-{
-	position:relative;
-	left:-50%;
-
+	width:450px;
+	margin:auto;
 }
 ul.menu {
 	padding:5px;
