@@ -1,12 +1,14 @@
-import pymongo from MongoClient
+from pymongo import MongoClient
 
-client = MongoClient();
+client = MongoClient()
 db = client.KMNH
 users = db.users
 posts = db.posts
 comments = db.comments
 
-def addComment(usr="guest",post_id,comment):
+def addComment(usr,post_id,comment):
+    if usr == None:
+        usr = "guest"        
     if(post_id==None or comment==None):
         return False
     comments.insert({'usr':usr,'post_id':post_id,'comment':comment})
@@ -24,5 +26,8 @@ def removeComment(usr,comment):
         return True
     return False
                                             
-
+if(__name__ == "__main__"):
+    
+    print addComment("user", 1, "Hello World")
+    
                                             
