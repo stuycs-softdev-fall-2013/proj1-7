@@ -20,11 +20,12 @@ def getStoryID(eyeD):
 
 def getUserID(author):
     user = db.user.find_one({'user':author})
-    return user_id
+    return user
 
 def create(author, title, story):
-    line = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':datetime.datetime.now()})
-    story = db.story.add({'author':getUserID(author), 'title':title, 'ids':[line], 'timestamp':datetime.datetime.now(), 'completed':False})
+    date = datetime.datetime.now()
+    line = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':date})
+    story = db.story.add({'author':getUserID(author), 'title':title, 'ids':[line], 'timestamp':date, 'completed':False})
     db.user.update({'user':author}, {'$set': {'owned':owned.append(story), 'lines':lines.extend([line])}})
 
 def register(user, pw):
