@@ -17,13 +17,23 @@ def getLine(eyeD):
 
 def getStories(order):
     stories = [s for s in db.story.find()]
+    for s in stories:
+        s['texts'] = ""
+        i = 0
+        while (i < len(s[u'text'])):
+            s['texts'] = s['texts'] + getLine(s[u'text'][i]) + "\n"
+            i = i + 1
     return stories
 
 def getStory(eyeD):
     story = [s for s in db.story.find({'_id':ObjectId(eyeD)})]
     story = story[0]
-    text = getLine(story[u'text'][0])
-    return story[u'author'], story[u'title'], text
+    i = 0
+    story['texts'] = ""
+    while i < len(story[u'text']):
+        story['texts'] = story['texts'] + getLine(story[u'text'][i]) + "\n"
+        i = i + 1
+    return story
 
 def getStoryID(eyeD):
     story = db.story.find_one({'_id':eyeD})
