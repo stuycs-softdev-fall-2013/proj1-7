@@ -68,7 +68,10 @@ def passchange():
 
 @app.route('/stories')
 def stories():
-    return redirect('/u/'+session['username'])
+    if 'username' in session:
+        return redirect('/u/'+session['username'])
+    else:
+        return redirect(url_for('login'))
     #list of user's stories
 
 @app.route('/story/<title>', methods=['GET','POST'])
@@ -81,7 +84,7 @@ def story(title):
 
 @app.route('/u/<usern>')
 def profile(usern):
-    originals = [db.get_title(sid) for sid in db.stories_for_user(usern)]
+    originals = [db.get_title(sid) for sid in db.stories_by_user(usern)]
     contributed = [db.get_title(sid) for sid in db.stories_with_user_contributions(usern)]
     return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
