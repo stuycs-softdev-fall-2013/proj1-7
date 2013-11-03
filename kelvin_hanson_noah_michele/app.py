@@ -13,12 +13,16 @@ def home():
 
 @app.route('/create', methods = ['GET', 'POST'])
 def create():
-    username = request.form['Username']
-    title = request.form['Title']
-    post = request.form['Post']
+    if request.method == "GET":
+        return render_template('create.html')
+    username = request.form['username']
+    title = request.form['title']
+    post = request.form['post']
     date = datetime.datetime.now();
-    posts.insert({'user':username, 'title':title, post:'post', 'datetime':date})
-                            
+    posts.addPost(username, title, post,date)
+    return render_template('create.html')
+  #  return redirect(url_for('home'))
+
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if 'username' in session:
