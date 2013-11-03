@@ -8,7 +8,7 @@ app.secret_key = "KEHTYSOEIETIRRUVSERSCY"
 @app.route('/')
 def home():
     logged_in = False
-    username = ''
+    name = ''
     if 'username' in session:
         logged_in = True
         username = session['username']
@@ -81,8 +81,9 @@ def story(title):
 
 @app.route('/u/<usern>')
 def profile(usern):
-    stories = [db.get_title(sid) for sid in db.stories_for_user(usern)]
-    return render_template('user.html', username=usern, stories=stories)
+    originals = [db.get_title(sid) for sid in db.stories_for_user(usern)]
+    contributed = [db.get_title(sid) for sid in db.stories_with_user_contributions(usern)]
+    return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
 if __name__ == '__main__':
     app.debug = True

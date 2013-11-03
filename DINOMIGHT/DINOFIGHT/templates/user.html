@@ -5,8 +5,13 @@
   </head>
   <h1>{{username}}</h1>
   <ul>
-    {% for s in stories %}
-    <li><a href="{{s.storyid}}">{{s.title}}</a></li>
+    {% for s in originals %}
+    <li><a href="/story/{{s}}">{{s}}</a></li>
+    {% endfor %}
+  </ul>
+  <ul>
+    {% for s in contribs %}
+    <li><a href="/story/{{s}">{{s}}</a></li>
     {% endfor %}
   </ul>
 </html>
