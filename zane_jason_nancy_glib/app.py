@@ -64,16 +64,17 @@ def register():
 
 	return render_template("register.html", error = True)
 
-@app.route("/story/<eyed>", methods=['GET','POST'])
-def story(eyed): 
-	loggedIn=False
-	if 'user' in session:
-		loggedIn=True
-	author, title, story = auth.getStory(eyed)
+@app.route("/story/<story_id>", methods=['GET','POST'])
+def story(story_id): 
+	loggedIn = 'user' in session
+
+	story = auth.get_story(story_id)
+	
 	if request.method == "POST":
 		lines = request.form['lines']
 		auth.add(eyed, lines, session['user'],title)
-	return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
+
+	return render_template("story.html", story=story)
 
 @app.route("/profile/<eyed>")
 def profile(eyed):

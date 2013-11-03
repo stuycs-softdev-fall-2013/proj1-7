@@ -77,3 +77,7 @@ def login(usern, passw):
 
 	return len(users) != 0
 
+def get_story(story_id):
+	story = db.stories.find_one({'_id': story_id})
+
+	return story
