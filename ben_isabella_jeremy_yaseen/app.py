@@ -4,6 +4,7 @@ from models import User, Post, Comment
 import utils
 
 app = Flask(__name__)
+app.secret_key = "}. 2}MpuI3J[yYGg8*b9jL&;%Lyt(WhxxhlFaoadm}sQjaVF+/z`vs~#qd@ Spd8"
 users = User()
 posts = Post()
 comms = Comment()
