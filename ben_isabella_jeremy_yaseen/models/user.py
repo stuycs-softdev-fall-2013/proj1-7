@@ -21,7 +21,7 @@ class UserModel(Model):
     def change_password(self, oldpass, newpass):
         if oldpass == self.password:
             self.password = newpass
-            self.collection.update({'_id': self._id}, password=newpass)
+            self.collection.update({'_id': self.get_id()}, password=newpass)
             return True
         return False
 
@@ -31,7 +31,7 @@ class UserModel(Model):
             p = self.posts.find_one(_id=post_id)
             p.vote_up()
             self.voted.append(post_id)
-            self.collection.update({'_id': self._id}, voted=self.voted)
+            self.collection.update({'_id': self.get_id()}, voted=self.voted)
 
     # Adds a post under the users page
     def add_post(self, **kwargs):
@@ -56,4 +56,4 @@ class User(Collection):
 
     # Checks if a specific user exists
     def exists(self, username):
-        return len(self.find(username=username)) > 0
+        return self.find_one(username=username) is not None

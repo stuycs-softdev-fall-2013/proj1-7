@@ -19,16 +19,16 @@ class PostModel(Model):
     # Increases the upvotes on a post
     def vote_up(self):
         self.upvotes += 1
-        self.collection.objects.update({'_id': self._id},
+        self.collection.objects.update({'_id': self.get_id()},
                 {'$inc': {'upvotes': 1}})
 
     # Adds a comment on this post
     def add_comment(self, **kwargs):
-        return self.comments.insert(post_id=self._id, **kwargs)
+        return self.comments.insert(post_id=self.get_id(), **kwargs)
 
     # Gets comments on this post
     def get_comments(self):
-        return self.comments.find(post_id=self._id)
+        return self.comments.find(post_id=self.get_id())
 
     # Use for removing comments by the user who created them, or by the poster
     def remove_comments(self, **kwargs):
@@ -36,7 +36,7 @@ class PostModel(Model):
 
     # Removes self and the comments
     def remove(self):
-        self.remove_comments(post_id=self._id)
+        self.remove_comments(post_id=self.get_id())
         super(PostModel, self).remove()
 
 

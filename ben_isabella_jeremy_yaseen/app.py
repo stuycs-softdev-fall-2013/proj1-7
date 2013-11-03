@@ -137,7 +137,7 @@ def post(id):
             return render_template("post.html", post=p, user=u)
         else:
             #Vote up button was pressed
-            p.vote_up()
+            u.vote_up(p.get_id())
             return render_template("post.html", post=p, user=u)
     else:
         return render_template("post.html", post=p)
@@ -150,7 +150,7 @@ def post(id):
 @app.route("/posts/<author>/<date>")
 def post_by_author(author, date):
     target_post = posts.find_one(author=author, date=date)
-    return redirect(url_for("post", id=target_post._id))
+    return redirect(url_for("post", id=target_post.get_id()))
 
 
 """ 1) If method is GET...
@@ -174,7 +174,7 @@ def create_post():
             body=request.form["body"]
             tags=request.form["tags"]
             p = u.add_post(title=title, body=body, tags=tags)
-            return redirect(url_for("post", id=p._id))
+            return redirect(url_for("post", id=p.get_id()))
     else:
         return redirect(url_for("home"))
 
