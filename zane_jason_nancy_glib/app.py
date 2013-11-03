@@ -15,7 +15,12 @@ def getInfo():
 def home():
 	d = {}
 	d['order'] = "popular" if request.path == '/' else "recent"
-	d['stories'] = auth.getStories(d['order'])
+	d['stories'] = auth.getStories(d['order'])	
+	if not d['stories'] == []:
+		i = 0
+		for s in d['stories']:
+			s['text'] = auth.getLine(d['stories'][i]['text'][0])
+			i = i + 1
 	d['error'] = False
 	d['loggedIn'] = False
 
@@ -60,7 +65,7 @@ def story(eyed):
     author, title, story = auth.getStory(eyed)
     if request.method == "POST":
 	    lines = request.form['lines']
-	    auth.add(eyed, lines, session['user'])
+	    auth.add(eyed, lines, session['user'],title)
     return render_template("story.html", author=author, title=title, story=story, loggedIn=loggedIn)
 
 @app.route("/profile/<eyed>")
@@ -81,15 +86,14 @@ def profile(eyed):
 def create():
     if 'user' not in session:
         return redirect(url_for('home'))
-
     if request.method == 'GET':
         return render_template("create.html", loggedIn=True)
     else:
-        title = request.form['title']
-        story = request.form['story']
-        author = session['user']
-	auth.create(author, title, story)
-	return redirect(url_for('home'))
+	    title = request.form['title']
+	    story = request.form['story']
+	    author = session['user']
+	    auth.create(author, title, story)
+	    return redirect(url_for('home'))
 
 @app.route("/logout")
 def logout():
