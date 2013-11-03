@@ -30,7 +30,8 @@ def register(usern, passw, passwcf):
 
 	if not errcode:
 		db.users.insert({'name': usern, 'password': passw,
-					 	 'stories': [], 'lines': [] })
+					 	 'stories': [], 'lines': [], 'upvoted': [],
+					 	 'downvoted': [] })
 	return errcode
 
 #add a line to a story under an author's name
@@ -158,3 +159,36 @@ def handle_login(form):
 def get_num_pages():
 	stories = [s for s in db.stories.find()]
 	return int(ceil(len(stories) / PAGE_LEN))
+
+def upvote(usern, story_id):
+	story_id = ObjectId(story_id)
+	user = get_user(usern)
+
+	if story_id not in user['upvoted']:
+		db.stories.update({'_id': story_id},
+					  	  {'$inc': {'karma': 1}})
+		db.users.update({'_id': user['_id']},
+						{'$push': {'upvoted': story_id}})
+		if story_id in user['downvoted']:
+			db.users.update({'_id': user['_id']},
+							{'$pull': {'downvoted': story_id}})
+			db.stories.update({'_id': story_id},
+					  	  	  {'$inc': {'karma': 1}})
+
+def downvote(usern, story_id):
+	story_id = ObjectId(story_id)
+	user = get_user(usern)
+
+	if story_id not in user['downvoted']:
+		db.stories.update({'_id': story_id},
+					  	  {'$inc': {'karma': -1}})
+		db.users.update({'_id': user['_id']},
+						{'$push': {'downvoted': story_id}})
+		if story_id in user['upvoted']:
+			db.users.update({'_id': user['_id']},
+							{'$pull': {'upvoted': story_id}})
+			db.stories.update({'_id': story_id},
+					  	  	  {'$inc': {'karma': -1}})
+
+
+

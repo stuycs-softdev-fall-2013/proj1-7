@@ -162,6 +162,20 @@ def account():
 	d['success'] = False
 	return render_template("account.html", d=d)
 
+@app.route('/upvote/<story_id>')
+def upvote(story_id):
+	if 'user' in session:
+		auth.upvote(session['user'], story_id)
+
+	return redirect(url_for('home'))
+
+@app.route('/downvote/<story_id>')
+def downvote(story_id):
+	if 'user' in session:
+		auth.downvote(session['user'], story_id)
+
+	return redirect(url_for('home'))
+
 if __name__ == "__main__":
 	app.debug = True
 	app.run()
