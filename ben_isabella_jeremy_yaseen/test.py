@@ -20,7 +20,9 @@ if __name__ == '__main__':
 
     # Adding comment to first post
     p.add_comment(user="Jeremy", text="this is stupid")
-    p.vote_up()
+    u.vote_up(p._id)
+    u2.vote_up(p._id)
+    u.vote_up(p2._id)
 
     print "Getting comments from Jeremy..."
     for c in u2.get_comments():
@@ -30,8 +32,8 @@ if __name__ == '__main__':
     for c in p.get_comments():
         print c.text, ',', c.date
 
-    print "\nGetting posts from newest to oldest..."
-    for p in posts.get_by_date():
+    print "\nGetting most popular posts..."
+    for p in posts.get_most_voted():
         print "%s\n%s\n%s\nTags: %s, %s upvotes %s\n" % (p.title, p.user, p.body, ', '.join(p.tags), p.upvotes, p.date)
 
     print "\nGetting posts with tag 'original'..."

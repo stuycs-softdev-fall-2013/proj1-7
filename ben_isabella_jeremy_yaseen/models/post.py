@@ -16,6 +16,7 @@ class PostModel(Model):
         self.date = obj['date']
         self.comments = Comment()
 
+    # Increases the upvotes on a post
     def vote_up(self):
         self.upvotes += 1
         self.collection.objects.update({'_id': self._id},
