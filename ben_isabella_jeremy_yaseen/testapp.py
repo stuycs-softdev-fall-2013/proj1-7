@@ -22,6 +22,10 @@ def hoome():
 def signup():
     return render_template("register.html")
 
+@app.route("/user/<user>", method=["GET"])
+def user_page(user):
+    return render_template("userpage.html", target_user=u, user=u)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
