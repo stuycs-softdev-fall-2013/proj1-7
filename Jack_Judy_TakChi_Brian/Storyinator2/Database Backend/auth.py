@@ -1,7 +1,10 @@
 from pymongo import MongoClient
 
-connection = MongoClient()
-db = connection.database
+def init():
+    client = MongoClient()
+    db = client.proj
+    return db
+#login
 def register(user, pw):
     if checkuser(user) == False:
         db.login.insert({'user':user, 'pass':pw})
@@ -23,38 +26,48 @@ def login(user, pw):
     users = [user for user in db.login.find({'user':user},
                                            fields={'_id':False,'user':True, 'pass':True})]
     return users[0]['pass'] == pw
-
-
+############################################################################################
+#story stuff
 def storyexists(title):
+    db=init()
     return db.stories.find_one({'storytitle':title})
 
-def addstory(title, author, date):
+def makestory(title, author, story, date):
+    db=init()
     if not storyexists(title):
-        db.stories.insert({'title':title, 'author':author, 'date':date, 'addedlines':0})
+        db.stories.insert({'title':title, 'author':author, 'story':story, 'date':date, })
+    else:
+        return "Title already exists. Please create a new title."
 
-def savenewstory(title):
-    story = db.stories.find_one({'title':title})
-    story['addedlines'] = story['addedlines'] + 1
-    db.stories.save(story)        
-    
-def addtostory(line,title):
-    db.lines.insert({'line':line, 'title':title})
-    increment_lines(title)
+def addtostory(lines,title):
+    db=init()
+    data = [s for s in db.stories.find({'title':title},fields={'_id':False})]
+    data = data[0]
+    new = data['title']+lines
+    db.stories.update({'title':title},{'$set':{'story':new}})
 
-def getmine(author):
+
+def FindMine(author):
+    db=init()
     story= [s for s in db.stories.find({}, fields={'_id':False, 'author':author})]
     return story
-def getall():
+def FindAll():
+    db=init()
     stories = [s for s in db.stories.find({}, fields={'_id':False, 'title':True, 'story':True})]
     return stories
 def deletestory(title):
+    db=init()
     if storyexists(title):
         db.stories.remove({'title':title})
+    else:
+        return "There is no story under that title."
 
 def authorname(title):
-    name = db.stories.find_one({'title':title})['author']
-    return name
+    db=init()
+    data = [s for s in db.stories.find({'title':title},fields={'_id':False})]
+    return data['author']
 
 def storylines(title):
-    lines=db.stories.find_one({'title':title})['lines']
+    db=init()
+    lines=db.stories.find({'title':title},fields={'_id':False})
     return lines
