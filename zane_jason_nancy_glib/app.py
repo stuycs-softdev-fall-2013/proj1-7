@@ -142,6 +142,10 @@ def create():
 	story = request.form['story']
 	author = session['user']
 
+	if not title:
+		d['title-error'] = True
+		return render_template("create.html", d=d)
+
 	auth.create_story(author, title, story)
 
 	return redirect(url_for('home'))
