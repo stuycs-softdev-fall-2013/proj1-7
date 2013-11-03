@@ -6,45 +6,34 @@
 
 <div class="row">
 
-<div class="large-2 push-10 columns">
+<!--div class="large-2 push-10 columns">
   <div class="section-container accordion" data-section="accordion">
     <div class="section">
-      <p class="title" data-section="title"><a href="/users/{{user.username}}"><u><b>{{user.username}}</b></u></a></p>
+      <p class="title" data-section="title"><a href="/users/{#{user.username}#}"><u><b>{#{user.username}#}</b></u></a></p>
     </div>
   </div>
-</div>
+</div-->
 
 
-<div class="large-10 pull-2  columns blogtitle">
+<div class="large-10 large-centered  columns blogtitle">
   
   <div class="row">
     <div class="large-11 small-centered columns">
-      
-      <legend class="blogtitle"><h1 >Post 1</h1></legend>
-      
-      <p>BLOG CONTENT TEXT STUFF</p><hr>
-      
-      <ul class="no-bullet">Tags
-	<li>
-	  <ul>
-	    <li><a href="#">tag1</a></li>
-	    <li><a href="#">tag2</a></li>
-	    <li><a href="#">tag3</a></li>
-	  </ul>
-	</li>
-      </ul>
-
+      <legend class="blogtitle"><h1><a href="/posts/{#{post.get_id()}#}">{{post.title}}</a></h1></legend>
+      <h6><i>Posted by </i><a href="/users/{{post.user}}">{{post.user}}</a><i> on {#{post.get_datestring()}#}</i></h6>
+      <p>{{post.body}}</p>
+      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={#{post.get_id()}#}&last=home">upvote</a>{% endif %}</p>
+      <hr>
     </div>
   </div>
-  
   <div class="row">
     <div class="large-10 large-centered columns">
       
       <!--legend class="blogtitle"><h2 >Comments</h2></legend-->
       <div class="row">
 	
-	<form>
-	  
+	{% if user is defined %}
+	<form>	  
 	  <legend class="blogtitle"><h4>Leave a Comment</h4></legend>
 	  <div class="row">
 	    <div class="large-12 columns">
@@ -52,10 +41,10 @@
 	    </div>
 	  </div>
 	  <a href="#" class="button secondary small">Comment!</a>
-	  
-	  
 	</form>
-	
+	{% endif %}
+
+	<h4>Comments</h4>
 	<dl>
 	  <dt><u><a href="#">User4</a>:</u></dt>
 	  <dd>at <i>10/28/2013 7:20</i><br>This is User4's comment.</dd>
