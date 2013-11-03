@@ -18,12 +18,21 @@ def getStoryID(eyeD):
     story = db.story.find_one({'_id':eyeD})
     return story
 
+def getUserID(author):
+    user = db.user.find_one({'user':author})
+    return user_id
+
 def create(author, title, story):
-    return db.story.insert({'author':author, 'title':title, 'story':story})
+    title = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':datetime.datetime.now()})
+    line = db.line.add({'author':getUserID(author), 'text':story, 'timestamp':datetime.datetime.now()})
+    story = db.story.add({'author':getUserID(author), 'ids':[title,line], 'timestamp':datetime.datetime.now(), 'completed':False})
+    db.user.update({'user':author}, {'%set': {'owned':owned.append(story), 'lines':lines.extend([title,line])}})
+    #return db.story.insert({'author':author, 'title':title, 'story':story})
+
 
 def register(user, pw):
     if not checkuser(user):
-        db.login.insert({'user':user, 'pass':pw, 'owned':[],'contributed':[],'timestamp':datetime.datetime.now()})
+        db.login.insert({'user':user, 'pass':pw, 'owned':[],'contributed':[], 'lines':[]})
         return True
     else:
         return False
