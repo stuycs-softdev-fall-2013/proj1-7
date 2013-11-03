@@ -58,15 +58,17 @@
       	    {% endfor %}
       	  </div>
       {% endfor %}
-      {% if d['page_num'] != 1 %}
-	  <a href="{{ d['path'] }}/{{ d['page_num']-1 }}"
-	    class="btn btn-inverse"> Prev page </a>
-	  {% endif %}
-	  {% if not d['page_num'] != d['num_pages'] %}
-	  <div class="pull-right">
-	  	<a href="{{ d['path'] }}/{{ d['page_num']+1 }}"
-	  	   class="btn btn-inverse"> Next page </a>
-	  </div>
+      {% if d['loggedIn'] %}
+      	  {% if d['page_num'] != 1 %}
+	  	  <a href="{{ d['path'] }}/{{ d['page_num']-1 }}"
+	    	class="btn btn-inverse"> Prev page </a>
+	  	  {% endif %}
+	  	  {% if not d['page_num'] != d['num_pages'] %}
+	  	  <div class="pull-right">
+	  		<a href="{{ d['path'] }}/{{ d['page_num']+1 }}"
+	  	   	   class="btn btn-inverse"> Next page </a>
+	  	  </div>
+	  	  {% endif %}
 	  {% endif %}
     </div>
 

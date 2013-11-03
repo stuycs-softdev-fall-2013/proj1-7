@@ -45,7 +45,7 @@ def home(page_num=1):
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Log in':
-		if auth.handle_login(form):
+		if auth.handle_login(request.form):
 			d['loggedIn'] = True
 			return render_template("home.html", d=d)
 		

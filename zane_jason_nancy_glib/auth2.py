@@ -150,7 +150,7 @@ def reset():
 	db.stories.drop()
 
 def handle_login(form):
-	if login(form['usern'], form['passw']):
+	if login(form['username'], form['password']):
 		session['user'] = form['usern']
 		return True
 	
