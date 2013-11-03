@@ -65,6 +65,16 @@ def removeuser(name):
     connection.execute(q);
     return True;
 
+#precondition: username, newPwd are str
+#postcondition: changes password of User with username to newPwd
+def changePassword(username, newPwd):
+    q = "select Users.password from Users where username=%s"%(username);
+    ps = connection.execute(q);
+    if(ps == None):
+        return False;
+    q = "UPDATE Users SET password=%s where username=%s"%(newPwd, username);
+    
+
 #precondition: usr is str
 #postcondition:
     #returns True if user is an admin
@@ -79,6 +89,18 @@ def isAdmin(name):
         return True;
     else:
         return False;
+
+#precondition:
+    #attr is str and is the name of desired attribute, as given at top of this file
+#postcondition:
+    #returns False if User DNE
+    #otherwise, returns attribute attr of User with username
+    #e.g. getUserAttr("Jim", "password") --> "applesauce"
+def getUserAttr(username, attr):
+    q = "select Users.%s where username=%s"%(attr,username);
+    if(q == None):
+        return False;
+    return connection.execute(q);
 
 
 #precondition: author,title,body are str
@@ -172,3 +194,5 @@ def getAllTitles():
     return connection.execute(q);
 
 
+
+adduser("jduda", "asdf", 1);
