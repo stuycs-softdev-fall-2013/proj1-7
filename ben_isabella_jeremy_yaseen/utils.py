@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 from elasticsearch import Elasticsearch
 from pymongo import MongoClient
 from settings import DB_NAME, ES_REPEAT
@@ -9,6 +10,7 @@ db = cli[DB_NAME]
 index_task = sched.scheduler(time.time, time.sleep)
 if not es.indices.exists('bloginator'):
     es.indices.create('bloginator')
+
 
 def index():
     for cursor in db.posts.find():
@@ -25,6 +27,12 @@ def search(keyword):
     results = es.search(index='bloginator', doc_type='post', body=query)
     posts = [p['_source'] for p in results['hits']['hits']]
     return posts
+
+
+def clear_index():
+    query = {'match_all': {}}
+    es.delete_by_query('bloginator', doc_type='post', body=query)
+
 
 if __name__ == '__main__':
     index_task.enter(ES_REPEAT, 1, index, ())

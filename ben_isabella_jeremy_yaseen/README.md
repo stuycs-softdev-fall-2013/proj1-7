@@ -1,5 +1,5 @@
-Team Awesome
-=============
+Blog Nation
+===========
 
 ## Members
 * Benjamin Attal (Leader)

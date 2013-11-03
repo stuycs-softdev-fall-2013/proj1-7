@@ -6,20 +6,24 @@ from settings import POST_COLLECTION
 
 class PostModel(Model):
 
-    def __init__(self, db, objects, obj):
-        super(PostModel, self).__init__(db, objects, obj)
+    def __init__(self, db, collection, obj):
+        super(PostModel, self).__init__(db, collection, obj)
         self.user = obj['user']
         self.title = obj['title']
         self.body = obj['body']
         self.tags = obj['tags']
+        self.upvotes = obj['upvotes']
         self.date = obj['date']
         self.comments = Comment()
 
+    def vote_up(self):
+        self.upvotes += 1
+        self.collection.objects.update({'_id': self._id},
+                {'$inc': {'upvotes': 1}})
+
     # Adds a comment on this post
     def add_comment(self, **kwargs):
-        new_args = kwargs
-        new_args['post_id'] = self._id
-        return self.comments.insert(**new_args)
+        return self.comments.insert(post_id=self._id, **kwargs)
 
     # Gets comments on this post
     def get_comments(self):
@@ -40,11 +44,9 @@ class Post(Collection):
     def __init__(self):
         super(Post, self).__init__(POST_COLLECTION, PostModel)
 
-    # Return posts sorted by date for front page
-    def get_by_date(self):
-        return self.sort_by([('date', -1)])
+    def insert(self, **kwargs):
+        return super(Post, self).insert(upvotes=0, **kwargs)
 
-    # Get posts that have a certain tag
-    def get_by_tag(self, tag):
-        results = self.objects.find({'tags': {'$in': [tag]}})
-        return self.to_objects(results)
+    # Return most popular posts
+    def get_most_voted(self):
+        return self.sort_by([('upvotes', -1), ('date', -1)])

@@ -1,0 +1,18 @@
+<html>
+    {% include "style.html" %}
+    <body>
+        {% include "navbar.html" %}
+
+        <div class="container">
+            <h2 class="text-center">{{ story.title }}</h2>
+            <hr>
+            <br>
+            {% for paragraph in story.content.split('<p>')%}
+            {% if paragraph != "" %}
+                <p>{{ paragraph }}</p>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+    </body>
+</html>

@@ -1,39 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Storyinator</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang = "en">
+  
+  <head>
+    {% include "lib.html" %}
 
-		{% include "lib.html" %}
-	</head>
+    <title> Storyinator </title>    
 
+  </head>
+  
+  <body>
+    {% include "navbar.html" %}
+    {% if d['error'] %}
+    	<div class="alert alert-error" align="center"
+    		 style="width:350px; margin:0px auto 10px auto">
+      	  Incorrect username and password combination.
+    	</div>
+    {% endif %}
+    <div class="container">  
+      <div class="hero-unit">
+	<h1> The Storyinator </h1>
+	<p> Welcome to the Storyinator. </p>
+      </div>
+    </div>
 
-	<body>
-		{% include "navbar.html" %}
+    <div class="container">
+		<ul class="nav nav-tabs">
+			{% if d['order'] == 'popular' %}
+				<li class="active">
+					<a href="/">Popular</a>
+				</li>
+				<li><a href="/home-recent">Recent</a></li>
+			{% else %}
+				<li><a href='/'>Popular</a></li>
+				<li class="active">
+					<a href="/home-recent">Recent</a>
+				</li>
+			{% endif %}
+		</ul>
 
-		<div class="container">
-			<div class="hero-unit">
-				<h1>The Storyinator</h1>
-				<p>Welcome to the Storyinator. Feel free to browse around the existing stories. If you want to
-				begin making stories, get started by creating an account.</p>
-			</div>
-		</div>
-
-		<div class="container">
-			{% for story in d['stories'] %}
-				<h4> {{ story[0] }} </h4>
-				<div class="well">
-					{% for line in story[1:] %}
-						{{ line }}<br>
-					{% endfor%}
-				</div>
-			{% endfor %}
-		</div>
-
-		<hr>
-		<footer>
-			<p>&copy; League of Awesome 2013</p>
-		</footer>
-	</body>
+      <a id="stories"></a>
+      {% for story in d['stories'] %}
+      	  <h3> <a href="/story/{{story['_id']}}">{{story['title']}}</a></h3>
+      	  <div class="well">
+	    	{{story['text']}}
+      	  </div>
+      {% endfor %}
+    </div>
+    
+    <hr>
+    
+    <footer>
+      <p> &copy; League of Awesome 2013 </p>
+    </footer>
+  </body>
+  
 </html>
