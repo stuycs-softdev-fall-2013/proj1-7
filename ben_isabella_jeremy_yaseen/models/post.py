@@ -12,8 +12,14 @@ class PostModel(Model):
         self.title = obj['title']
         self.body = obj['body']
         self.tags = obj['tags']
+        self.upvotes = obj['upvotes']
         self.date = obj['date']
         self.comments = Comment()
+
+    def vote_up(self):
+        self.upvotes += 1
+        self.collection.objects.update({'_id': self._id},
+                {'$inc': {'upvotes': 1}})
 
     # Adds a comment on this post
     def add_comment(self, **kwargs):
@@ -37,6 +43,9 @@ class Post(Collection):
 
     def __init__(self):
         super(Post, self).__init__(POST_COLLECTION, PostModel)
+
+    def insert(self, **kwargs):
+        super(Post, self).insert(upvotes=0, **kwargs)
 
     # Return posts sorted by date for front page
     def get_by_date(self):

@@ -130,10 +130,14 @@ def post(id):
         u = users.find_one(username=username)
         if request.method == "GET":
             return render_template(post=p, user=u)
-        else:
+        elif request.form["button"] == "Submit":
             #I'm assuming you can only comment if you're logged in
             comment = request.form["comment"]
             p.add_comment(user=u, text=comment)
+            return render_template("post.html", post=p, user=u)
+        else:
+            #Vote up button was pressed
+            p.vote_up()
             return render_template("post.html", post=p, user=u)
     else:
         return render_template("post.html", post=p)
