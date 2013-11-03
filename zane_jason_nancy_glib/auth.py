@@ -8,7 +8,8 @@ db = connection.database
 def add(eyeD, lines, author, title):
     lineId = db.line.insert({'author':author, 'text':lines, 'title':title, 'timestamp':datetime.datetime.now()})
     text = [s for s in db.story.find({'_id':ObjectId(eyeD)}, fields = {'text':True})][0]['text']
-    db.story.update({'_id':ObjectId(eyeD)}, {'$set':{'text': text.extend[lineId]}})
+    text.append(lineId)
+    db.story.update({'_id':ObjectId(eyeD)}, {'$set':{'text': text}})
 
 def getLine(eyeD):
     line = [s for s in db.line.find({'_id':eyeD}, fields={'_id':False, 'text':True})]
@@ -40,12 +41,12 @@ def create(author, title, story):
     if owned == None:
         owned = [story]
     else:
-        owned = owned.append(story)
+        owned.append(story)
     lines = info['lines']
     if lines == None:
         lines = [line]
     else:
-        lines = lines.append(lines) 
+        lines.append(line)
     db.user.update({'user':author}, {'$set': {'owned':owned, 'lines':lines}})
 
 def register(user, pw):

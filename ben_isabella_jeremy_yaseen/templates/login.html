@@ -13,6 +13,11 @@
 	    <legend class="blogtitle">Log In</legend>
 	    <div class="row">
 	      <div class="large-12 columns">
+		{% if error is defined %}
+		{% if error == "badlogin" %}
+		<h4 style="color:red;">Incorrect Log In Info</h4>
+		{% endif %}
+		{% endif %}
 		<label class="topdiv-text">Username</label>
 		<input type="text" name="username">
 	      </div>

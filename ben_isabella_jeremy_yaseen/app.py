@@ -44,7 +44,7 @@ def login():
                     return redirect(url_for("home"))
                 else:
                     #Add some error message
-                    return render_template("login.html")
+                    return render_template("login.html", error="badlogin")
             else:
                 return redirect(url_for("register"))
 
@@ -68,7 +68,7 @@ def register():
             if request.form["button"] == "Submit":
                 if users.exists(username):
                     #Add an error message here
-                    return render_template("register.html")
+                    return render_template("register.html", error="alreadyregistered")
                 else:
                     users.insert(username=username, password=password)
                     session["username"] = username
