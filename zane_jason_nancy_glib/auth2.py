@@ -1,9 +1,10 @@
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 from time import time
+from math import ceil
 
 db = MongoClient().database
-PAGE_LEN = 10 #number of stories per page
+PAGE_LEN = 5 #number of stories per page
 
 #create a new story
 def create_story(author, title, first_line):
@@ -153,3 +154,7 @@ def handle_login(form):
 		return True
 	
 	return False
+
+def get_num_pages():
+	stories = [s for s in db.stories.find()]
+	return int(ceil(len(stories) / PAGE_LEN))

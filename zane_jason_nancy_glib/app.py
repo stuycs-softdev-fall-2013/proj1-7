@@ -10,11 +10,17 @@ def getInfo():
 	passw = request.form['password']
 	return username, passw
 
-@app.route("/", methods = ['GET', 'POST'])
-@app.route("/page/<page_num>", methods = ['GET', 'POST'])
+@app.route('/')
+def root():
+	return redirect(url_for('home'))
+
 @app.route("/home-recent", methods = ['GET', 'POST'])
+@app.route("/home-popular", methods = ['GET', 'POST'])
 @app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
+@app.route("/home-popular/page/<page_num>", methods = ['GET', 'POST'])
 def home(page_num=1):
+	page_num = int(page_num)
+
 	d = {}
 
 	if request.path.find('home-recent') != -1:
@@ -22,9 +28,13 @@ def home(page_num=1):
 	else:
 		d['order'] = 'popular'
 
+	path = request.base_url
 	d['stories'] = auth.get_stories(d['order'], page_num)
 	d['error'] = False
 	d['loggedIn'] = False
+	d['path'] = path[:path.rfind('/')]
+	d['page_num'] = page_num
+	d['num_pages'] = auth.get_num_pages()
 			
 	if 'user' in session:
 		d['loggedIn'] = True
