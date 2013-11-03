@@ -35,7 +35,7 @@ def addUser(username, password):
     cursor = connection.execute(q, [username])
     results = [line for line in cursor]
     if len(results) == 0:
-        q = "insert into account_info values(?, ?, 0, '', '', '', '', '')"
+        q = "insert into account_info values(?, ?, 0, '', '', '', '')"
         connection.execute(q, [username, password])
         connection.commit()
         return True
