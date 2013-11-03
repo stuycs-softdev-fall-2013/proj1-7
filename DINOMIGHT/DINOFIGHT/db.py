@@ -56,20 +56,20 @@ def stories_by_user(username):
     c = connection.cursor()
     stories = c.execute("SELECT DISTINCT storyid FROM storyinfo WHERE username=(?)",(username,)).fetchall()
     connection.close()
-    return stories
+    return [s[0] for s in stories]
 
 def stories_with_user_contributions(username):
     connection = sqlite3.connect(db)
     c = connection.cursor()
     stories = c.execute("SELECT DISTINCT storyid FROM sentenceinfo WHERE username=(?)",(username,)).fetchall()
     connection.close()
-    return stories
+    return [s[0] for s in stories]
 
 
 def get_title(storyid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()
+    return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()[0]
 
 def incr_inappropriates(sentenceid):
     connection = sqlite3.connect(db)
