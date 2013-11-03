@@ -1,9 +1,11 @@
+from flask import session
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 from time import time
+from math import ceil
 
 db = MongoClient().database
-PAGE_LEN = 10 #number of stories per page
+PAGE_LEN = 5 #number of stories per page
 
 #create a new story
 def create_story(author, title, first_line):
@@ -18,17 +20,20 @@ def create_story(author, title, first_line):
 
 #try to register, return False on failure
 def register(usern, passw, passwcf):
+	errcode = []
 	if passw != passwcf:
-		return False
+		errcode.append('passw-mismatch')
 
 	matched_users = [user for user in db.users.find({'name': usern})]
 
 	if len(matched_users) != 0:
-		return False
+		errcode.append('usern-used')
 
-	db.users.insert({'name': usern, 'password': passw,
-					 'stories': [], 'lines': [] })
-	return True
+	if not errcode:
+		db.users.insert({'name': usern, 'password': passw,
+					 	 'stories': [], 'lines': [], 'upvoted': [],
+					 	 'downvoted': [] })
+	return errcode
 
 #add a line to a story under an author's name
 def add_line(author, line, story_id):
@@ -49,11 +54,10 @@ def add_line(author, line, story_id):
 def get_stories(order, page_num):
 	if order == 'recent':
 		return get_recent_stories(page_num)
-
-	if order == 'popular':
+	elif order == 'popular':
 		return get_popular_stories(page_num)
-
-	return False
+	else:
+		return get_least_popular_stories(page_num)
 
 #return a page-worth of stories sorted by recency
 def get_recent_stories(page_num):
@@ -75,6 +79,19 @@ def get_popular_stories(page_num):
 
 	sorted_stories = sorted(stories, key=lambda k: k['karma'])
 	sorted_stories.reverse()
+
+	#replace line ids with line text
+	for story in sorted_stories:
+		for i in range(len(story['lines'])):
+			story['lines'][i] = get_line_text(story['lines'][i])
+
+	return sorted_stories[(page_num-1) * PAGE_LEN : page_num * PAGE_LEN]
+
+#return a page-worth of stories sorted by reverse popularity
+def get_least_popular_stories(page_num):
+	stories = db.stories.find()
+
+	sorted_stories = sorted(stories, key=lambda k: k['karma'])
 
 	#replace line ids with line text
 	for story in sorted_stories:
@@ -144,3 +161,57 @@ def reset():
 	db.users.drop()
 	db.lines.drop()
 	db.stories.drop()
+
+def handle_login(form):
+	if login(form['username'], form['password']):
+		session['user'] = form['username']
+		return True
+	
+	return False
+
+def get_num_pages():
+	stories = [s for s in db.stories.find()]
+	return int(ceil(len(stories) / PAGE_LEN))
+
+def upvote(usern, story_id):
+	story_id = ObjectId(story_id)
+	user = get_user(usern)
+
+	if story_id not in user['upvoted']:
+		db.stories.update({'_id': story_id},
+					  	  {'$inc': {'karma': 1}})
+		db.users.update({'_id': user['_id']},
+						{'$push': {'upvoted': story_id}})
+		if story_id in user['downvoted']:
+			db.users.update({'_id': user['_id']},
+							{'$pull': {'downvoted': story_id}})
+			db.stories.update({'_id': story_id},
+					  	  	  {'$inc': {'karma': 1}})
+
+def downvote(usern, story_id):
+	story_id = ObjectId(story_id)
+	user = get_user(usern)
+
+	if story_id not in user['downvoted']:
+		db.stories.update({'_id': story_id},
+					  	  {'$inc': {'karma': -1}})
+		db.users.update({'_id': user['_id']},
+						{'$push': {'downvoted': story_id}})
+		if story_id in user['upvoted']:
+			db.users.update({'_id': user['_id']},
+							{'$pull': {'upvoted': story_id}})
+			db.stories.update({'_id': story_id},
+					  	  	  {'$inc': {'karma': -1}})
+
+def get_upvoted(usern):
+	user = get_user(usern)
+	story_ids = user['upvoted']
+
+	return story_ids
+
+def get_downvoted(usern):
+	user = get_user(usern)
+	story_ids = user['downvoted']
+
+	return story_ids
+	

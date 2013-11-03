@@ -9,7 +9,6 @@ class CommentModel(Model):
         super(CommentModel, self).__init__(db, collection, obj)
         self.user = obj['user']
         self.text = obj['text']
-        self.date = obj['date']
         self.post_id = obj['post_id']
 
 

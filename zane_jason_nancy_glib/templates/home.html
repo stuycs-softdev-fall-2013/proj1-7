@@ -11,16 +11,11 @@
   
   <body>
     {% include "navbar.html" %}
-    {% if d['error'] %}
-    	<div class="alert alert-error" align="center"
-    		 style="width:350px; margin:0px auto 10px auto">
-      	  Incorrect username and password combination.
-    	</div>
-    {% endif %}
+
     <div class="container">  
       <div class="hero-unit">
 	<h1> The Storyinator </h1>
-	<p> Welcome to the Storyinator. </p>
+	<p> Where ideas come to procreate. </p>
       </div>
     </div>
 
@@ -28,14 +23,24 @@
 		<ul class="nav nav-tabs">
 			{% if d['order'] == 'popular' %}
 				<li class="active">
-					<a href="/">Popular</a>
+					<a href='/home-popular'>Popular</a>
 				</li>
-				<li><a href="/home-recent">Recent</a></li>
 			{% else %}
-				<li><a href='/'>Popular</a></li>
+				<li><a href='/home-popular'>Popular</a></li>
+			{% endif %}
+			{% if d['order'] == 'recent' %}
 				<li class="active">
 					<a href="/home-recent">Recent</a>
 				</li>
+			{% else %}
+				<li><a href='/home-recent'>Recent</a></li>
+			{% endif %}
+			{% if d['order'] == 'least-popular' %}
+				<li class="active">
+					<a href="/home-least-popular">Least popular</a>
+				</li>
+			{% else %}
+				<li><a href='/home-least-popular'>Least popular</a></li>
 			{% endif %}
 		</ul>
 
@@ -46,25 +51,49 @@
       	  	  {{ story['title'] }}
       	  	</a>
       	  	<span class="pull-right">
-      	  	  <a href='/upvote/{{ story["id"] }}' class="btn btn-success">
-      	  	    Good
-      	  	  </a>
-      	  	  <a href='/downvote/{{ story["id"] }}' class="btn btn-danger">
-      	  	    Bad
-      	  	  </a>
 
-      	  	  {{ story['karma'] }}
+      	  	  {% if d['loggedIn'] == true %}
+      	  	  <form method="POST" class='span3'>
+      	  	  	  <input type='submit' class="btn btn-success"
+      	  	  	  		 name='button' value="Upvote"/>
+      	  	  	  <input type='submit' class="btn btn-danger"
+      	  	  	  		 name='button' value='Downvote'/>
+      	  	  	  <input type='hidden' name='story_id'
+      	  	  	  		 value='{{ story["_id"] }}'/>
+      	  	  </form>
+      	  	  {% endif  %}
+
+			  {% if story['_id'] in d['upvoted'] %}
+			  <span class="span1" style="color:green">
+      	  	  {% elif story['_id'] in d['downvoted'] %}
+			  <span class="span1"style="color:red">
+      	  	  {% else %}
+      	  	  <span class="span1">
+      	  	  {% endif %}
+      	  	    {{ story['karma'] }}
+      	  	  </span>
       	  	</span>
       	  </h3>
 
       	  <div class="well">
-      	    {% for line in story['lines'][0:5] %}
+      	    {% for line in story['lines'] %}
       	      {{ line }}
       	    {% endfor %}
       	  </div>
       {% endfor %}
+      	  {% if d['page_num'] != 1 %}
+	  	  <a href="{{ d['path'] }}/{{ d['page_num']-1 }}"
+	    	class="btn btn-inverse"> Prev page </a>
+	  	  {% endif %}
+	  	  {% if not d['page_num'] != d['num_pages'] %}
+	  	  <div class="pull-right">
+	  		<a href="{{ d['path'] }}/{{ d['page_num']+1 }}"
+	  	   	   class="btn btn-inverse"> Next page </a>
+	  	  </div>
+	  {% endif %}
     </div>
-    
+
+
     <hr>
     
     <footer>

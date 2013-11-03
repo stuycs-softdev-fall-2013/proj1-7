@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from time import time
 
 def init():
     client = MongoClient()
@@ -35,7 +36,7 @@ def storyexists(title):
 def makestory(title, author, story, date):
     db=init()
     if not storyexists(title):
-        db.stories.insert({'title':title, 'author':author, 'story':story, 'date':date, })
+        db.stories.insert({'title':title, 'author':author, 'story':story, 'time':time(), })
     else:
         return "Title already exists. Please create a new title."
 

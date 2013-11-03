@@ -20,9 +20,9 @@ if __name__ == '__main__':
 
     # Adding comment to first post
     p.add_comment(user="Jeremy", text="this is stupid")
-    u.vote_up(p._id)
-    u2.vote_up(p._id)
-    u.vote_up(p2._id)
+    u.vote_up(p.get_id())
+    u2.vote_up(p.get_id())
+    u.vote_up(p2.get_id())
 
     print "Getting comments from Jeremy..."
     for c in u2.get_comments():

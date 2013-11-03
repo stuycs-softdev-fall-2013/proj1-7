@@ -1,0 +1,33 @@
+body {
+	padding: 0;
+	margin: 0;
+}
+#header {
+	width:100%;
+	position:relative;
+	margin-bottom:10px;
+}
+div.centered
+{
+	position:absolute;
+	left:50%;
+}
+div.centered>*
+{
+	position:relative;
+	left:-50%;
+}
+ul.menu {
+	padding:5px;
+	list-style: none;
+	padding:10px;
+}
+ul.menu > li {
+	display:inline;
+	font-size:2em;
+	text-align:center;
+	margin:20px;
+}
+ul.menu > #active {
+	font-size:3em;
+}

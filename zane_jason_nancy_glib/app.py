@@ -10,39 +10,62 @@ def getInfo():
 	passw = request.form['password']
 	return username, passw
 
-@app.route("/", methods = ['GET', 'POST'])
-@app.route("/page/<page_num>", methods = ['GET', 'POST'])
+@app.route('/')
+def root():
+	return redirect(url_for('home'))
+
 @app.route("/home-recent", methods = ['GET', 'POST'])
+@app.route("/home-least-popular", methods = ['GET', 'POST'])
+@app.route("/home-popular", methods = ['GET', 'POST'])
 @app.route("/home-recent/page/<page_num>", methods = ['GET', 'POST'])
+@app.route("/home-popular/page/<page_num>", methods = ['GET', 'POST'])
+@app.route("/home-least-popular/page/<page_num>",
+		   methods = ['GET', 'POST'])
 def home(page_num=1):
-	d = {'usern': session['user']}
+	page_num = int(page_num)
+
+	d = {}
 
 	if request.path.find('home-recent') != -1:
 		d['order'] = 'recent'
-	else:
+	elif request.path.find('home-popular') != -1:
 		d['order'] = 'popular'
+	else:
+		d['order'] = 'least-popular'
 
+	path = request.base_url
 	d['stories'] = auth.get_stories(d['order'], page_num)
 	d['error'] = False
 	d['loggedIn'] = False
+	d['path'] = path[:path.rfind('/')]
+	d['page_num'] = page_num
+	d['num_pages'] = auth.get_num_pages()
 			
 	if 'user' in session:
+		usern = session['user']
 		d['loggedIn'] = True
-		return render_template("home.html", d=d)
+		d['downvoted'] = auth.get_downvoted(usern)
+		d['upvoted'] = auth.get_upvoted(usern)
+
+		if request.method == "GET":
+			return render_template("home.html", d=d)
+		elif request.form['button'] == "Upvote":
+			auth.upvote(usern, request.form['story_id'])
+			return redirect(request.url)
+		elif request.form['button'] == "Downvote":
+			auth.downvote(usern, request.form['story_id'])
+			return redirect(request.url)
 
 	if request.method == 'GET':
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Log in':
-		user, pw = getInfo()
-
-		if auth.login(user, pw):
-			session['user'] = user
+		if auth.handle_login(request.form):
 			d['loggedIn'] = True
 			return render_template("home.html", d=d)
 		
 		#login failure
-		d['error'] = True
+		d['login-failure'] = True
 		return render_template("home.html", d=d)
 
 	if request.form['button'] == 'Register':
@@ -53,19 +76,30 @@ def register():
 	if 'user' in session:
 		return redirect(url_for('home'))
 
+	d = {'usern-used': False,
+		 'passw-mismatch': False}
+
 	if request.method == 'GET':
-		return render_template("register.html", error = False)
+		return render_template("register.html", d=d)
 
 	#POST
+	if request.form['button'] == 'Log in':
+		if handle_login(request.form):
+			render_template
+
 	usern = request.form['username']
 	passw = request.form['password']
 	passwcf = request.form['password-confirm']
 
-	if auth.register(usern, passw, passwcf):
+	errcode = auth.register(usern, passw, passwcf)
+
+	if not errcode: #success
 		session['user'] = usern
 		return redirect(url_for('home'))
 
-	return render_template("register.html", error = True)
+	for err in errcode:
+		d[err] = True
+	return render_template("register.html", d=d)
 
 @app.route("/story/<story_id>", methods=['GET','POST'])
 def story(story_id): 
@@ -107,6 +141,10 @@ def create():
 	title = request.form['title']
 	story = request.form['story']
 	author = session['user']
+
+	if not title:
+		d['title-error'] = True
+		return render_template("create.html", d=d)
 
 	auth.create_story(author, title, story)
 

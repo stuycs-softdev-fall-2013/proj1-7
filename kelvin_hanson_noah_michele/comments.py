@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import timedelta
 
 client = MongoClient()
 db = client.KMNH
@@ -6,12 +7,12 @@ users = db.users
 posts = db.posts
 comments = db.comments
 
-def addComment(usr,post_id,comment):
+def addComment(usr,post_id,comment,timestamp):
     if usr == None:
         usr = "guest"        
     if(post_id==None or comment==None):
         return False
-    comments.insert({'usr':usr,'post_id':post_id,'comment':comment})
+    comments.insert({'usr':usr,'post_id':post_id,'comment':comment,'timestamp':datetime.datetime.now()})
     
 
 def editComment(usr,comment,newcomment):
