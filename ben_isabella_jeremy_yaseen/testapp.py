@@ -16,11 +16,15 @@ def home():
 
 @app.route("/")
 def hoome():
-    return render_template("index.html",posts=posts)
+    return render_template("index.html")
 
 @app.route("/register")
 def signup():
     return render_template("register.html")
+
+@app.route("/user/<user>", method=["GET"])
+def user_page(user):
+    return render_template("userpage.html", target_user=u, user=u)
 
 
 if __name__ == '__main__':
