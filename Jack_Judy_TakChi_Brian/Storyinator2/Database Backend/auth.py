@@ -26,29 +26,25 @@ def login(user, pw):
     users = [user for user in db.login.find({'user':user},
                                            fields={'_id':False,'user':True, 'pass':True})]
     return users[0]['pass'] == pw
-
+############################################################################################
 #story stuff
 def storyexists(title):
     db=init()
     return db.stories.find_one({'storytitle':title})
 
-def addstory(title, author, story, date):
+def makestory(title, author, story, date):
     db=init()
     if not storyexists(title):
-        db.stories.insert({'title':title, 'author':author, 'date':date, 'addedlines':0})
+        db.stories.insert({'title':title, 'author':author, 'story':story, 'date':date, })
+    else:
+        return "Title already exists. Please create a new title."
 
-def savenewstory(title):
+def addtostory(lines,title):
     db=init()
-    story = db.stories.find_one({'title':title})
-    story['addedlines'] = story['addedlines'] + 1
-    db.stories.save(story)        
-    
-def addtostory(line,title):
-    db=init()
-    data = [x for x in db.stories.find({'title':title},fields={'_id':False})]
+    data = [s for s in db.stories.find({'title':title},fields={'_id':False})]
     data = data[0]
-    newStory = data['title']+line
-    db.stories.update({'title':title},{'$set':{'newStory}})
+    new = data['title']+lines
+    db.stories.update({'title':title},{'$set':{'story':new}})
 
 
 def FindMine(author):
@@ -63,13 +59,15 @@ def deletestory(title):
     db=init()
     if storyexists(title):
         db.stories.remove({'title':title})
+    else:
+        return "There is no story under that title."
 
 def authorname(title):
     db=init()
-    name = db.stories.find_one({'title':title})['author']
-    return name
+    data = [s for s in db.stories.find({'title':title},fields={'_id':False})]
+    return data['author']
 
 def storylines(title):
     db=init()
-    lines=db.stories.find_one({'title':title})['lines']
+    lines=db.stories.find({'title':title},fields={'_id':False})
     return lines
