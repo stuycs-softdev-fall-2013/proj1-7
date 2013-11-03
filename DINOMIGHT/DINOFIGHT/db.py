@@ -51,10 +51,17 @@ def get_story(storyid):
     return story
 
 
-def stories_for_user(username):
+def stories_by_user(username):
     connection = sqlite3.connect(db)
     c = connection.cursor()
     stories = c.execute("SELECT DISTINCT storyid FROM storyinfo WHERE username=(?)",(username,)).fetchall()
+    connection.close()
+    return stories
+
+def stories_with_user_contributions(username):
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    stories = c.execute("SELECT DISTINCT storyid FROM sentenceinfo WHERE username=(?)",(username,)).fetchall()
     connection.close()
     return stories
 
