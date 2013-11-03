@@ -1,4 +1,4 @@
-#The Groupinator Project
+#The Bloginator Project
 
 ##Group Members: 
 - Sabrina Khan 
