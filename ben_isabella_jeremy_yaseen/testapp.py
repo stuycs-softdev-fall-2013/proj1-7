@@ -4,11 +4,11 @@ from flask import Flask, render_template, session, redirect, request, url_for
 
 app = Flask(__name__)
 
-u={"username":"ME"}
+u={"username":"YaseenMe"}
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html",user=u)
 
 
 if __name__ == '__main__':
