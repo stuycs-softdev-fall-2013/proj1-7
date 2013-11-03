@@ -23,7 +23,7 @@ def getUserID(author):
     return user
 
 def create(author, title, story):
-    date = datetime.datetime.now()
+    date = datetime.datetime.utcnow()
     line = db.line.add({'author':getUserID(author), 'text':title, 'timestamp':date})
     story = db.story.add({'author':getUserID(author), 'title':title, 'ids':[line], 'timestamp':date, 'completed':False})
     db.user.update({'user':author}, {'$set': {'owned':owned.append(story), 'lines':lines.extend([line])}})
