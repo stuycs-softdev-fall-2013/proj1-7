@@ -4,12 +4,16 @@
         {% include "navbar.html" %}
 
         <div class="container">
-            <h2 class="text-center">New Title</h2>
-			<form method="POST">
-				<textarea class="form-control" rows="1" name="newtitle"></textarea>
-				<br>
-				<button type="Submit" class="btn btn-primary pull-right" name="submit">Submit</button>
-			</form>
+            <div class="appendarea">
+                <form method="POST">
+                    <div class="input-group">
+                        <span class="input-group-addon">Fork name</span>
+                        <textarea class="form-control" rows="1" name="newtitle">My new Fork</textarea>
+                        <br>
+                    </div>
+                        <button type="Submit" class="btn btn-primary pull-right" name="submit">Submit</button>
+                </form>
+            </div>
 			<br>
             <hr>
             <br>
