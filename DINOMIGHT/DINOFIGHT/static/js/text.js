@@ -1,9 +1,10 @@
 
 var closingPunctuation = ['?','.','!'];
 var t;
-function checkKey(target, key) {
+function checkKey(target, key, func) {
+	func = (typeof func === "undefined") ? function(c) { return false;} : func;
 	var c = String.fromCharCode(key.charCode);
-	if(closingPunctuation.indexOf(c) != -1) {
+	if(func(key) || closingPunctuation.indexOf(c) != -1 ) {
 		target.value += c;
 		confirmSubmit(target);
 	}

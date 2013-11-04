@@ -4,10 +4,7 @@
 <title> Register </title>
 <meta charset = "UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="../static/jquery-2.0.3.js"></script>
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="../static/bootstrap/js/bootstrap.js"></script>
+{% include "toolbar.html" %}
 </head>
 
 <body>
@@ -15,28 +12,29 @@
 <h1> <font color = "cornflowerblue"> Register </font></h1>
 <table class = "table table-hover">
   <tr> <td>
-    <form role="form">
+    <form method="POST" role="form">
+      <font color="red">{{m}}</font>
       <div class="form-group">
       <label for="InputFirstname">First Name</label>
-      <input type="text" class="form-control" id="Firstname" placeholder="First Name">
+      <input type="text" class="form-control" name="Firstname" placeholder="First Name">
     </div>
       <div class="form-group">
       <label for="InputLastname">Last Name</label>
-      <input type="text" class="form-control" id="Lastname" placeholder="Last Name">
+      <input type="text" class="form-control" name="Lastname" placeholder="Last Name">
     </div>
     <div class="form-group">
       <label for="InputUsername">Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Enter username">
+      <input type="text" class="form-control" name="username" placeholder="Enter username">
     </div>
     <div class="form-group">
       <label for="InputPassword">Password</label>
-      <input type="password" class="form-control" id="pw" placeholder="Password">
+      <input type="password" class="form-control" name="pw" placeholder="Password">
     </div>
     <div class="form-group">
       <label for="InputConfirmedPassword">Confirm Password</label>
-      <input type="text" class="form-control" id="pw2" placeholder="Confirm Password">
+      <input type="password" class="form-control" name="pw2" placeholder="Confirm Password">
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default" name="button" value="Submit">Submit</button>
     </form>
   </td></tr>
 </table>

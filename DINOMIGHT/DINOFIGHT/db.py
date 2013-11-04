@@ -19,7 +19,7 @@ def add_story(user,title):
     storyid = c.execute("SELECT storyid FROM storyinfo WHERE username=(?) AND title = (?)",(user,title)).fetchone();
     connection.commit()
     connection.close()
-    return storyid[0] if len(storyid) > 0 else None
+    return storyid[0] if storyid is not None else None
 
 def add_sentence_to_story(user,storyid,sentence):
     #Add sentence to story
@@ -30,7 +30,7 @@ def add_sentence_to_story(user,storyid,sentence):
     sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND storyid = (?) AND sentence = (?)",(user,storyid,sentence)).fetchone()
     connection.commit()
     connection.close()
-    return sentenceid[0] if len(sentenceid) > 0 else None
+    return sentenceid[0] if sentenceid is not None else None
 
 
 def get_sentence(sentenceid):
@@ -54,7 +54,15 @@ def get_storyid(title):
     c = connection.cursor()
     sid = c.execute("SELECT storyid FROM storyinfo WHERE title=(?)", (title,)).fetchone()
     connection.close()
-    return sid[0] if len(sid) > 0 else None
+    return sid[0] if sid is not None else None
+
+def get_titles():
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    stories = c.execute("SELECT DISTINCT title FROM storyinfo").fetchall()
+    connection.close()
+    return [s[0] for s in stories]
+
 
 def stories_by_user(username):
     connection = sqlite3.connect(db)
@@ -79,7 +87,9 @@ def contributions_to_story(usern, storyid):
 def get_title(storyid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()[0]
+    title = c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()
+    connection.close()
+    return title[0] if title is not None else None
 
 def incr_inappropriates(sentenceid):
     connection = sqlite3.connect(db)
@@ -98,11 +108,23 @@ def random_story(username):
     shuffle(sids)
     ret = -1
     for sid in sids:
-        u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (username,)).fetchone()
-        u = u[0] if len(u) > 0 else ""
+        sid = sid[0]
+        sents = c.execute("SELECT sentenceid FROM sentenceinfo WHERE storyid=(?)", (sid,)).fetchone()
+        if sents is None:
+            user = c.execute("SELECT username FROM storyinfo WHERE storyid=(?)",(sid,)).fetchone()
+            user = user[0] if user is not None else ""
+            if user == username:
+                continue
+            else:
+                ret = sid
+                break
+
+        u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (sid,)).fetchone()
+        u = u[0] if u is not None else ""
         if u == username:
             continue
-        ret = u
+        ret = sid
+        break
     connection.close()    
     return None if ret == -1 else ret
 
@@ -129,7 +151,7 @@ def check_user(username,pw):
         c = conn.cursor()
         c.execute("SELECT pw FROM logins WHERE username=(?)", (username,))
         u = c.fetchone()
-        u = u[0] if len(u) > 0 else ""
+        u = u[0] if u is not None else ""
         if u != None:
                 ans = check_password_hash(u.encode('ascii'), pw)
                 conn.close()		
@@ -141,7 +163,7 @@ def user_exists(username):
     c = conn.cursor()
     c.execute("SELECT username FROM logins WHERE username=(?)", (username,))
     u = c.fetchone()
-    return u != None and len(u) > 0
+    return u is not None and len(u) > 0
 
 def change_pass(username, pw):
     pw = pw.encode('ascii')

@@ -9,10 +9,7 @@ and open the template in the editor.
         <title>All posts</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <script src="./jquery-2.0.3.js"></script>
-        <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap-responsive.css">
-        <script src="./bootstrap/js/bootstrap.js"></script>  
+	{% include "toolbar.html" %}
     </head>
     <body>  
         <div class="navbar navbar-inverse">
@@ -28,25 +25,15 @@ and open the template in the editor.
                 <div class="according-groups">
                     <div class="accordion-heading">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion1" href="#collapseOne">
-                            <h3>Post Title</h3>
+                            <span style="font-size:30px;">{% d[0][0] %}</span> <span style="font-size:12px">{% d[0][1] %}</span>
                         </a>
+                  
                     </div>
                     <div id="collapseOne" class="accordion-body collapse in">
                         <div class="accordion-inner">
 
                             <div class="hero-unit" style="max-width:1040px">
-                                POST CONTENT
-                                POST CONTENT
-                                POST CONTENT
-                                STUFFS.
-                                STUFFS I DO IN THE DAY
-                                STUFFS.
-                                I DIDN'T POOP TODAY
-                                I NEED TO PEE.
-                                I'M HUNGRY
-                                I'M THIRSTY
-                                YO TENGO HAMBRE.
-
+                                {% d[0][2] %}
                             </div>
                         </div>
 
@@ -54,38 +41,31 @@ and open the template in the editor.
 
                 </div>
 
-                <div class="accordion" id="accordion2">
-                    <div class="according-groups">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseTwo">
-                                <h3>Post Title</h3>
-                            </a>
-                        </div>
-                        <div id="collapseTwo" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-
-                                <div class="hero-unit" style="max-width:1040px">
-                                    POST CONTENT
-                                    POST CONTENT
-                                    POST CONTENT
-                                    STUFFS.
-                                    STUFFS I DO IN THE DAY
-                                    STUFFS.
-                                    I DIDN'T POOP TODAY
-                                    I NEED TO PEE.
-                                    I'M HUNGRY
-                                    I'M THIRSTY
-                                    YO TENGO HAMBRE.
-
-                                </div>
-                            </div>
-
-                        </div>
+            </div>
+            
+            <div style="width:800px; margin-left:auto; margin-right:0px" class="accordion" id="accordion2">
+                <div class="according-groups">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseTwo">
+                            <span style="font-size:20px;">Comments</span>
+                        </a>
+                  
                     </div>
+                    <div id="collapseTwo" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+                            
+                            <div class="hero-unit" style="max-width:1040px">
+                                {% d[1]['1'] %}
+                                {% d[1]['n'] %}
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
         </div>
-        
+
     </body>
 </html>

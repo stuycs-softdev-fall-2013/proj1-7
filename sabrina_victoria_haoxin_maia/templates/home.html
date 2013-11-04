@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title> BLOGINATOR </title>
+{% include "toolbar.html" %}
+<body>
+<div class="container">
+  <h2> POSTS: </h2>
+  {% set x = 0 %}
+  {% for post in blogs %}  
+  <div class="accordion" id="accordion1">
+    <div class="according-groups">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion{{x}}" href="#collapse{{x}}">
+	  <h3>{{post[0]}}</h3> <h5> posted at: {{post[1]}}</h5>
+        </a>
+      </div>
+      <div id="collapse{{x}}" class="accordion-body collapse in">
+        <div class="accordion-inner">
+	  
+          <div class="hero-unit" style="max-width:1040px">
+            {{post[2]}}
+	    
+          </div>
+        </div>
+	
+      </div>
+      
+    </div>
+    {% set x = x + 1 %}
+    {% endfor %}
+  </div>
+
+
+</div>
+</body>
+
+</html>
+
+

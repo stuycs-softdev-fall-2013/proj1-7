@@ -7,13 +7,13 @@
 	text-align:inherit;
 	padding:inherit;
 */}
-.write textarea {
+.write .input {
 	resize:none;
 	border:0;
 	font-style:oblique;
 	font-size:.9em;
 }
-.write textarea:focus {
+.write .input:focus {
 	outline:none;
 }
 

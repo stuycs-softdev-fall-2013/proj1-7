@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>New Posts</title>
-        <meta charset="UTF-8">
-        <script src="../static/jquery-2.0.3.js"></script>
-        <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" type="text/css" href="../static/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="../static/bootstrap/css/bootstrap-responsive.css">
-        <script src="../static/bootstrap/js/bootstrap.js"></script>
-        
-    </head>
-    <body>
-        <div class="container">
-            <div class="hero-unit">
-                <h2>Post something new!</h2>
-                <textarea style="width:500px;height:200px;max-width:1040px;" id="postcontent"  ></textarea>
-                <br/><br/>
-                <span class="btn-large btn" id="submitpost"> SUBMIT POST</span>
-            </div>
-        </div>
-    </body>
+  <head>
+    <title>New Posts</title>
+    <meta charset="UTF-8">
+    <script src="../static/jquery-2.0.3.js"></script>
+    <meta name="viewport" content="width=device-width">
+    {% include "toolbar.html" %}
+    
+  </head>
+  <body>
+    <div class="container">
+      <form method="POST" >
+	<div class="hero-unit">
+	  
+          <h2>Post something new!</h2>
+	  <front color="red">{{m}}</front>
+	  <h4> Title </h4>
+	  <textarea style="width: 500px;height:20px;"name="title"></textarea>
+	  <h4> Post </h4>
+          <textarea style="width:500px;height:200px;max-width:1040px;" name="content"  ></textarea>
+          <br/><br/>
+          <button type="input" class="btn-large btn" name="submit"> SUBMIT POST</button>
+      </form>
+      </div>
+    </div>
+  </body>
 </html>
