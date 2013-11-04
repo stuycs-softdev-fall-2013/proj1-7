@@ -84,8 +84,9 @@ def logout():
 
 @app.route("/myStories",methods=['GET', 'POST'])
 def myStories():
-    #return render_template('myStories.html')
-    return auth.FindAll()
+    stuff = auth.FindAll()
+    return render_template('myStories.html')
+
 
 @app.route("/followedStories",methods=['GET', 'POST'])
 def followedStories():
