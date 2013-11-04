@@ -7,10 +7,8 @@
             <h2 class="text-center">{{ story.title }}</h2>
             <hr>
             <br>
-            {% for paragraph in story.content.split('<p>')%}
-            {% if paragraph != "" %}
-                <p>{{ paragraph }}</p>
-            {% endif %}
+            {% for edit in story.content %}
+            <a href="/stories/fork/{{story['id']}}/{{edit[1]}}" title="Fork from this Edit!">{{ edit[0] }}</a>
             {% endfor %}
         </div>
 

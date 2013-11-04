@@ -1,0 +1,56 @@
+
+{% include "jinja_include/headtag.html" %}
+<body>
+
+{% include "jinja_include/topbar.html" %}
+
+<div class="row">
+<div class="large-10 large-centered  columns blogtitle">
+  
+  <div class="row">
+    <div class="large-11 small-centered columns">
+      <legend class="blogtitle"><h1><a href="/posts/{{post.get_id()}}">{{post.title}}</a></h1></legend>
+      <h6><i>Posted by </i><a href="/users/{{post.user}}">{{post.user}}</a><i> on {{post.get_datestring()}}</i></h6>
+      <p>{{post.body}}</p>
+      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=home">upvote</a>{% endif %}</p>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-10 large-centered columns">
+      
+      <!--legend class="blogtitle"><h2 >Comments</h2></legend-->
+      <div class="row">
+	
+	{% if user is defined %}
+	<form method="POST">	  
+	  <legend class="blogtitle"><h4>Leave a Comment</h4></legend>
+	  <div class="row">
+	    <div class="large-12 columns">
+	      <textarea type="text" name="comment" placeholder="Type here..."></textarea>
+	    </div>
+	  </div>
+	  <input type="submit" name="button" value="Comment" class="button small secondary">
+	</form>
+	{% endif %}
+
+	<h4>Comments</h4>
+	<dl>
+
+	  {% for c in post.get_comments() %}
+	  <dt><u><a href="/user/{{c.user}}">{{c.user}}</a>:</u></dt>
+	  <dd>at <i>{{c.date}}</i><br>{{c.text}}</dd>
+	  {% endfor %}
+	  
+	</dl>
+	
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+
+{% include "jinja_include/scripts.html" %}
+
+</body>

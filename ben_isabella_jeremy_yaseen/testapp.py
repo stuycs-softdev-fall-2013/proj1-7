@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 u={"username":"YaseenMe"}
 
-_post={"title":"TITLE","user":"YaseenMe","date":"11/3/13 14:39:22","upvotes":52,"body":"THis is the body of the post"}
+_post={"title":"TITLE","user":"YaseenMe","date":"11/3/13 14:39:22","upvotes":52,"body":"THis is the body of the post. NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN NYAN"}
 
 posts=[_post]
 
@@ -16,11 +16,19 @@ def home():
 
 @app.route("/")
 def hoome():
-    return render_template("index.html")
+    return render_template("index.html", user=u)
 
 @app.route("/register")
 def signup():
     return render_template("register.html")
+
+@app.route("/user/<user>", methods=["GET"])
+def user_page(user):
+    return render_template("userpage.html", target_user=u, user=u)
+
+@app.route("/testpost")
+def testpost():
+    return render_template("post.html",user=u, post=_post)
 
 
 if __name__ == '__main__':

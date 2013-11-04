@@ -85,6 +85,22 @@ def profile(usern):
     contributed.sort(reverse=True)
     return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
+@app.route('/write')
+def write():
+	#TODO:
+	##pick a random story
+	##allow user to write one line
+	##templates/writePage.html
+	pass
+
+@app.route('/add')
+def add():
+	#TODO:
+	##allow usere to submit a title
+	##add a new contributable story with that title
+	##templates/addPage.html
+	pass
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
