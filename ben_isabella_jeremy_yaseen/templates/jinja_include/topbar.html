@@ -1,5 +1,5 @@
 <div class="">
-<nav class="top-bar blogtitle">
+<nav class="top-bar">
   <ul class="title-area">
     <!-- Title Area -->
     <li class="name">
@@ -21,6 +21,7 @@
 	<ul class="dropdown">
 	  <li><a href="/users/{{user.username}}">Account Page</a></li>
 	  <li><a href="/create-post">Create Post</a></li>
+	  <li><a href="/change">Change Password</a></li>
 	  <li><a href="/logout">Log Out</a></li>
 	</ul>
       </li>
@@ -33,7 +34,7 @@
 
       <li class="divider"></li>
       <li class="small-7 columns">
-	<form>
+	<form action=/search method=GET>
 	<div class="row collapse">
           <div class="large-9 columns">
             <input type="text" name="keyword" placeholder="Search">
