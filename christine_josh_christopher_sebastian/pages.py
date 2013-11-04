@@ -33,10 +33,12 @@ def register():
 def stories(storyid):
     if request.method == 'POST':
         if 'username' in session: # check if they're logged in
-            newEdit(storyid, request.form['text'], session['username'])
+            ret = newEdit(storyid, request.form['text'], session['username'])
         else:
             #return redirect(url_for('login')) # they need to log in
-            newEdit(storyid, request.form['text'], "Nobody")
+            ret = newEdit(storyid, request.form['text'], "Nobody")
+        if ret != None:
+            return redirect(url_for("stories", storyid=ret))
     story = {
             "id":storyid,
             "title":"The Title",
@@ -52,5 +54,6 @@ def profile(userid=0):
 
 
 if __name__ == '__main__':
+    createDB()
     app.debug = True;
     app.run();
