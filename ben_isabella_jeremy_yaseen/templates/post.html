@@ -12,7 +12,7 @@
       <legend class="blogtitle"><h1><a href="/posts/{{post.get_id()}}">{{post.title}}</a></h1></legend>
       <h6><i>Posted by </i><a href="/users/{{post.user}}">{{post.user}}</a><i> on {{post.get_datestring()}}</i></h6>
       <p>{{post.body}}</p>
-      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=home">upvote</a>{% endif %}</p>
+      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=/posts/{{post.get_id()}}">upvote</a>{% endif %}</p>
       <hr>
     </div>
   </div>
@@ -38,7 +38,7 @@
 	<dl>
 
 	  {% for c in post.get_comments() %}
-	  <dt><u><a href="/user/{{c.user}}">{{c.user}}</a>:</u></dt>
+	  <dt><a href="/user/{{c.user}}">{{c.user}}</a></dt>
 	  <dd>at <i>{{c.date}}</i><br>{{c.text}}</dd>
 	  {% endfor %}
 	  

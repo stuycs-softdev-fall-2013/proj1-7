@@ -41,8 +41,8 @@ if __name__ == '__main__':
         print "%s\n%s\n%s\n%s %s\n" % (p['title'], p['user'], p['body'], ', '.join(p['tags']), p['date'])
 
     # Cleaning up
-    utils.clear_index()
-    utils.index()
-    users.remove_all()
-    posts.remove_all()
-    comms.remove_all()
+    #utils.clear_index()
+    #utils.index()
+    #users.remove_all()
+    #posts.remove_all()
+    #comms.remove_all()
