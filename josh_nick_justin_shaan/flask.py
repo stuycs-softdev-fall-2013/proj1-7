@@ -51,6 +51,7 @@ def deletepost():
 def userpage():
     # if logged in, display your username, posts, and comments
     # else, redirect to login
+    pass
     
 if __name__ == "__main__":
     app.debug=True

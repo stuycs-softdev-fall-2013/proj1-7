@@ -34,6 +34,10 @@ def testpost():
 def search():
     return render_template("search_results.html",results=posts, keyword="swag", user=u)
 
+@app.route("/create-post")
+def createpost():
+    return render_template("create_post.html", user=u)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
