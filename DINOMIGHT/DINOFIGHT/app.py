@@ -7,19 +7,6 @@ import db
 app = Flask(__name__)
 app.secret_key = "KEHTYSOEIETIRRUVSERSCY"
 
-@app.route('/')
-def home():
-    logged_in = False
-    name = ''
-    if 'username' in session:
-        logged_in = True
-        username = session['username']
-    #list of newest stories
-    if 'username' in session:
-        return render_template("homepage.html",signedin='yes')
-    else:
-        return render_template("homepage.html",signedout='yes')
-
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'GET':
@@ -109,7 +96,8 @@ def add():
 	##add a new contributable story with that title
 	##templates/addPage.html
 
-@app.route('/read/')
+@app.route('/')
+@app.route('/read')
 def read():
     return redirect(url_for('stories'))
 
