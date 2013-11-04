@@ -6,7 +6,7 @@ import datetime
 
 app = Flask(__name__)
 app.secret_key = 'secret'
-
+d= {}
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -65,11 +65,10 @@ def blog(user, title):
     datetime = getPostTime(user, title)
     comments = getComments(user, title)
     if request.method=='GET':
-        return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, dates=datetime, comments=comments)
-    if request.method=='POST':
-        newcomment = request.form['comment']
-        comments.addcomment(user,title,newcomment,datetime.datetime.now())
-        return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, date, datetime, comments=comments)
+        return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, dates=datetime, comment=comments)
+    newcomment = request.form['comment']
+    comments.addcomment(user,title,newcomment,datetime.datetime.now())
+    return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, date= datetime, comments=comments)
 
 @app.route('/<user>', methods = ['GET', 'POST'])
 def userpage(user):

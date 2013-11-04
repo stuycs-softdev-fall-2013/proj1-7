@@ -2,11 +2,12 @@ from pymongo import MongoClient
 from datetime import timedelta
 
 client = MongoClient()
+db = client.KMNH
 posts = client.KMNH.posts
 comments = db.comments
 
 def addPost(usr,title,post,date):
-    posts.insert({'usr':usr, 'title':title, post:'post','datetime':datetime.datetime.now()})
+    posts.insert({'usr':usr, 'title':title, post:'post','datetime':date})
 
 def getPost(usr,title):
     if posts.find({'usr':usr,'title':title}).count != 0:

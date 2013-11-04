@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Welcome</title>
+  <title>Login</title>
 
   
   <link rel="stylesheet" href="css/foundation.css">
@@ -16,82 +16,68 @@
 </head>
 <body>
 
- <div class="row">
-<div class="large-3 columns">
-<h1><img src="img/Logo.png" ></h1>
-</div>
+<nav class="top-bar">
+<ul class="title-area">
+<!-- Title Area -->
+<li class="name">
+<h1>
+<a href="/">
+StuyPress
+</a>
+</h1>
+</li>
+<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+</ul>
+</nav>
+<!-- End Top Bar -->
+<!-- Main Page Content and Sidebar -->
+<div class="row">
+<!-- Contact Details -->
 <div class="large-9 columns">
-<ul class="right button-group">
-<li><a href="login" class="button">Login</a></li>
-<li><a href="register" class="button">Register</a></li>
-<li><a href="create" class="button">Create</a></li>
+<h3>Login</h3>
+<p>Welcome back to your blog? What new ideas do you have today? </p>
+<div class="section-container tabs" data-section>
+<section class="section">
+<h5 class="title"><a href="#panel1">Let's begin</a></h5>
+<div class="content" data-slug="panel1">
+<form method =POST>
+  <div class=description>Username:</div>
+  <input type =text name= Username>
+  <div class=description>Username:</div>
+  <input type = password name= Password>
+  <input type = submit>
+</form>
+</div>
+</section>
+<section class="section">
+<h5 class="title"><a href="#panel2">FAQ</a></h5>
+<div class="content" data-slug="panel2">
+<ul class="large-block-grid-5">
+<li><a href="mailto:kelvinmei1996@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-prn2/1396033_401394253323164_1133144106_n.jpg">Kelvin Mei</a></li>
+<li><a href="mailto:noah.rosenberg.3785@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash3/539144_10200945062689087_550469522_n.jpg">Noah Rosenberg</a></li>
+<li><a href="mailto:michele.lin.5@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash2/299897_263421840349607_249968209_n.jpg">Michele Lin</a></li>
+<li><a href="mailto:hanson.lin1@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-frc3/1377208_10202034258808728_696298387_n.jpg">Hanson Lin</a></li>
 </ul>
 </div>
+</section>
 </div>
-<!-- End Header and Nav -->
+</div>
+<!-- End Contact Details -->
+<!-- Sidebar -->
  
-<!-- First Band (Slider) -->
- 
-<div class="row">
-<div class="large-12 columns">
-<div id="slider">
-<ul data-orbit>
-<li>
-<img src="img/Banner.jpg">
-</li>
-<li>
-<img src="img/Banner2.jpg">
-</li>
-<li>
-<img src="img/Banner3.jpg">
-</li>
-<li>
-<img src="img/Banner4.jpg">
-</li>
-
-</ul>
-</div>
-<hr />
-</div>
-</div>
-<!-- Three-up Content Blocks -->
- 
-<div class="row">
-<div class="large-4 columns">
-<img src="img/Section.jpg" >
-<h4>Quick and Simple registration</h4>
-<p> Not much personal information is required! We don't even need your name! Just grab an ID, password, url link and you're set!</p>
-</div>
-<div class="large-4 columns">
-<img src="img/Section3.jpg" >
-<h4>View Tons of blogs without an account!</h4>
+<div class="large-3 columns">
+<!-- Clicking this placeholder fires the mapModal Reveal modal -->
 <p>
-Too Lazy to make an account? Or you just want to check out your friend's blog on the go without the hassle? Start Viewing blogs <a href = "blog1"> Here </a>
+<img src="img/Logo.png"><br />
+</p>
+<p>
+345 Chambers St<br />
+New York, 10282
 </p>
 </div>
-<div class="large-4 columns">
-<img src="img/Section2.jpg" >
-<h4>It's free! Just have fun!</h4>
-<p>Get crazy with it!</p>
+<!-- End Sidebar -->
 </div>
-</div>
-<!-- Call to Action Panel -->
-<div class="row">
-<div class="large-12 columns">
-<div class="panel">
-<h4>View the Github!</h4>
-<div class="row">
-<div class="large-9 columns">
-<p>Visit our Software Development website and our github!</p>
-</div>
-<div class="large-3 columns">
-<a href="http://stuycs-softdev.github.io/" class="radius button right">Poof!</a>
-</div>
-</div>
-</div>
-</div>
-</div>
- 
+<!-- End Main Content and Sidebar -->
 <!-- Footer -->
 <footer class="row">
 <div class="large-12 columns">
@@ -111,6 +97,14 @@ Too Lazy to make an account? Or you just want to check out your friend's blog on
 </div>
 </div>
 </footer>
+<!-- End Footer -->
+<!-- Map Modal -->
+<div class="reveal-modal" id="mapModal">
+<h4>Where We Are</h4>
+<p><img src="http://placehold.it/800x600" /></p>
+<!-- Any anchor with this class will close the modal. This also inherits certain styles, which can be overriden. -->
+<a href="#" class="close-reveal-modal">&times;</a>
+</div>
 
   <script>
   document.write('<script src=' +

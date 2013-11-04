@@ -1,0 +1,10 @@
+<a href = "/">Main</a>
+<a href = "/michele/hi">Test</a>
+
+<form method = POST>
+  <div class = description>Username:</div>
+  <input type=text name = username>
+  <div class = description>Title:</div>
+  <input type=text name = Title>
+  <div class = description>Post:</div>
+  <input type=text name = post>

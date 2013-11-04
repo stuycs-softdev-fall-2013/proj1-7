@@ -21,7 +21,7 @@
 <!-- Title Area -->
 <li class="name">
 <h1>
-<a href="home.html">
+<a href="/">
 StuyPress
 </a>
 </h1>
@@ -41,53 +41,13 @@ StuyPress
 <h5 class="title"><a href="#panel1">Let the sushi roll!</a></h5>
 <div class="content" data-slug="panel1">
 <form method = "post">
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline">ID</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="Username" placeholder="Choose Your Desired Username">
-</div>
-</div>
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline"> Password</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="Password"  placeholder="Choose Your Desired Password">
-</div>
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline"> Confirmation</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="CPassword"  placeholder="Confirm Your Password">
-</div>
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline"> URL</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="URL" placeholder="Choose Your Desired URL">
-</div>
-</div>
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline"> Blog Title</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="Title" placeholder="Choose Your Blog Title">
-</div>
-</div>
-<div class="row collapse">
-<div class="large-2 columns">
-<label class="inline"> Description</label>
-</div>
-<div class="large-10 columns">
-<input type="text" name="Description" placeholder="Enter a description for your blog!">
-</div>
-</div>
-<button type="submit" class="radius button">Sign Me up!</button>
+<div class=description>Username</div>
+<input type=text name=Username>
+<div class=description>Password</div>
+<input type=password name=Password>
+<div class=description>Confirm</div>
+<input type=password name=CPassword>
+<input type=submit>
 </form>
 </div>
 </section>

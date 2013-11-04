@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>%(title)s</title>
+  <title>Signup</title>
 
   
   <link rel="stylesheet" href="css/foundation.css">
@@ -16,87 +16,71 @@
 </head>
 <body>
 
-<!-- Nav Bar -->
- 
+<nav class="top-bar">
+<ul class="title-area">
+<!-- Title Area -->
+<li class="name">
+<h1>
+<a href="/">
+StuyPress
+</a>
+</h1>
+</li>
+<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+</ul>
+</nav>
+<!-- End Top Bar -->
+<!-- Main Page Content and Sidebar -->
 <div class="row">
-<div class="large-12 columns">
-<div class="nav-bar right">
-<ul class="button-group">
-<li><a href="home" class="button">Home</a></li>
-<li><a href="login" class="button">Login</a></li>
-<li><a href="register" class="button">Register</a></li>
+<!-- Contact Details -->
+<div class="large-9 columns">
+<h3>Registrations</h3>
+<p>New to wordpress? No problem! Just fill out the information and you're ready to go! If you have any questions, feel free to go to FAQ and email us </p>
+<div class="section-container tabs" data-section>
+<section class="section">
+<h5 class="title"><a href="#panel1">Let the sushi roll!</a></h5>
+<div class="content" data-slug="panel1">
+<form method =POST>
+  <div class=description>Username</div>
+  <input type=text name=Username>
+  <div class=description>Password</div>
+  <input type=password name=Password>
+  <div class=description>Confirm</div>
+  <input type=password name=CPassword>
+  <input type=submit>
+</form>
+</div>
+</section>
+<section class="section">
+<h5 class="title"><a href="#panel2">FAQ</a></h5>
+<div class="content" data-slug="panel2">
+<ul class="large-block-grid-5">
+<li><a href="mailto:kelvinmei1996@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-prn2/1396033_401394253323164_1133144106_n.jpg">Kelvin Mei</a></li>
+<li><a href="mailto:noah.rosenberg.3785@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash3/539144_10200945062689087_550469522_n.jpg">Noah Rosenberg</a></li>
+<li><a href="mailto:michele.lin.5@facebook.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-ash2/299897_263421840349607_249968209_n.jpg">Michele Lin</a></li>
+<li><a href="mailto:hanson.lin1@gmail.com"><img src="https://scontent-a-lga.xx.fbcdn.net/hphotos-frc3/1377208_10202034258808728_696298387_n.jpg">Hanson Lin</a></li>
 </ul>
 </div>
-<h1>{{name}}'s Blog</h1>
-<hr />
+</section>
 </div>
 </div>
- 
-<!-- End Nav -->
- 
- 
-<!-- Main Page Content and Sidebar -->
- 
-<div class="row">
- 
-<!-- Main Blog Content -->
-<div class="large-9 columns" role="content">
- 
-<article>
- 
-<h3><a href="%(link)s">{{bposttitle}}</a></h3>
-<h6>Written by <a href="%(facebook)s">{{name}}</a> on {{dates}}</h6>
- 
-<div class="row">
-<div class="large-6 columns">
-{{post}}
-<!-- Text goes here -->
-</div>
-<div class="large-6 columns">
-<!-- if needed img src="http://placehold.it/400x240&text=[img]" / -->
-</div>
-</div>
-</article>
- 
-<hr />
- 
- 
-</div>
- 
-<!-- End Main Content -->
- 
- 
+<!-- End Contact Details -->
 <!-- Sidebar -->
  
-<aside class="large-3 columns">
- 
-<h5>Archives</h5>
-<ul class="side-nav">
-<li><a href="#">Yesterday</a></li>
-<li><a href="#">Last Week</a></li>
-<li><a href="#">Last Month</a></li>
-<li><a href="#">Last Year</a></li>
-<li><a href="#">All</a></li>
-</ul>
- 
-<div class="panel">
-<h5>Featured</h5>
+<div class="large-3 columns">
+<!-- Clicking this placeholder fires the mapModal Reveal modal -->
 <p>
-%(randomblog)s
+<img src="img/Logo.png"><br />
 </p>
-<a href="#">Read More &rarr;</a>
+<p>
+345 Chambers St<br />
+New York, 10282
+</p>
 </div>
- 
-</aside>
- 
 <!-- End Sidebar -->
 </div>
- 
 <!-- End Main Content and Sidebar -->
- 
- 
 <!-- Footer -->
- 
 <footer class="row">
 <div class="large-12 columns">
 <hr />
@@ -115,6 +99,7 @@
 </div>
 </div>
 </footer>
+<!-- End Footer -->
 
   <script>
   document.write('<script src=' +
