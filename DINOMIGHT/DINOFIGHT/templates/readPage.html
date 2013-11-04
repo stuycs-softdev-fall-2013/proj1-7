@@ -14,10 +14,9 @@
 	</div>
 	<div class="content">
 		<ul class="stories">
-			<li> <a href="#"> A talle of two paragraphs </a></li>
-			<li> <a href="#"> 2013: A face odyssey </a></li>
-			<li> <a href="#"> Catcher in the Fry</a></li>
-			<li> <a href="#"> The art of (being) poor </a></li>
+		  {% for title in stories %}
+			<li> <a href="story/{{title}}">{{title}}</a></li>
+		  {% endfor %}
 		</ul>
 	</div>
 </body>

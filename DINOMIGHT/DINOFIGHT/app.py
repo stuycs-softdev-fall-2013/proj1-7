@@ -64,20 +64,14 @@ def passchange():
 
 @app.route('/stories')
 def stories():
-    if 'username' in session:
-        return redirect('/u/'+session['username'])
-    else:
-        return redirect(url_for('login'))
+    return render_template('readPage.html')
     #list of user's stories
 
 @app.route('/story/<title>', methods=['GET','POST'])
 def story(title):
     if request.method == 'GET':
         sid = db.get_storyid(title)
-        return "<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
-        #check that the story hasn't been edited by user yet
-        #returns page with the story and edit box if not edited yet
-    #returns page with the story
+        return None#"<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
 
 @app.route('/u/<usern>')
 def profile(usern):
@@ -94,6 +88,8 @@ def write():
         return redirect(url_for('login'))
     if request.method == 'GET':
         storyid = db.random_story(session['username'])
+        if not storyid:
+            return redirect(url_for('add'))
         return render_template('writePage.html', story=db.get_story(storyid))
     else:
         pass
@@ -112,6 +108,10 @@ def add():
 	##allow usere to submit a title
 	##add a new contributable story with that title
 	##templates/addPage.html
+
+@app.route('/read/')
+def read():
+    return redirect(url_for('stories'))
 
 if __name__ == '__main__':
     app.debug = True
