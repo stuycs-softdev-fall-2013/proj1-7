@@ -6,29 +6,21 @@
 # TEAM: JACK CAHN, TAK CHI WAN, JUDY MAI, BRIAN CHUK
 
 #Import necessary directories
+from PIL import Image
 from flask import Flask
 from flask import request
 from flask import url_for,render_template
-from flask import session,request,redirect
+from flask import session,redirect
 
 app = Flask(__name__)
 app.secret_key="secret_key"
 app.config['SHELVE_FILENAME'] = 'my_users.db'
-
+#app = Flask(__name__, static_url_path= "/templates", static_folder = "/templates")
 import auth
 
 @app.route("/")
 def home():
-    if 'user' in session:
-        return "<h1>Home</h1>"
-#  return render_template("index2.html", user = session['user'])
-    else:
-        return redirect(url_for('login'))
-
-@app.route("/about")
-def about():
-    #return render_template('about.html')
-    return "<h1>About</h1>"
+    return render_template('index.html', Story1 = "s1", Story2 = "s1", Story3 = "s1", Story4 = "s1")
 
 @app.route("/login",methods=['GET', 'POST'])
 def login():
@@ -62,55 +54,22 @@ def register():
 
 @app.route("/profile",methods=['GET', 'POST'])
 def profile():
-    #return render_template('profile.html')
+    return render_template('profile.html')
     return "<h1>Profile</h1>"
+
+@app.route("/contact")
+def contact():
+    return render_template('contact.html')
 
 @app.route("/search",methods=['GET', 'POST'])
 def search():
-    #return render_template('search.html')
+    return render_template('search.html')
     return "<h1>Search</h1>"
-
-@app.route("/readStories",methods=['GET', 'POST'])
-def readStories():
-    #return render_template('readStories.html')
-    return "<h1>Read Stories</h1>"
-
-@app.route("/logout",methods=['GET', 'POST'])
-def logout():
-    #return render_template('logout.html')
-    #return "<h1> Logout </h1>"
-    session.pop('username',None)
-    return redirect(url_for('login'))
-
-@app.route("/myStories",methods=['GET', 'POST'])
-def myStories():
-    #return render_template('myStories.html')
-    return auth.FindAll()
-
-@app.route("/followedStories",methods=['GET', 'POST'])
-def followedStories():
-    #return render_template('followStories.html')
-    return "<h1> My Folowed Stories </h1>"
 
 @app.route("/createStories",methods=['GET', 'POST'])
 def createStories():
     #return render_template('createStories.html')
     return "<h1> Create Stories </h1>"
-
-@app.route("/createMadlibs",methods=['GET', 'POST'])
-def createMadlibs():
-    #return render_template('createMadlibs.html')
-    return "<h1> Create Madlibs </h1>"
-
-@app.route("/fillMadlibs",methods=['GET', 'POST'])
-def fillMadlibs():
-    #return render_template('fillMadlibs.html')
-    return "<h1> Fill Madlibs </h1>"
-
-@app.route("/changePass",methods=['GET','POST'])
-def changePass():
-    #return render_template('changePass.html')
-    return "<h1> Change Password </h1>"
 
 if __name__=="__main__":
     app.debug=True
