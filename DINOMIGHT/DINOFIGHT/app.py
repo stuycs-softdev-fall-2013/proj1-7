@@ -75,7 +75,7 @@ def write():
         if not storyid:
             return redirect(url_for('add'))
         session['curstory'] = storyid
-        return render_template('writePage.html', title=db.get_title(storyid), story=db.get_story(storyid))
+        return render_template('writePage.html', title=db.get_title(storyid), story=db.get_story(storyid), username=session['username'])
     else:
 	db.add_sentence_to_story(session['username'], session['curstory'], request.form['data'].strip())
         url = 'story/' + db.get_title(session['curstory'])
@@ -87,7 +87,7 @@ def add():
     if not 'username' in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
-        return render_template('addPage.html')
+        return render_template('addPage.html', username=session['username'])
     else:
 	db.add_story(session['username'], request.form['data'].strip())
         return redirect('story/' + request.form['data'].strip())
@@ -96,7 +96,7 @@ def add():
 @app.route('/stories')
 @app.route('/read')
 def read():
-    return render_template('readPage.html', stories=db.get_titles())
+    return render_template('readPage.html', stories=db.get_titles(), username=session['username'])
 
 if __name__ == '__main__':
     app.debug = True
