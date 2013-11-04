@@ -81,7 +81,7 @@ def story(title):
 def profile(usern):
     originals = [db.get_title(sid) for sid in db.stories_by_user(usern)]
     contributed = [(len(db.contributions_to_story(usern, sid)), db.get_title(sid)) for sid in db.stories_with_user_contributions(usern)]
-    print "contributions", db.contributions_to_story(usern, db.stories_by_user(usern)[0])
+    #print "contributions", db.contributions_to_story(usern, db.stories_by_user(usern)[0])
     contributed.sort(reverse=True)
     return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
