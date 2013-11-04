@@ -2,58 +2,7 @@
 	<link rel="stylesheet" href="../static/css/header.css" type="text/css">
 	<link rel="stylesheet" href="../static/css/text.css" type="text/css">
 	<link rel="stylesheet" href="../static/css/write.css" type="text/css">
-	<script type="text/javascript">
-		var closingPunctuation = ['?','.','!'];
-		var t;
-		function checkKey(target, key) {
-			var c = String.fromCharCode(key.charCode);
-			if(closingPunctuation.indexOf(c) != -1) {
-				target.value += c;
-				confirmSubmit(target);
-			}
-			t = target;
-		}
-		function resize(target) {
-			target.style.height = 84;
-			target.scrollHeight = 84;
-			target.style.height = target.scrollHeight;
-			window.scrollTo(0,document.body.scrollHeight);
-			
-		}
-		function resizeIfDifferent(target) {
-			if(target.scrollHeight > target.clientHeight + 1) {
-				resize(target);
-			}
-		}
-		function readonly(target) {
-			console.log(target);
-			target.setAttribute("readonly");
-		}
-		function upload() {
-			document.sentence.submit();
-		}
-		function confirmSubmit(data) {
-			readonly(data);
-			
-			target = document.getElementById("confirm");
-			target.style.maxWidth = "100%";
-			target.style.opacity = "1";
-		}
-		function edit() {
-			var target = document.sentence.data;
-			
-			target.removeAttribute("readonly");
-			target.value = target.value.substr(0, target.value.length - 1);
-			reset = (function (val) {return val})(target.value);
-			target.value = "";
-			target.focus();
-			target.value = reset;
-			
-			target = document.getElementById("confirm");
-			target.style.maxWidth = "0%";
-			target.style.opacity = "0";
-			
-		}
+	<script type="text/javascript" src="../static/js/text.js">
 	</script>
 </head>
 <body>
@@ -71,7 +20,7 @@
 			<span class="prose">
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nunc nulla, congue non lorem vel, malesuada malesuada arcu. Nulla egestas purus eu libero molestie, eget gravida lorem tincidunt. Donec eget tortor porta, molestie libero in, feugiat lorem. Fusce pretium aliquet nulla. Vivamus aliquet, ipsum mattis imperdiet euismod, elit lorem condimentum elit, vitae dapibus lorem nibh ac augue. Curabitur facilisis tincidunt euismod. Sed molestie sodales vehicula. Pellentesque id adipiscing dui. Etiam vel luctus dolor. Suspendisse potenti. In vel bibendum libero, a sodales urna. Nulla facilisi. Aliquam.</span>
 			<span class="write">
-				<form name="sentence" onsubmit="return false;" method="post" action="">
+				<form name="sentence" onsubmit="return false;" method="post" action="write">
 					<textarea type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>
 					<div id="confirm">
 						<span>Are you sure you wish to submit? </span>
