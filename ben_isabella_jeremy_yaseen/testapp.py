@@ -24,7 +24,7 @@ def signup():
 
 @app.route("/user/<user>", methods=["GET"])
 def user_page(user):
-    return render_template("userpage.html", target_user=u, user=u)
+    return render_template("userpage.html", target_user=u, user=u, posts=posts)
 
 @app.route("/testpost")
 def testpost():

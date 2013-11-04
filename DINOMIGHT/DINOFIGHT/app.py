@@ -7,19 +7,6 @@ import db
 app = Flask(__name__)
 app.secret_key = "KEHTYSOEIETIRRUVSERSCY"
 
-@app.route('/')
-def home():
-    logged_in = False
-    name = ''
-    if 'username' in session:
-        logged_in = True
-        username = session['username']
-    #list of newest stories
-    if 'username' in session:
-        return render_template("homepage.html",signedin='yes')
-    else:
-        return render_template("homepage.html",signedout='yes')
-
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'GET':
@@ -29,20 +16,20 @@ def register():
             print request.form['username'], request.form['pw_verify']
             return render_template('register.html', error='Passwords do not match')
         if db.register_user(request.form['username'],request.form['password']):
-            return redirect(url_for('home'))
+            return redirect(url_for('read'))
         else:
             return render_template('register.html', error='Username already exists')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'username' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('read'))
     if request.method == 'GET':
         return render_template("login.html")
     else:
         if db.check_user(request.form['username'],request.form['password']):
             session['username'] = request.form['username']
-            return redirect(url_for('home'))
+            return redirect(url_for('read'))
         else:
             return render_template("login.html", error="Wrong username/password combination")
 
@@ -50,7 +37,7 @@ def login():
 def logout():
     if 'username' in session:
         session.pop('username')
-    return redirect(url_for('home'))
+    return redirect(url_for('read'))
 
 @app.route('/passchange', methods=['GET','POST'])
 def passchange():
@@ -71,6 +58,8 @@ def stories():
 def story(title):
     if request.method == 'GET':
         sid = db.get_storyid(title)
+        if sid == None:
+            return render_template("404.html", obj="story")
         return None#"<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
 
 @app.route('/u/<usern>')
@@ -109,7 +98,8 @@ def add():
 	##add a new contributable story with that title
 	##templates/addPage.html
 
-@app.route('/read/')
+@app.route('/')
+@app.route('/read')
 def read():
     return redirect(url_for('stories'))
 

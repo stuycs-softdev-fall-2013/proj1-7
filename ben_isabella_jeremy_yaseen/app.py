@@ -13,18 +13,23 @@ comms = Comment()
 
 
 # Home page: displays newest posts
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def home():
-    ordered_posts = posts.get_by_date()
-    if "username" in session:
-        username = session["username"]
-        u = users.find_one(username=username)
-        return render_template("index.html", posts=ordered_posts, user=u)
-    return render_template("index.html", posts=ordered_posts)
+    if request.method == "GET":
+        ordered_posts = posts.get_by_date()
+        if "username" in session:
+            username = session["username"]
+            u = users.find_one(username=username)
+            return render_template("index.html", posts=ordered_posts, user=u)
+        return render_template("index.html", posts=ordered_posts)
+    else:
+        keyword = request.form["keyword"]
+        url = "%s?keyword=%s" % (url_for("search"), keyword)
+        return redirect(url)
 
 
 # Login page
-@app.route("/login", methods=["POST","GET"])
+@app.route("/login", methods=["POST", "GET"])
 def login():
     if "username" in session:
         return redirect(url_for("home"))
@@ -111,16 +116,16 @@ def user_page(user):
 # Page for a specified post
 @app.route("/posts/<id>", methods=["GET","POST"])
 def post(id):
-    p = posts.find_one(id=id)
+    p = posts.find_one(_id=ObjectId(id))
     if "username" in session:
         username = session["username"]
         u = users.find_one(username=username)
         if request.method == "GET":
-            return render_template(post=p, user=u)
-        elif request.form["button"] == "Post":
+            return render_template("post.html", post=p, user=u)
+        else:
             #I'm assuming you can only comment if you're logged in
             comment = request.form["comment"]
-            p.add_comment(user=u, text=comment)
+            p.add_comment(user=username, text=comment)
             return render_template("post.html", post=p, user=u)
     else:
         return render_template("post.html", post=p)
@@ -142,8 +147,8 @@ def vote_up():
         u = users.find_one(username=username)
         u.vote_up(ObjectId(pid))
     if last_page == "posts":
-        return redirect(url_for(last_page, id=pid))
-    return redirect(url_for(last_page))
+        return redirect(last_page)
+    return redirect(last_page)
 
 
 # Page to create a post
