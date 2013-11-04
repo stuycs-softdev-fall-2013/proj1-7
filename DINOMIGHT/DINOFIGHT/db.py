@@ -112,7 +112,6 @@ def check_user(username,pw):
         c = conn.cursor()
         c.execute("SELECT pw FROM logins WHERE username=(?)", (username,))
         u = c.fetchone()
-        u = if len(u) > 0 u[0] else ""
         u = u[0] if len(u) > 0 else ""
         if u != None:
                 ans = check_password_hash(u.encode('ascii'), pw)
