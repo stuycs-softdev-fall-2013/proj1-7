@@ -56,6 +56,14 @@ def get_storyid(title):
     connection.close()
     return sid[0] if sid is not None else None
 
+def get_titles():
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    stories = c.execute("SELECT DISTINCT title FROM storyinfo").fetchall()
+    connection.close()
+    return [s[0] for s in stories]
+
+
 def stories_by_user(username):
     connection = sqlite3.connect(db)
     c = connection.cursor()
@@ -79,7 +87,9 @@ def contributions_to_story(usern, storyid):
 def get_title(storyid):
     connection = sqlite3.connect(db)
     c = connection.cursor()
-    return c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()[0]
+    title = c.execute('SELECT title FROM storyinfo WHERE storyid=(?)', (storyid,)).fetchone()
+    connection.close()
+    return title[0] if title is not None else None
 
 def incr_inappropriates(sentenceid):
     connection = sqlite3.connect(db)
@@ -98,11 +108,23 @@ def random_story(username):
     shuffle(sids)
     ret = -1
     for sid in sids:
-        u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (username,)).fetchone()
+        sid = sid[0]
+        sents = c.execute("SELECT sentenceid FROM sentenceinfo WHERE storyid=(?)", (sid,)).fetchone()
+        if sents is None:
+            user = c.execute("SELECT username FROM storyinfo WHERE storyid=(?)",(sid,)).fetchone()
+            user = user[0] if user is not None else ""
+            if user == username:
+                continue
+            else:
+                ret = sid
+                break
+
+        u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (sid,)).fetchone()
         u = u[0] if u is not None else ""
         if u == username:
             continue
-        ret = u
+        ret = sid
+        break
     connection.close()    
     return None if ret == -1 else ret
 

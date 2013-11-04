@@ -1,0 +1,49 @@
+{% include "jinja_include/headtag.html" %}
+
+<body>
+
+{% include "jinja_include/topbar.html" %}
+
+<div class="row">
+  <div class="large-6 large-centered columns blogtitle">
+    <br>
+    <h4>Change Password</h4>
+    <form method="POST">
+      <div class="row">
+	<div class="large-12 columns">
+	  {% if error is defined %}
+	  {% if error == "old-password-incorrect" %}
+	  <h4 style="color:red;">Incorrect Current Password</h4>
+	  {% elif error == "new-password-no-match" %}
+	  <h4 style="color:red;">New Passwords Do Not Match</h4>
+	  {% endif %}
+	  {% endif %}
+	  <label class="topdiv-text">Current Password</label>
+	  <input type="password" name="old-password">
+	</div>
+      </div>
+      <div class="row">
+	<div class="large-12 columns">
+	  <label class="topdiv-text">New Password</label>
+	  <input type="password" name="new-password">
+	</div>
+      </div>
+      <div class="row">
+	<div class="large-12 columns">
+	  <label class="topdiv-text">Retype New Password</label>
+	  <input type="password" name="new-password-2">
+	</div>
+      </div>
+      <div class="row">
+	<div class="large-12 columns">
+	  <input type="submit" name="Submit" value="Update">
+	</div>
+      </div>
+    </form>
+    <br>
+  </div>
+</div>
+
+{% include "jinja_include/scripts.html" %}
+
+</body>

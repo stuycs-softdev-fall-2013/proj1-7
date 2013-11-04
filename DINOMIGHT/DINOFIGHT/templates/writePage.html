@@ -16,13 +16,13 @@
 		</div>
 	</div>
 	<div class="content">
-		<div class="story">
+		  <span class="title">{{title}} </span><br />
 			<span class="prose">
 			{{story}}
 			</span>
 			<span class="write">
 				<form name="sentence" onsubmit="return false;" method="post" action="write">
-					<textarea class = "input" type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>
+					<textarea class = "input" style="font-size:1.5em"type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>
 					<div id="confirm">
 						<span>You feel good about this? </span>
 						<ul>
@@ -35,3 +35,5 @@
 		</div>
 	</div>
 </body>
+<hr>
+{{username}}
