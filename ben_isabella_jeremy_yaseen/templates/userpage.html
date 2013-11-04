@@ -15,15 +15,20 @@
 <br>
 <div class="row">
   <div class="large-10 large-centered columns blogtitle">
+    <br>
     <h4>Posts by {{target_user.username}}</h4>
     <hr>
-    {% for p in posts %}
+    <ul class="no-bullet">
+      {% for p in posts %}
+      <li>
+	<br>
+	<strong><a href="/posts/{{p.get_id()}}">{{p.title}}</a></strong>
+	<i>Posted on {{p.get_datestring()}}</i>
+	<p><i>{{p.upvotes}} upvote(s)</i></p>
+      </li>
+      {% endfor %}
+    </ul>
     <br>
-    <h6><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h6>
-    <h6><i>Posted on {{p.get_datestring()}}</i></h6>
-    <p><i>{{p.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{p.get_id()}}&last=home">upvote</a>{% endif %}</p>
-    <hr>
-    {% endfor %}
   </div>
 </div>
 
