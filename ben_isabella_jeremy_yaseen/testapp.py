@@ -38,6 +38,10 @@ def search():
 def createpost():
     return render_template("create_post.html", user=u)
 
+@app.route("/change")
+def change():
+    return render_template("change.html", user=u, error="new-password-no-match")
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
