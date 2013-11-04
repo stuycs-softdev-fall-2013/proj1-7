@@ -7,7 +7,7 @@ Judy Mai
 ###Backend
 Tak Chi Wan
 ###Middleend 
-Jack Cahn & Brian Chuk
+Brian Chuk
 
 ###Project Description
 Name: Build-a-Story
