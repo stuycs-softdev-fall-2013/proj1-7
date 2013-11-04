@@ -13,11 +13,11 @@ posts_db = PostDatabase('posts.db')
 auth_db = AuthDatabase('auth.db')
 
 @app.route('/')
-@app.route('/index.html')
+@app.route('/index')
 def index():
     return render_template(
         'index.html',
-        posts=posts_db.get_posts())
+        posts=reversed(posts_db.get_posts()))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
