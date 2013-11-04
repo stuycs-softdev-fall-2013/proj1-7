@@ -52,7 +52,7 @@ def register():
 def stories(storyid):
     if request.method == 'POST':
         if 'username' in session: # check if they're logged in
-            ret = newEdit(storyid, request.form['text'], session['username'])
+            ret = newEdit(storyid, request.form['text'], session['username'], "New Story")
         else:
             return redirect(url_for('login')) # they need to log in
         if ret != None:
@@ -101,9 +101,9 @@ def fork(storyid, editid):
 	
 
 
-@app.route('/dumbass', methods=['GET', 'POST'])
+@app.route('/dumbass')
 def dumbass():
-	return render_template('register.html')
+	return redirect(url_for('register'))
 
 if __name__ == '__main__':
     createDB()
