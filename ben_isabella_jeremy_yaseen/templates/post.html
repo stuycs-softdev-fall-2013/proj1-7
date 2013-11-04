@@ -39,7 +39,7 @@
 
 	  {% for c in post.get_comments() %}
 	  <dt><a href="/user/{{c.user}}">{{c.user}}</a></dt>
-	  <dd>at <i>{{c.date}}</i><br>{{c.text}}</dd>
+          <dd>{{c.text}}<br> at<i> {{c.date}}</i></dd>
 	  {% endfor %}
 	  
 	</dl>
