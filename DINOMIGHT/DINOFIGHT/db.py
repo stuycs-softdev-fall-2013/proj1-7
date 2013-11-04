@@ -19,11 +19,7 @@ def add_story(user,title):
     storyid = c.execute("SELECT storyid FROM storyinfo WHERE username=(?) AND title = (?)",(user,title)).fetchone();
     connection.commit()
     connection.close()
-<<<<<<< HEAD
-    return if len(storyid) > 0 storyid[0] else None
-=======
     return storyid[0] if len(storyid) > 0 else None
->>>>>>> c03c46533a32fa7173b8da72939e08004f83f033
 
 def add_sentence_to_story(user,storyid,sentence):
     #Add sentence to story
@@ -34,11 +30,8 @@ def add_sentence_to_story(user,storyid,sentence):
     sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND storyid = (?) AND sentence = (?)",(user,storyid,sentence)).fetchone()
     connection.commit()
     connection.close()
-<<<<<<< HEAD
-    return     return if len(sentenceid) > 0 sentenceid[0] else None
-=======
     return sentenceid[0] if len(sentenceid) > 0 else None
->>>>>>> c03c46533a32fa7173b8da72939e08004f83f033
+
 
 def get_sentence(sentenceid):
     connection = sqlite3.connect(db)
@@ -61,11 +54,7 @@ def get_storyid(title):
     c = connection.cursor()
     sid = c.execute("SELECT storyid FROM storyinfo WHERE title=(?)", (title,)).fetchone()
     connection.close()
-<<<<<<< HEAD
-    return if len(sid) > 0 sid[0] else None
-=======
     return sid[0] if len(sid) > 0 else None
->>>>>>> c03c46533a32fa7173b8da72939e08004f83f033
 
 def stories_by_user(username):
     connection = sqlite3.connect(db)
@@ -123,11 +112,8 @@ def check_user(username,pw):
         c = conn.cursor()
         c.execute("SELECT pw FROM logins WHERE username=(?)", (username,))
         u = c.fetchone()
-<<<<<<< HEAD
         u = if len(u) > 0 u[0] else ""
-=======
         u = u[0] if len(u) > 0 else ""
->>>>>>> c03c46533a32fa7173b8da72939e08004f83f033
         if u != None:
                 ans = check_password_hash(u.encode('ascii'), pw)
                 conn.close()		
