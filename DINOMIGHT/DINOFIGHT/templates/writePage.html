@@ -60,7 +60,7 @@
 	<div id="header">
 		<div class="centered"> 
 			<ul class="menu">
-				<li><a href="stories"> Read </a></li>
+				<li><a href="read"> Read </a></li>
 				<li><a href="add"> Add </a></li>
 				<li id="active"> Write </li>
 			</ul>
@@ -69,7 +69,8 @@
 	<div class="content">
 		<div class="story">
 			<span class="prose">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nunc nulla, congue non lorem vel, malesuada malesuada arcu. Nulla egestas purus eu libero molestie, eget gravida lorem tincidunt. Donec eget tortor porta, molestie libero in, feugiat lorem. Fusce pretium aliquet nulla. Vivamus aliquet, ipsum mattis imperdiet euismod, elit lorem condimentum elit, vitae dapibus lorem nibh ac augue. Curabitur facilisis tincidunt euismod. Sed molestie sodales vehicula. Pellentesque id adipiscing dui. Etiam vel luctus dolor. Suspendisse potenti. In vel bibendum libero, a sodales urna. Nulla facilisi. Aliquam.</span>
+			{{story}}
+			</span>
 			<span class="write">
 				<form name="sentence" onsubmit="return false;" method="post" action="">
 					<textarea type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>

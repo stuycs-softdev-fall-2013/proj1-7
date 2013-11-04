@@ -4,11 +4,14 @@
     <body>
         {% include "navbar.html" %}
         <div class="container">
+            {% if error is defined %}
+            <div class="alert alert-danger text-center">{{ error }}</div>
+            {% endif %}
 
             <form role="form" method="POST" class="form-horizontal pull-right">
                 <div class="input-group input-group-lg">  
-                    <input type="text" class="form-control" placeholder="Username">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="text" class="form-control" placeholder="Username" name="username"j>
+                    <input type="password" class="form-control" placeholder="Password" name="password">
                     <span class="form-group ">
                         <button class="btn btn-default btn-primary" type="Submit" name="Login">Login</button>
                         <a href="/dumbass"><small>Forgot Password?</small></a>

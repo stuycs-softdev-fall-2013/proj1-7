@@ -1,0 +1,26 @@
+<html>
+	{% include "css.html" %}
+	<body>
+		{% include "navbar.html" %}
+		<div class="row">
+		<div class="span12">
+			<form class="form-vertical" method="POST">
+			<div class="clearfix">
+				<div class="input">
+					<p>Title</p>
+					 <input class="xlarge" id="title" name="title" size="30" type="text"/>
+					</textarea>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="input">
+				<p>Body</p>
+					<textarea class="xxlarge" name="content" id="content" rows="3"></textarea>
+				</div>
+			</div>
+				<button class="btn primary" type="submit">Submit</button>
+			</form>
+		</div>
+		</div>
+	</body>
+</html>

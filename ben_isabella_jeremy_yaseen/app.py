@@ -171,8 +171,8 @@ def search():
     if "username" in session:
         username = session["username"]
         u = users.find_one(username=username)
-        return render_template("search_results.html", results=results, user=u)
-    return render_template("search_results.html", results=results)
+        return render_template("search_results.html", results=results, keyword=keyword, user=u)
+    return render_template("search_results.html", results=results, keyword=keyword)
 
 
 if __name__ == '__main__':
