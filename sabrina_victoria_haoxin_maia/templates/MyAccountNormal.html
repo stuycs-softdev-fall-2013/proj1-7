@@ -1,40 +1,53 @@
 <html>
-<head>
-<meta charset = "utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title> My Account </title>
-{% include "toolbar.html" %}
-rel="stylesheet" type = "text/css" media="screen"/>
-</head>
+    <head>
+        <meta charset = "utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title> My Account </title>  
+        <link
+            href="./bootstrap/css/bootstrap.css"
+            rel="stylesheet" type = "text/css" media="screen"/>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src=”./bootstrap/js/bootstrap.js”></script>
+    </head>
 
-<body>
-<div class = "row">
-<h1> <font color = "cornflowerblue"> Welcome User </font></h1>
-        <div class="span4">
-	  These Are My Comments
-	  <div class = "row">
-	    <div class = "span4">
-	      Great post!
-	      </div>
-	    </div>
-	</div>
-</div>
-<div class = "row">
-	<div class = "span4 offset2">
-	  These are the posts I like.
-	  <div class = "row">
-	    <div class = "span4 offset2">
-	      poop
-	      </div>
-	  </div>
-	  </div>
-                         
-<a href="/register" type="changepassword" class="btn btn-default">Change Password</a>
+    <body>
 
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src=”js/bootstrap.js”></script>
+        <div class="container">   
+            <div style="width:50%;">
 
-</div>
+
+                <div class="header"> 
+                    <h1> <font color = "cornflowerblue"> Welcome User </font></h1>
+                    <a href="/register" class="btn btn-default">Change Password</a>
+                </div>
+                <div class="span4">
+                    These Are My Comments
+                    <div class = "row">
+                        <div class = "span4">
+                            Great post!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "width:50%">
+
+                <div class = "span4 offset2">
+                    These are the posts I like.
+                    <div class = "row">
+                        <div class = "span4 offset2">
+                            poop
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
 </body>
 </html>
 

@@ -1,21 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> 
-  <head>
-    <title>Login</title>
-  </head>
-  {% if error %}
-  <div class="error">
-    {{error}}
-  </div>
-  {% endif %}
-  <body>
-    <h1>Login</h1>
-    <form method="POST">
-      <input type="text" name="username" placeholder="username"> <br>
-      <input type="password" name="password" placeholder="password"> <br>
-      <input type="submit" name="button" value="Login">
-    </form>
-    <hr>
-    New user? <a href = "/register">Click here to register</a>
-  </body>
-</html>
+<head>
+	<title>Login</title>
+	<link href="../static/css/header.css" type="text/css" rel="stylesheet">
+	<link href="../static/css/write.css" type="text/css" rel="stylesheet">
+	<link href="../static/css/text.css" type="text/css" rel="stylesheet">
+	<script src="../static/js/text.js">
+	</script>
+	<style>
+		.write {
+			display:block;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		{% if error %}
+			<div class="error">
+				{{error}}
+			</div>
+		{% endif %}
+		<br />
+		<span class="title"> Login</span>
+		<form method="POST" name ="login">
+			<div class="story">
+				<div class="write">
+					<input type="text" class="input" name="username" placeholder="username"> <br>
+					<input type="password" class="input" name="password" placeholder="password" onkeypress="checkKey(this,event,function() {return true;})"> <br>
+				<div id="confirm"> 
+					<span> How's your confidence in those credentials? </span>
+					<ul>
+						<li > <a style="font-size: 1.2em" onclick="document.login.submit()" href="#confirm"> Good </a> </li>
+					</ul>
+				</div>
+				<a style="font-size:.9em" href="/register">Get yourself an account</a> 
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
