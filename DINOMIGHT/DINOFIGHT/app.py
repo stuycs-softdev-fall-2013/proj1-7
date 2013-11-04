@@ -49,18 +49,13 @@ def passchange():
     else:
         return render_template("pwchange.html",error="Incorrect username and password combination or new passwords don't match.")
 
-@app.route('/stories')
-def stories():
-    return render_template('readPage.html')
-    #list of user's stories
-
 @app.route('/story/<title>', methods=['GET','POST'])
 def story(title):
     if request.method == 'GET':
         sid = db.get_storyid(title)
         if sid == None:
             return render_template("404.html", obj="story")
-        return None#"<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
+        return render_template("story.html", title=db.get_title(sid), story=db.get_story(sid))
 
 @app.route('/u/<usern>')
 def profile(usern):
@@ -79,10 +74,12 @@ def write():
         storyid = db.random_story(session['username'])
         if not storyid:
             return redirect(url_for('add'))
+        session['curstory'] = storyid
         return render_template('writePage.html', story=db.get_story(storyid))
     else:
-        pass
-	#TODO: Handle POST
+	db.add_sentence_to_story(session['username'], session['curstory'], request.form['data'])
+        session.pop('curstory')
+        return redirect('story/' + request.form['data'])
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -91,13 +88,14 @@ def add():
     if request.method == 'GET':
         return render_template('addPage.html')
     else:
-	#TODO: Handle POST
-        pass
+	db.add_story(session['username'], request.form['data'])
+        return redirect('story/' + request.form['data'])
 
 @app.route('/')
+@app.route('/stories')
 @app.route('/read')
 def read():
-    return redirect(url_for('stories'))
+    return render_template('readPage.html')
 
 if __name__ == '__main__':
     app.debug = True
