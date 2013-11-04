@@ -30,6 +30,10 @@ def user_page(user):
 def testpost():
     return render_template("post.html",user=u, post=_post)
 
+@app.route("/search")
+def search():
+    return render_template("search_results.html",results=posts, keyword="swag", user=u)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

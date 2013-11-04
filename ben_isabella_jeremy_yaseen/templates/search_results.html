@@ -6,14 +6,18 @@
 
 <div class="row">
   <div class="large-8 large-centered columns blogtitle">
+    <br>
+    <br>
     <h4>Search Results for "{{keyword}}"</h4>
     <hr>
-    {% for r in results %}
+    <ul class="no-bullet">
+      {% for r in results %}
+      <li>
+	<h6><a href="/posts/{{r.get_id()}}">{{r.title}}</a></h6>
+      </li>
+      {% endfor %}
+    </ul>
     <br>
-    <h6><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h4>
-    
-    <hr>
-    {% endfor %}
   </div>
 </div>
 
@@ -21,6 +25,6 @@
 
 
 
-{% include "jinja_templates/scripts.html" %}
+{% include "jinja_include/scripts.html" %}
 
 </body>
