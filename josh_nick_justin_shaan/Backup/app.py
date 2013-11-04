@@ -35,7 +35,8 @@ def login():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-
+    #if request.type == "clear":
+     #   clear_data()
     if request.method == 'GET':
         return render_template('admin.html')
     elif request.method == 'POST':

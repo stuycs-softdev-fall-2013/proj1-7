@@ -5,7 +5,10 @@
 		<div class="container">
 			{% for post in posts %}
 			<section>
-				{{post}}
+				<div id="header"><h2>{{post[1]}}</h2></div>
+				<h4><small>{{post[0]}}</small></h4>
+				<p>{{post[2]}}</p>
+				<br>
 			</section>
 			{% endfor %}
 		</div>
