@@ -3,7 +3,7 @@
 {% include "jinja_include/topbar.html" %}
 
 <div class="row">
-  <div class="large-8 large-centered columns blogtitle">
+  <div class="large-8 large-centered columns blogtitle" style="background:#000038;">
     <br>
     <h3 align="center">Welcome to</h3>
     <center>
@@ -11,15 +11,12 @@
     </center>
     <br>
     <br>
-    <p><center><h4 align="center">Our Mission</h4>
-      Our mission here at BLOGNation is to be the awesomest. That's literally it. Yup. And it's going to be achieved through multi-user blogging. Yes. Shoot, even Washington got across the Delaware with multi-user blogging.</center>
-    </p>
     <br>
   </div>
 </div>
 <br>
 <div class="row">
-  <div class="large-8 large-centered columns blogtitle">
+  <div class="large-10 large-centered columns blogtitle">
     {% for p in posts %}
     <br>
     <h4><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h4>
