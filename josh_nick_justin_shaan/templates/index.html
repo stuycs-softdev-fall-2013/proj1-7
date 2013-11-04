@@ -3,6 +3,10 @@
 	<body>
 		{% include "navbar.html" %}
 		<div class="container">
+			<div id="red"><h1>Welcome to Bloginator!</h1></div>
+			<h3><small>Shaan Sheikh, Nicholas Galasinaeo, Justin Duda, Joshua Chin<br>Period 7</small></h3>
+			<br>
+			<div id="red"><h2>All Posts:</h2></div>
 			{% for post in posts %}
 			<section>
 				<div id="header"><h2>{{post[1]}}</h2></div>

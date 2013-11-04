@@ -19,9 +19,9 @@ class PostDatabase(Database):
                 'INSERT INTO posts VALUES (?,?,?)',
                 (time(), title, content))
 
-    def clear_data():
+    def clear_data(self):
         return self._execute(
-            'DROP database')
+            'DROP TABLE posts')
 
 import datetime
 def time():
