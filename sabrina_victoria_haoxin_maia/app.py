@@ -12,7 +12,6 @@ _loggedin = False
 @app.route('/')
 def home():
     blogs = posts.getPosts()
-    blogs=[]
     datum = {}
     global _loggedin
     datum['user'] = _loggedin
@@ -41,7 +40,7 @@ def register():
         pw2 = request.form['pw2']
         if auth.register(fname,lname,name,pw,pw2) == 0:
             _loggedin = True
-            session["username"]= name
+            session["username"]= fname +" "+lname
             return redirect(url_for('home'))
         elif auth.register(fname,lname,name,pw,pw2) == 1:
             m = "username already registered. Try a differnt one"
@@ -71,29 +70,30 @@ def login():
 @app.route('/manage')
 def manage():
     if 'username' not in session:
-        return redirect(url_for('/login'))
-    elif request.method == 'GET':
+        return redirect(url_for('login'))
+    if request.method == 'GET':
         datum = {}
         global _loggedin
         datum['user'] = _loggedin
         datum['admin'] = auth.admin(session['username'])
-        return render_template('manage.html',username = session['username'],data=datum)
-    elif request.method == 'POST':
+        return render_template('manage.html',uname = session['username'],data=datum)
+    if request.method == 'POST':
         pw = request.form['oldPassWord']
         newpw = request.form['newPassWord']
-        newpw2 = request.form['newPassWord2']
+        newpw2 = request.form['newPassWord']
         if not auth.authenticate(session['username'],pw):
             return "incorrect current password" + render_template('manage.html')
         elif newpw != newpw2:
-            return "new passwords do not match" + render_template('manage.html')
+            return "new passwords do not match" + render_template('manage.html' )
         else:
             auth.changepw(session['username'],newpw)
             return redirect(url_for('myacc'))
+    
 
 @app.route('/myacc',methods=['GET','POST'])
 def myacc():
     if 'username' in session:
-        name = auth.getName(session['username'])
+        name = session['username']
         datum = {}
         global _loggedin
         datum['user'] = _loggedin
@@ -119,11 +119,13 @@ def write():
         datum['admn'] = auth.admin(session['username'])
         return render_template('newpost.html',data=datum)
     elif request.method == 'POST':
-        t = request.form['Title']
-        p = request.form['Post']
+        t = request.form['title']
+        p = request.form['content']
         ti = strftime("%X %x")
         if not posts.write(t,ti,p):
-            return "another post with the same title exist" + render_template('write.html')
+            m = "another post with teh same title exist, please rename your piece"
+            return render_template('write.html',m=m)
+        return redirect(url_for("home"))        
 
 @app.route('/logout')
 def logout():
