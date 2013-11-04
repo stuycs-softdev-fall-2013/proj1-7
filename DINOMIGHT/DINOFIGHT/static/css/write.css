@@ -1,0 +1,26 @@
+
+.write, .write * {
+	margin:0;
+	display:inline;
+	width:100%;
+/*	background-color:inherit;
+	text-align:inherit;
+	padding:inherit;
+*/}
+.write textarea {
+	resize:none;
+	height:1.56em;
+	border:0;
+	font-style:oblique;
+}
+.write textarea:focus {
+	outline:none;
+}
+
+#confirm, #confirm * {
+	line-height:.9em;
+	font-size:.9em;
+}
+#confirm>ul>* {
+	margin:5px;
+}

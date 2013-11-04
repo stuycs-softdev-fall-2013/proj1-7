@@ -1,4 +1,17 @@
 <head><title>Construction Zone</title></head>
 <h1> THIS IS THE HOMEPAGE </h1>
-<body>Testing, testing, 123</body> <br>
-<b>{{link}}</b>
+{% if signedin is defined %}
+<a href="/stories">Your stories</a>
+<br>
+<a href="/passchange">Change Password</a>
+<br>
+<a href="/logout">Logout</a>
+{% endif %}
+{% if signedout is defined %}
+<a href="/login">Login</a>
+<br>
+<a href="/register">Sign Up</a>
+{% endif %}
+<br>
+<br>
+<body>Testing, testing, 123 <br></body>
