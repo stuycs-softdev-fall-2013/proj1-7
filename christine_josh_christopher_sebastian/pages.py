@@ -64,12 +64,19 @@ def stories(storyid):
             }
     if story["content"] == None:
         return render_template('storynotfound.html');
+
+
+
     return render_template('story.html', story=story, logged_in=('username' in session), debug=story)
 
 @app.route('/profile')
 def profile(userid=0):
     return render_template('profile.html', logged_in=('username' in session))
 
+@app.route('/stories/fork/<int:storyid>/<int:editid>/')
+def fork(storyid, editid):
+	newstoryid = newStory('title', storyid, session['username'], editid)
+	return redirect(url_for("stories", storyid=newstoryid))
 
 if __name__ == '__main__':
     createDB()
