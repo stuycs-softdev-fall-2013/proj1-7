@@ -56,6 +56,8 @@ def register():
 def stories(storyid):
     if request.method == 'POST':
         if 'username' in session: # check if they're logged in
+            if storyid == 0:
+                return redirect(url_for('fork', storyid=0, editid=0)) 
             ret = newEdit(storyid, request.form['text'], session['username'], "New Story")
         else:
             return redirect(url_for('login')) # they need to log in
