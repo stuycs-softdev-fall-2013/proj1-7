@@ -16,28 +16,30 @@ def register():
     if 'username' in session:
         return redirect(url_for('/'))
     elif request.method == 'GET':
-        return render_template('register.html')
+        return render_template('Register.html')
     elif request.method == 'POST':
+        fname = request.form['Firstname']
+        lname = request.form['Lastname']
         name = request.form['username']
         pw = request.form['password']
         pw2 = request.form['password2']
         if auth.register(name,pw,pw2) == 0:
             return redirect(url_for('home'))
-        elif auth.register(name,pw,pw2) == 1:
-            return "username already registered. Try a different one" + render_template("register.html")
-        return "the passwords you typed do not match, please try again" + reder_template("register.html")
+        elif auth.register(fname,lname,name,pw,pw2) == 1:
+            return "username already registered. Try a different one" + render_template("Register.html")
+        return "the passwords you typed do not match, please try again" + reder_template("Register.html")
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'username' in session:
-        return redirect(url_for('/'))
+        return redirect(url_for('home'))
     elif request.method == 'GET':
-        return render_template('login.html')
+        return render_template('Login.html')
     elif request.method == 'POST':
         if auth.authenticate(request.form['username'],request.form['pw']):
             session['username'] = request.form['username']
             return redirect(url_for('home'))
-        return "unrecognized user and/or password combination" + render_template('login.html')
+        return "unrecognized user and/or password combination" + render_template('Login.html')
 
 @app.route('/manage')
 def manage():
@@ -60,11 +62,12 @@ def manage():
 @app.route('/myacc',methods=['GET','POST'])
 def myacc():
     if 'username' in session:
+        name = auth.getName(session['username'])
         if auth.admin(session['username']):
             if method == 'GET':
-                return render_template('adminAcc')
+                return render_template('adminAcc',name = name)
         elif method == 'GET':
-            return render_template('acc')       
+            return render_template('acc',name = name)       
     return redirect(url_for('login'))
 
 @app.route('/post',methods =['GET','POST'])

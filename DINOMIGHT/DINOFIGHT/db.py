@@ -89,6 +89,23 @@ def incr_inappropriates(sentenceid):
     connection.commit()
     connection.close()
 
+from random import shuffle
+# ignore stories with a last sentence from username
+def random_story(username): 
+    connection = sqlite3.connect(db)
+    c = connection.cursor()
+    sids = list(c.execute("SELECT storyid FROM storyinfo").fetchall())
+    shuffle(sids)
+    ret = -1
+    for sid in sids:
+        u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (username,)).fetchone()
+        u = u[0] if len(u) > 0 else ""
+        if u == username:
+            continue
+        ret = u
+    connection.close()    
+    return None if ret == -1 else ret
+
 # Login stuff:
 
 from werkzeug.security import generate_password_hash, check_password_hash

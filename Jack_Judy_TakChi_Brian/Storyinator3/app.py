@@ -30,7 +30,7 @@ def about():
     #return render_template('about.html')
     return "<h1>About</h1>"
 
-@app.route("/login")
+@app.route("/login",methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
         return render_template("login.html", message = "")

@@ -1,7 +1,20 @@
 <head>
 	<link rel="stylesheet" href="../static/css/header.css" type="text/css">
+	<link rel="stylesheet" href="../static/css/text.css" type="text/css">
+	<link rel="stylesheet" href="../static/css/write.css" type="text/css">
+	<script src="../static/js/text.js"> </script>
+	<style>
+		.write {
+			font-size:2em;
+		}
+		.content *{
+			text-align:center;
+			line-height:1em;
+		}
+	</style>
 </head>
 <body>
+
 	<div id="header">
 		<div class="centered"> 
 			<ul class="menu">
@@ -10,5 +23,20 @@
 				<li> <a href="write"> Write </a></li>
 			</ul>
 		</div>
+	</div>
+	<div class="content story">
+			<span class="write prose">
+				<form name="sentence" onsubmit="return false;" method="post" action="write">
+					<textarea type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Name it." autofocus></textarea>
+					<div id="confirm">
+						<span>You feel good about this? </span>
+						<ul>
+							<li> <a href="#confirm" onclick="upload();"> Yes. </a> </li>
+							<li> <a href="#confirm" onclick="edit()"> No. </a></li>
+						</ul>
+					</div>
+				</form>
+			</span>
+		
 	</div>
 </body>

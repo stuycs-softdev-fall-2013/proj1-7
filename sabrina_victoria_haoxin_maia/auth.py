@@ -8,7 +8,7 @@ def authenticate(username,pw):
 def changepw(username,pw):
     users.update({'username':username},{"%$set":{'pw':pw}},upsert=False)
 
-def register(username,pw,pw2):
+def register(fname,lname,username,pw,pw2):
     l = [x for x in users.find({"username":username})]
     num = len([x for x in users.find()])
     if users.find({"username":username}).count() != 0:
@@ -16,10 +16,18 @@ def register(username,pw,pw2):
     elif pw != pw2:
         return 2
     elif users.find().count() == 0:
-        users.insert({"username":username,"pw":pw,"ADMIN":True})
+        users.insert({"username":username,"pw":pw,'fname':fname,'lname':lname,"ADMIN":True})
     else:
-        users.insert({"username":username,"pw":pw,"ADMIN":False})
+        users.insert({"username":username,"pw":pw,'fname':fname,'lname':lname,"ADMIN":False})
     return 0
 
 def admin(username):
     return users.find({"username":username,"ADMIN":True}).count() != 0
+
+def getName(username):
+    name = []
+    l = [x for x in users.find({"username":username},fields={'_id':False,'username':False,'pw':False,'ADMIN':False})][0]
+    name.append(l['fname'])
+    name.append(l['lname'])
+    return name
+    
