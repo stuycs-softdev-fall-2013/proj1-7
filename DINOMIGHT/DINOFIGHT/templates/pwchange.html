@@ -1,0 +1,22 @@
+<html> 
+  <head>
+    <title>Password Change</title>
+  </head>
+  {% if error %}
+  <div class="error">
+    {{error}}
+  </div>
+  {% endif %}
+  <a href="/">Back</a>
+  <body>
+    <h1>Change your Password</h1>
+    <form method="POST">
+      Username: <input type="text" name="username"> <br>
+      Password: <input type="password" name="password"> <br>
+      New Password: <input type="password" name="new"> <br>
+      Confirm Password: <input type="password" name="confirm"> <br>
+      <input type="submit" name="button" value="Change Password">
+    </form>
+    <hr>
+  </body>
+</html>

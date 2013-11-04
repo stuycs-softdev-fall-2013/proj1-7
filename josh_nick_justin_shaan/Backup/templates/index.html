@@ -1,0 +1,18 @@
+<html>
+	{% include "css.html" %}
+	<body>
+		{% include "navbar.html" %}
+		<div class="container">
+			{% for post in posts %}
+			<section>
+			<div class="page-header">
+				<h1>{{ post[1] }}</h1>
+			</div>
+				<p>
+					{{ post[2] }}
+				</p>
+			</section>
+			{% endfor %}
+		</div>
+	</body>
+</html>

@@ -12,5 +12,5 @@
 }
 .prose {
 	white-space:pre-wrap;
-	word-spacing:.05em;
-}
+	/*word-spacing:.05em;
+*/}

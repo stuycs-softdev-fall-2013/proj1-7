@@ -1,79 +1,77 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for
+from datagrab import *
 
 app = Flask(__name__)
 
+app.secret_key = "supersecretkey"
+
 @app.route('/')
-def homepage_loggedout():
-    stories = [
-            {
-                "id":1234,
-                "title":"Banana Story",
-                "description":"The Killer Bananas Attack Things..."
-            },
-            {
-                "id":1235,
-                "title":"The Dino attack",
-                "description":"Attacked by dinosaurs ....."
-            },
-            {
-                "id":5632,
-                "title":"Quotes from Stuy",
-                "description":"Stuy teachers on their good days..."
-            },
-            {
-                "id":1236,
-                "title":"Once Upon a Time...",
-                "description":"Once Upon a Time, in the magical land of..."
-            },
-            
-            {
-                "id":1237,
-                "title":"The End of Time",
-                "description":"Doom approaches..."
-            },
-           
-            ]
-    return render_template('home.html', stories=stories);
+def homepage():
+    logged_in = 'username' in session
+    stories = []
+    for story in getAllStories():
+        storyData = getStory(story[1])
+        stories.append({
+                "id":story[1],
+                "title":story[0],
+                "description":storyData[0][0]
+            })
 
-def homepage_loggedin(stories, user):
-    pass
+    return render_template('home.html', stories=stories, logged_in=logged_in, debug=stories)
 
+@app.route('/logout')
 def logout():
-    pass
+    session.pop('username')
+    return redirect(url_for('homepage'))
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html');
+    if request.method == 'GET':
+        return render_template('login.html');
+    else:
+        if authenticate(request.form['username'], request.form['password']):
+            session['username'] = request.form['username']
+            return redirect(url_for('homepage'))
+        else:
+            return render_template('login.html', error="Incorrect username or password");
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        if request.form['password'] == request.form['confirm']:
+            if addUser(request.form['username'], request.form['password']):
+                return redirect(url_for('login'))
+            else:
+                return render_template('register.html', error="Username is already taken")
+        else:
+            return render_template('register.html', error="Passwords do not match")
 
-@app.route('/stories/<int:storyid>')
+@app.route('/stories/<int:storyid>', methods=['GET', 'POST'])
 def stories(storyid):
-    story= {
-            "title": "The Title",
-            "content": """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non interdum augue, quis imperdiet magna. Maecenas dui magna, pulvinar id interdum at, placerat vel augue. Sed eros magna, venenatis at elementum ac, rutrum vitae nisi. Nulla mollis ante felis, quis gravida quam interdum a. Proin et eros id justo aliquet malesuada sit amet eu mauris. Sed sed lacus interdum, sodales mi ut, congue magna. Donec ultricies lacinia justo, id dapibus odio porta
-            adipiscing. Donec in est facilisis, rutrum metus eget, imperdiet neque. Fusce ut aliquam mauris. Ut sit amet sagittis urna. Maecenas lacus risus, aliquam ac mauris eget, facilisis aliquam justo. Suspendisse viverra iaculis tristique. Nunc pretium gravida lectus id pretium. Vivamus ut elit et nibh volutpat dapibus.
-
-            Donec euismod mauris ut ligula venenatis bibendum. Aliquam fringilla, nulla nec convallis fermentum, urna nisi convallis massa, non pellentesque metus arcu vitae eros. Donec in pellentesque lorem. Duis dolor diam, consequat id blandit a, volutpat et nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus eu dictum ligula. Mauris egestas dui semper lorem laoreet, sed semper diam porttitor. Ut viverra imperdiet elit, sit amet
-            blandit felis dapibus non. Aenean non nibh eget nulla placerat feugiat a id tellus. Praesent eget tempus velit, quis hendrerit mauris.
-
-            Nam faucibus luctus suscipit. Nunc eleifend mattis sapien, tristique pulvinar dui congue ut. Donec et mollis risus. Mauris enim diam, faucibus in accumsan id, lacinia eu urna. Etiam id laoreet urna. In tempor fringilla elit nec porta. Quisque ornare, arcu sed accumsan convallis, mauris ante euismod lacus, id iaculis lectus massa sed augue. Donec cursus in lectus dictum ultricies. Nunc ut mattis dui. Proin ullamcorper nec ipsum eget eleifend. Morbi eget nibh adipiscing,
-            blandit magna vel, bibendum leo. Ut volutpat purus nec elementum sollicitudin. Proin porttitor sapien lacus, quis volutpat elit fermentum vitae.
-
-            Aliquam mattis malesuada nisl vel dictum. Ut pulvinar rutrum tortor, at posuere nisl faucibus sed. Fusce ornare egestas felis a mollis. Donec at aliquet leo. Integer scelerisque velit non lorem egestas sollicitudin. Morbi non magna mattis, aliquam lorem non, eleifend nulla. Aenean tortor diam, pellentesque sit amet commodo sit amet, pharetra vitae elit. Cras ornare eget ipsum eget ullamcorper. Duis aliquam urna quis libero aliquam, sed porta metus rhoncus.
-
-            Mauris nibh nisl, ultrices a scelerisque nec, tempus in est. Donec aliquam nisi a lorem cursus, eu auctor velit sollicitudin. Suspendisse eleifend ante ornare suscipit sollicitudin. Cras vel hendrerit quam. Donec facilisis dolor dui, eu consequat nulla luctus sit amet. Nullam ante tellus, tincidunt in ultricies in, malesuada eget ipsum. Vivamus eget bibendum turpis, at rhoncus sapien. Etiam adipiscing at neque non luctus. Phasellus vestibulum euismod justo quis molestie.
-            Mauris nec eleifend elit, suscipit cursus ligula.""".replace('\n', '<p>')
+    if request.method == 'POST':
+        if 'username' in session: # check if they're logged in
+            ret = newEdit(storyid, request.form['text'], session['username'])
+        else:
+            return redirect(url_for('login'), error="Please log in to edit") # they need to log in
+        if ret != None:
+            return redirect(url_for("stories", storyid=ret))
+    story = {
+            "id":storyid,
+            "title":"The Title",
+            "content":getStory(storyid)
             }
-    return render_template('story.html', story=story)
+    if story["content"] == None:
+        return render_template('storynotfound.html');
+    return render_template('story.html', story=story, logged_in=('username' in session), debug=story)
 
 @app.route('/profile')
 def profile(userid=0):
-    return render_template('profile.html')
+    return render_template('profile.html', logged_in=('username' in session))
 
 
 if __name__ == '__main__':
+    createDB()
     app.debug = True;
     app.run();

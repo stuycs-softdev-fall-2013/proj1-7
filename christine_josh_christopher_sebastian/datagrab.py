@@ -23,6 +23,8 @@ def createDB() :
     connection.execute(q)
     q = "insert into stories values(0, 'OUAT', 0, 0, -1, 'admin');"
     connection.execute(q)
+    q = "insert into max_ids values(0,0);"
+    connection.execute(q)
     connection.commit()
     return True
 
@@ -242,12 +244,14 @@ def dislikeStory(storyID, user):
     return True
 
 
-def newEdit(storyID, text, user):
+def newEdit(storyID, text, user, name=""):
     #user adds a new edit (text) to the story with ID storyID
     #returns False if trying to edit root story ('Once upon a time')
     connection = sqlite3.connect('OnceUponData.db')
     if storyID == 0:
-        return False
+        newstoryID = newStory(name, 0, user, 0)
+        newEdit(newstoryID, text, user)
+        return newstoryID
     q = "select max_edit_id from max_ids"
     cursor = connection.execute(q)
     prevMax = [x for x in cursor]
@@ -266,8 +270,8 @@ def newEdit(storyID, text, user):
     connection.commit()
 
 
-def newStory(name, storyID, user):
-    #user forks the story with ID storyID and calls it name
+def newStory(name, storyID, user, editID):
+    #user forks the story with ID storyID from edit editID and calls it name
     connection = sqlite3.connect('OnceUponData.db')
     q = "select max_story_id from max_ids"
     cursor = connection.execute(q)
@@ -278,9 +282,12 @@ def newStory(name, storyID, user):
     q = "select * from stories where id=?"
     cursor = connection.execute(q,[storyID])
     data = [x for x in cursor]
+    if data == []:
+        return None
     q = "insert into stories values(?,?,?,?,?,?)"
-    connection.execute(q,[newID, name, data[0][2], data[0][3], storyID, user])
+    connection.execute(q,[newID, name, data[0][2][:data[0][2].index(str(editID)) + 1], data[0][3], storyID, user])
     connection.commit()
+    return newID
 
 
 def getStory(storyID):
@@ -290,6 +297,8 @@ def getStory(storyID):
     q = "select edits from stories where id=?"
     cursor = connection.execute(q,[storyID])
     editIDs = [x for x in cursor]
+    if editIDs == []:
+        return None
     editIDs = editIDs[0][0].encode('ascii','ignore')
     editIDs = editIDs.split(',')
     story = []
@@ -308,6 +317,8 @@ def getUserKarma(user):
     q = "select karma from account_info where username=?"
     cursor = connection.execute(q,[user])
     karma = [x for x in cursor]
+    if karma == []:
+        return None
     karma = karma[0][0]
     return karma
 
@@ -317,6 +328,8 @@ def getStoryKarma(storyID):
     q = "select karma from stories where id=?"
     cursor = connection.execute(q,[storyID])
     karma = [x for x in cursor]
+    if karma == []:
+        return None
     karma = karma[0][0]
     return karma
         
@@ -332,3 +345,36 @@ def getAllStories():
         stories[i] = (stories[i][0].encode('ascii','ignore'),stories[i][1])
         
     return stories
+
+
+def getStoryTitle(storyID):
+    #returns the title of story with id storyID
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select title from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    title = [x for x in cursor]
+    if title == []:
+        return None
+
+    title = title[0][0].encode('ascii','ignore')
+    return title
+
+
+def getParentStory(storyID):
+    #returns the title of the parent story of the story with id storyID
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select parent_story from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    parentID = [x for x in cursor]
+    if parentID == []:
+        return None
+
+    parentID = parentID[0][0]
+    q = "select title from stories where id=?"
+    cursor = connection.execute(q,[parentID])
+    parent = [x for x in cursor]
+    if parent == []:
+        return None
+    
+    parent = parent[0][0].encode('ascii','ignore')
+    return parent

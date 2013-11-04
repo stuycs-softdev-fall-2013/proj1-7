@@ -1,3 +1,5 @@
+#!/usr/local/bin/Python
+
 from flask import Flask, render_template, session, request, redirect, url_for, session
 
 import db
@@ -14,24 +16,21 @@ def home():
         username = session['username']
     #list of newest stories
     if 'username' in session:
-        return render_template("homepage.html",link="link to user's stories")
+        return render_template("homepage.html",signedin='yes')
     else:
-        return render_template("homepage.html",link="link to register/sign in page")
+        return render_template("homepage.html",signedout='yes')
 
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'GET':
-        #return register page
         return render_template('register.html');
     else:
         if request.form['password'] != request.form['pw_verify']:
             print request.form['username'], request.form['pw_verify']
             return render_template('register.html', error='Passwords do not match')
         if db.register_user(request.form['username'],request.form['password']):
-            #redirect to home? sign in?
             return redirect(url_for('home'))
         else:
-            #redirect to same page with an error message
             return render_template('register.html', error='Username already exists')
 
 @app.route('/login', methods=['GET','POST'])
@@ -46,7 +45,6 @@ def login():
             return redirect(url_for('home'))
         else:
             return render_template("login.html", error="Wrong username/password combination")
-            #redirect to same page with an error message
 
 @app.route('/logout')
 def logout():
@@ -57,14 +55,12 @@ def logout():
 @app.route('/passchange', methods=['GET','POST'])
 def passchange():
     if request.method == 'GET':
-        #return password change page
-        pass
-    elif change_pass(request.form['username'],request.form['password']):
-        pass
-        #return password change success page
+        return render_template("pwchange.html")
+    if db.check_user(request.form['username'],request.form['password']) and request.form['new'] == request.form['confirm']:
+        db.change_pass(request.form['username'],request.form['new'])
+        return render_template("pwchange.html",error="Password changed successfully.")
     else:
-        pass
-        #redirect to same page with an error message
+        return render_template("pwchange.html",error="Incorrect username and password combination or new passwords don't match.")
 
 @app.route('/stories')
 def stories():
@@ -85,27 +81,28 @@ def story(title):
 
 @app.route('/u/<usern>')
 def profile(usern):
+    if not db.user_exists(usern):
+        return render_template('404.html', obj="user")
     originals = [db.get_title(sid) for sid in db.stories_by_user(usern)]
     contributed = [(len(db.contributions_to_story(usern, sid)), db.get_title(sid)) for sid in db.stories_with_user_contributions(usern)]
-    print "contributions", db.contributions_to_story(usern, db.stories_by_user(usern)[0])
     contributed.sort(reverse=True)
     return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
-@app.route('/write')
+@app.route('/write', methods=['GET', 'POST'])
 def write():
+    return render_template('writePage.html', story)
 	#TODO:
 	##pick a random story
 	##allow user to write one line
 	##templates/writePage.html
-	pass
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add():
+    return render_template('addPage.html')
 	#TODO:
 	##allow usere to submit a title
 	##add a new contributable story with that title
 	##templates/addPage.html
-	pass
 
 if __name__ == '__main__':
     app.debug = True
