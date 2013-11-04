@@ -1,0 +1,47 @@
+{% include "jinja_include/headtag.html" %}
+
+<body>
+
+{% include "jinja_include/topbar.html" %}
+
+<div class="row">
+  <div class="large-10 large-centered columns blogtitle">
+    <div class="row">
+      <div class="large-11 small-centered columns">
+	<br>
+	<h4>Create Post</h4>
+	<hr>
+	<form method="POST">
+	  <div class="row">
+	    <div class="large-12 columns">
+	      <label class="topdiv-text">Post Title</label>
+	      <textarea type="text" name="title" rows="1"></textarea>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="large-12 columns">
+	      <label class="topdiv-text">Post Body</label>
+	      <textarea type="text" name="title" rows="10"></textarea>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="large-12 columns">
+	      <label class="topdiv-text">Tags</label>
+	      <textarea type="text" name="title" rows="1"></textarea>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="large-12 columns">
+	      <input type="submit" name="button" value="Publish" class="button small secondary">
+	    </div>
+	  </div>
+	</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% include "jinja_include/scripts.html" %}
+
+</body>

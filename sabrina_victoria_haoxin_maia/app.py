@@ -1,11 +1,12 @@
+from flask import Flask
+from flask import render_template,session,redirect,request,url_for
 import auth
 import posts
 from time import strftime
-from flask import Flask,render_template,session,redirect,request,url_for
+
 
 app = Flask(__name__)
 app.secret_key = "BLOGINATOR"
-_ADMIN = 'ADMIN'
 
 @app.route('/')
 def home():
@@ -90,3 +91,7 @@ def write():
 def delete():
     posts.delete(link)
     return redirect(url_for('myacc'))
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run()

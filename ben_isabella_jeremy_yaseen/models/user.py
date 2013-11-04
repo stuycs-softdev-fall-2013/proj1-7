@@ -37,7 +37,7 @@ class UserModel(Model):
         return self.posts.insert(user=self.username, **kwargs)
 
     # Get blog posts made by this user, and with other arguments
-    def get_blog_posts(self, **kwargs):
+    def get_posts(self, **kwargs):
         return self.posts.find(user=self.username, **kwargs)
 
     # Get comments made by the user, with other parameters
