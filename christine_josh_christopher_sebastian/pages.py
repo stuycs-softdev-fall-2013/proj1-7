@@ -1,7 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for
 from datagrab import *
 
 app = Flask(__name__)
+
+app.secret_key = "supersecretkey"
 
 @app.route('/')
 def homepage():
@@ -27,8 +29,16 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/stories/<int:storyid>')
+@app.route('/stories/<int:storyid>', methods=['GET', 'POST'])
 def stories(storyid):
+    if request.method == 'POST':
+        if 'username' in session: # check if they're logged in
+            ret = newEdit(storyid, request.form['text'], session['username'])
+        else:
+            #return redirect(url_for('login')) # they need to log in
+            ret = newEdit(storyid, request.form['text'], "Nobody")
+        if ret != None:
+            return redirect(url_for("stories", storyid=ret))
     story = {
             "id":storyid,
             "title":"The Title",
@@ -44,5 +54,6 @@ def profile(userid=0):
 
 
 if __name__ == '__main__':
+    createDB()
     app.debug = True;
     app.run();

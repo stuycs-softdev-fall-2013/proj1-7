@@ -81,26 +81,28 @@ def story(title):
 
 @app.route('/u/<usern>')
 def profile(usern):
+    if not db.user_exists(usern):
+        return render_template('404.html', obj="user")
     originals = [db.get_title(sid) for sid in db.stories_by_user(usern)]
     contributed = [(len(db.contributions_to_story(usern, sid)), db.get_title(sid)) for sid in db.stories_with_user_contributions(usern)]
     contributed.sort(reverse=True)
     return render_template('user.html', username=usern, originals=originals, contribs=contributed)
 
-@app.route('/write')
+@app.route('/write', methods=['GET', 'POST'])
 def write():
+    return render_template('writePage.html')
 	#TODO:
 	##pick a random story
 	##allow user to write one line
 	##templates/writePage.html
-	pass
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add():
+    return render_template('addPage.html')
 	#TODO:
 	##allow usere to submit a title
 	##add a new contributable story with that title
 	##templates/addPage.html
-	pass
 
 if __name__ == '__main__':
     app.debug = True

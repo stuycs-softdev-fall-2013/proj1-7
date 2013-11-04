@@ -251,7 +251,7 @@ def newEdit(storyID, text, user, name=""):
     if storyID == 0:
         newstoryID = newStory(name, 0, user, 0)
         newEdit(newstoryID, text, user)
-        return
+        return newstoryID
     q = "select max_edit_id from max_ids"
     cursor = connection.execute(q)
     prevMax = [x for x in cursor]
