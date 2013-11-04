@@ -96,7 +96,8 @@ def add():
 @app.route('/stories')
 @app.route('/read')
 def read():
-    return render_template('readPage.html', stories=db.get_titles(), username=session['username'])
+    username = session['username'] if 'username' in session else ""
+    return render_template('readPage.html', stories=db.get_titles(), username=username)
 
 if __name__ == '__main__':
     app.debug = True
