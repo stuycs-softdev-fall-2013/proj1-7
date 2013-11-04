@@ -90,7 +90,7 @@ def profile(usern):
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
-    return render_template('writePage.html')
+    return render_template('writePage.html', story)
 	#TODO:
 	##pick a random story
 	##allow user to write one line
