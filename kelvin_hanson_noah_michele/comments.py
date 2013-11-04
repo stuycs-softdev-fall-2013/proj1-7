@@ -27,8 +27,8 @@ def removeComment(usr,comment):
         return True
     return False
                                             
-if(__name__ == "__main__"):
-    
-    print addComment("user", 1, "Hello World")
-    
+def getComments(usr,post):
+    if comments.find({'usr':usr,'title':title}).count != 0:
+        return comments.find({'usr':usr,'title':title})
+    return False
                                             
