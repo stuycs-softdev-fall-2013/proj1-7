@@ -1,9 +1,13 @@
+#!/usr/bin/python
+#!flask/bin/python
+
 from pymongo import MongoClient
 from time import time
 
-connection = MongoClient()
-db = connection.database
-#login
+connection = MongoClient('db.stuycs.org')
+db = connection.admin
+db.authenticate('softdev','softdev')
+
 def register(user, pw):
     if checkuser(user) == False:
         db.login.insert({'user':user, 'pass':pw})

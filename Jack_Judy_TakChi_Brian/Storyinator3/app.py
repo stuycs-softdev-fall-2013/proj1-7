@@ -3,7 +3,7 @@
 
 # PROJECT: STORYINATOR 
 # TITLE: BUILD - A - STORY 
-# TEAM: JACK CAHN, TAK CHI WAN, JUDY MAI, BRIAN CHUCK 
+# TEAM: JACK CAHN, TAK CHI WAN, JUDY MAI, BRIAN CHUK
 
 #Import necessary directories
 from flask import Flask
@@ -15,10 +15,15 @@ app = Flask(__name__)
 app.secret_key="secret_key"
 app.config['SHELVE_FILENAME'] = 'my_users.db'
 
+import auth
+
 @app.route("/")
 def home():
-    #return render_template('home.html')
-    return "<h1> Home </h1>"; 
+    if 'user' in session:
+        return "<h1>Home</h1>"
+#  return render_template("index2.html", user = session['user'])
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/about")
 def about():
@@ -27,13 +32,33 @@ def about():
 
 @app.route("/login")
 def login():
-    #return render_template('login.html')
-    return "<h1>Login</h1>"
+    if request.method == "GET":
+        return render_template("login.html", message = "")
+    else:
+        user = request.form['user']
+        pw = request.form['pass']
+        if user == "" or pw == "":
+            return render_template("login.html", message = "Please enter your username and password.")
+        elif auth.login(user, pw):
+            session['user'] = user
+            return redirect(url_for('home'))
+        else:
+            return render_template("login.html", message = "Invalid username and password combination. Usernames and passwords are case sensitive. Please try again.")    
 
 @app.route("/register",methods=['GET', 'POST'])
 def register():
-    #return render_template('register.html')
-    return "<h1>Register</h1>"
+    if request.method == "GET":
+        return render_template("register.html", message = "")
+    else:
+        button = request.form['button'].encode("utf8")
+        if button == "Submit":
+            if auth.register(request.form['user'], request.form['pass']):
+                session['user'] = request.form['user']
+                return redirect(url_for('home'))
+            else:
+                return render_template("register.html", message = "User already exists. Please login.")
+        else:
+            return render_template("register.html", message = "")    
 
 @app.route("/profile",methods=['GET', 'POST'])
 def profile():
@@ -53,12 +78,14 @@ def readStories():
 @app.route("/logout",methods=['GET', 'POST'])
 def logout():
     #return render_template('logout.html')
-    return "<h1> Logout </h1>"
+    #return "<h1> Logout </h1>"
+    session.pop('username',None)
+    return redirect(url_for('login'))
 
 @app.route("/myStories",methods=['GET', 'POST'])
 def myStories():
     #return render_template('myStories.html')
-    return "<h1> My Stories </h1>"
+    return auth.FindAll()
 
 @app.route("/followedStories",methods=['GET', 'POST'])
 def followedStories():
