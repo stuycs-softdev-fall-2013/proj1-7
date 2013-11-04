@@ -76,7 +76,7 @@ def profile(userid=0):
 @app.route('/stories/fork/<int:storyid>/<int:editid>/')
 def fork(storyid, editid):
 	newstoryid = newStory('title', storyid, session['username'], editid)
-	return stories(newstoryid)
+	return redirect(url_for("stories", storyid=newstoryid))
 
 if __name__ == '__main__':
     createDB()
