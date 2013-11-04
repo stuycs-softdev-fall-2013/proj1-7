@@ -21,7 +21,7 @@ def create():
         title = request.form['title']
         post = request.form['post']
         date = datetime.datetime.now();
-        if username = name:
+        if username == name:
             posts.addPost(name, title, post,date)
             return render_template('create.html')
         return render_template('create.html', 
@@ -64,9 +64,9 @@ def blog(user, title):
     blogPost = posts.getPost(user, title)
     datetime = getPostTime(user, title)
     comments = getComments(user, title)
-    if request.method='GET':
+    if request.method=='GET':
         return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, dates=datetime, comments=comments)
-    if request.method='POST':
+    if request.method=='POST':
         newcomment = request.form['comment']
         comments.addcomment(user,title,newcomment,datetime.datetime.now())
         return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, date, datetime, comments=comments)
