@@ -13,11 +13,18 @@ class PostDatabase(Database):
             'SELECT * FROM posts ORDER BY time')
 
     def add_post(self, title, content):
+        print time
+        if (title != "" and content != ""):
+            return self._execute(
+                'INSERT INTO posts VALUES (?,?,?)',
+                (time(), title, content))
+
+    def clear_data(self):
         return self._execute(
-            'INSERT INTO posts VALUES (?,?,?)',
-            (time(), title, content))
-        
+            'DROP TABLE posts')
+
 import datetime
 def time():
-    return datetime.datetime.now().isoformat()[:-7]
+    time = datetime.datetime.now().isoformat()[:-7]
+    return time
 

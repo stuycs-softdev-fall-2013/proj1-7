@@ -59,7 +59,7 @@ def stories(storyid):
             return redirect(url_for("stories", storyid=ret))
     story = {
             "id":storyid,
-            "title":"The Title",
+            "title":getStoryTitle(storyid),
             "content":getStory(storyid)
             }
     if story["content"] == None:
@@ -73,10 +73,36 @@ def stories(storyid):
 def profile(userid=0):
     return render_template('profile.html', logged_in=('username' in session))
 
-@app.route('/stories/fork/<int:storyid>/<int:editid>/')
+#Old Fork:
+#@app.route('/stories/fork/<int:storyid>/<int:editid>')
+#def fork(storyid, editid):
+#	newstoryid = newStory('title', storyid, session['username'], editid)
+#	return redirect(url_for("stories", storyid=newstoryid))
+
+@app.route('/stories/fork/<int:storyid>/<int:editid>')
 def fork(storyid, editid):
-	newstoryid = newStory('title', storyid, session['username'], editid)
-	return redirect(url_for("stories", storyid=newstoryid))
+	if request.method == 'POST':
+		if 'username' in session:
+			nS = newStory(request.form['newtitle'], storyid, session['username'], editid)
+			return redirect(url_for("stories", storyid=nS))
+		else:
+			return redirect(url_for('login'))
+		if nS != None:
+			return redirect(url_for("stories", storyid=nS))
+	story = {
+		"id":storyid,
+		"title":getStoryTitle(storyid),
+		"content":getStory(storyid)
+		}
+	if story['content'] == None:
+		return render_template('storynotfound.html');
+	
+	return render_template('fork.html', story=story, logged_in=('username' in session), debug=story)
+	
+
+@app.route('/dumbass')
+def dumbass():
+	return redirect(url_for("register"))
 
 if __name__ == '__main__':
     createDB()
