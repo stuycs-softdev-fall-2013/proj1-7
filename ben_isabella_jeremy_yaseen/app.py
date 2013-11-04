@@ -13,19 +13,14 @@ comms = Comment()
 
 
 # Home page: displays newest posts
-@app.route("/", methods=["POST", "GET"])
+@app.route("/")
 def home():
-    if request.method == "GET":
-        ordered_posts = posts.get_by_date()
-        if "username" in session:
-            username = session["username"]
-            u = users.find_one(username=username)
-            return render_template("index.html", posts=ordered_posts, user=u)
-        return render_template("index.html", posts=ordered_posts)
-    else:
-        keyword = request.form["keyword"]
-        url = "%s?keyword=%s" % (url_for("search"), keyword)
-        return redirect(url)
+    ordered_posts = posts.get_by_date()
+    if "username" in session:
+        username = session["username"]
+        u = users.find_one(username=username)
+        return render_template("index.html", posts=ordered_posts, user=u)
+    return render_template("index.html", posts=ordered_posts)
 
 
 # Login page
