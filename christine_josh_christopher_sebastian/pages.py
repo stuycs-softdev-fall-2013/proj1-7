@@ -26,6 +26,8 @@ def logout():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'username' in session: # They shoulnd't be here if they're logged in
+        return redirect(url_for('homepage'))
     if request.method == 'GET':
         return render_template('login.html');
     else:
@@ -37,6 +39,8 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if 'username' in session: # They shoulnd't be here if they're logged in
+        return redirect(url_for('homepage'))
     if request.method == 'GET':
         return render_template('register.html')
     else:
@@ -107,5 +111,5 @@ def dumbass():
 
 if __name__ == '__main__':
     createDB()
-#    app.debug = True;
+    app.debug = True;
     app.run();
