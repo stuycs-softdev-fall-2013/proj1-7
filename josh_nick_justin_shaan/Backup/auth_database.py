@@ -14,7 +14,7 @@ class AuthDatabase(Database):
         return bool(self._execute(
             'SELECT * FROM users WHERE '
             'username=? AND password=?',
-            (name, crypto_hash(password))))
+            (name, password)))
 
     def add_user(self, name, password):
         if self._execute(
@@ -22,7 +22,7 @@ class AuthDatabase(Database):
             'username=?', (name,)): return False
         self._execute(
             'INSERT INTO users VALUES (?,?)',
-            (name, crypto_hash(password)))
+            (name, password))
         return True
 
 def crypto_hash(string):
