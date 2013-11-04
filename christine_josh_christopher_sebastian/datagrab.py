@@ -290,6 +290,8 @@ def getStory(storyID):
     q = "select edits from stories where id=?"
     cursor = connection.execute(q,[storyID])
     editIDs = [x for x in cursor]
+    if editIDs == []:
+        return None
     editIDs = editIDs[0][0].encode('ascii','ignore')
     editIDs = editIDs.split(',')
     story = []
@@ -308,6 +310,8 @@ def getUserKarma(user):
     q = "select karma from account_info where username=?"
     cursor = connection.execute(q,[user])
     karma = [x for x in cursor]
+    if karma == []:
+        return None
     karma = karma[0][0]
     return karma
 
@@ -317,6 +321,8 @@ def getStoryKarma(storyID):
     q = "select karma from stories where id=?"
     cursor = connection.execute(q,[storyID])
     karma = [x for x in cursor]
+    if karma == []:
+        return None
     karma = karma[0][0]
     return karma
         
