@@ -5,7 +5,27 @@
 {% include "jinja_include/topbar.html" %}
 
 
-
+<div class="row">
+  <div class="large-8 large-centered columns blogtitle" style="background:#000038;">
+    <br>
+    <h3 align="center">{{target_user.username}}</h3>
+    <br>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="large-10 large-centered columns blogtitle">
+    <h4>Posts by {{target_user.username}}</h4>
+    <hr>
+    {% for p in posts %}
+    <br>
+    <h6><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h6>
+    <h6><i>Posted on {{p.get_datestring()}}</i></h6>
+    <p><i>{{p.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{p.get_id()}}&last=home">upvote</a>{% endif %}</p>
+    <hr>
+    {% endfor %}
+  </div>
+</div>
 
 
 
