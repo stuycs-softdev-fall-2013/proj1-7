@@ -1,0 +1,30 @@
+{% include "jinja_include/headtag.html" %}
+
+<body>
+
+{% include "jinja_include/topbar.html" %}
+
+<div class="row">
+  <div class="large-8 large-centered columns blogtitle">
+    <br>
+    <br>
+    <h4>Search Results for "{{keyword}}"</h4>
+    <hr>
+    <ul class="no-bullet">
+      {% for r in results %}
+      <li>
+	<h6><a href="/posts/{{r.get_id()}}">{{r.title}}</a></h6>
+      </li>
+      {% endfor %}
+    </ul>
+    <br>
+  </div>
+</div>
+
+
+
+
+
+{% include "jinja_include/scripts.html" %}
+
+</body>

@@ -10,6 +10,18 @@
             {% for edit in story.content %}
             <a href="/stories/fork/{{story['id']}}/{{edit[1]}}" title="Fork from this Edit!">{{ edit[0] }}</a>
             {% endfor %}
+
+            {% if logged_in or debug is defined %}
+            <hr>
+            <div class="appendarea">
+                <h4 class="text-center">Submit to this Story</h4>
+                <form method="POST">
+                    <textarea class="form-control" rows="3" name="text"></textarea>
+                    <br>
+                    <button type="Submit" class="btn btn-primary pull-right" name="submit">Submit</button>
+                </form>
+            </div>
+            {% endif %}
         </div>
 
     </body>
