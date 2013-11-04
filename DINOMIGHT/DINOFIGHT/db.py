@@ -119,6 +119,13 @@ def check_user(username,pw):
                 return ans
         return False
 
+def user_exists(username):
+    conn = sqlite3.connect(db)
+    c = conn.cursor()
+    c.execute("SELECT username FROM logins WHERE username=(?)", (username,))
+    u = c.fetchone()
+    return len(u) > 0
+
 def change_pass(username, pw):
     pw = pw.encode('ascii')
     conn = sqlite3.connect(db)
