@@ -82,10 +82,7 @@ def write():
         return render_template('writePage.html', story=db.get_story(storyid))
     else:
         pass
-	#TODO:
-	##pick a random story
-	##allow user to write one line
-	##templates/writePage.html
+	#TODO: Handle POST
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -93,10 +90,9 @@ def add():
         return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('addPage.html')
-	#TODO:
-	##allow usere to submit a title
-	##add a new contributable story with that title
-	##templates/addPage.html
+    else:
+	#TODO: Handle POST
+        pass
 
 @app.route('/')
 @app.route('/read')
