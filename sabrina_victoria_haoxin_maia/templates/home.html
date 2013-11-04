@@ -4,93 +4,36 @@
 <meta charset = "utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title> BLOGINATOR </title>
-<link
-href="/Maia/proj1-7/sabrina_victoria_haoxin_maia/bootstrap/css/bootstrap.css"
-rel="stylesheet" type = "text/css" media="screen"/>
-</head>
-
+{% include "toolbar.html" %}
 <body>
-<div class = ""container"">
-<h1> <font color = "cornflowerblue"> Our Blog </font></h1>
-<div class="navbar">
-              <div class="navbar-inner">
-                <div class="container">
-                  <ul class="nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Login</a></li>
-                    <li><a href="#">Register</a></li>
-                    <li><a href="#">My Account</a></li>
-                    <li><a href="#">Write Post</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-        <div class="container">
-            <div class="accordion" id="accordion1">
-                <div class="according-groups">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion1" href="#collapseOne">
-                            <h3>Post Title</h3>
-                        </a>
-                    </div>
-                    <div id="collapseOne" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-
-                            <div class="hero-unit" style="max-width:1040px">
-                                POST CONTENT
-                                POST CONTENT
-                                POST CONTENT
-                                STUFFS.
-                                STUFFS I DO IN THE DAY
-                                STUFFS.
-                                I DIDN'T POOP TODAY
-                                I NEED TO PEE.
-                                I'M HUNGRY
-                                I'M THIRSTY
-                                YO TENGO HAMBRE.
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="accordion" id="accordion2">
-                    <div class="according-groups">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion2" href="#collapseTwo">
-                                <h3>Post Title</h3>
-                            </a>
-                        </div>
-                        <div id="collapseTwo" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-
-                                <div class="hero-unit" style="max-width:1040px">
-                                    POST CONTENT
-                                    POST CONTENT
-                                    POST CONTENT
-                                    STUFFS.
-                                    STUFFS I DO IN THE DAY
-                                    STUFFS.
-                                    I DIDN'T POOP TODAY
-                                    I NEED TO PEE.
-                                    I'M HUNGRY
-                                    I'M THIRSTY
-                                    YO TENGO HAMBRE.
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+<div class="container">
+  <h2> POSTS: </h2>
+  {% set x = 0 %}
+  {% for post in blogs %}  
+  <div class="accordion" id="accordion1">
+    <div class="according-groups">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion{{x}}" href="#collapse{{x}}">
+	  <h3>{{post[x][0]}}</h3> <h5> posted at: {{post[x][1]}}</h5>
+        </a>
+      </div>
+      <div id="collapse{{x}}" class="accordion-body collapse in">
+        <div class="accordion-inner">
+	  
+          <div class="hero-unit" style="max-width:1040px">
+            {{post[x][2]}}
+	    
+          </div>
         </div>
+	
+      </div>
+      
+    </div>
+    {% set x = x + 1 %}
+    {% endfor %}
+  </div>
 
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src=”js/bootstrap.js”></script>
+
 </div>
 </body>
 

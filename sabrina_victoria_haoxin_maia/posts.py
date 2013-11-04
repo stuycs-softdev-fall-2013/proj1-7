@@ -17,14 +17,22 @@ def write(title,time,post):
 
 def single(title):
     page = [x for x in posts.find({"Title":(title)},fields={"_id":False})]
+    order = sorted(page[0]['comments'],key=lambda x: page[0]['comments'][x][3],reverse = True)
     rtn = []
     rtn.append(page[0]['Title'])
     rtn.append(page[0]['comments'])
+    rtn.append(order)
     return rtn
 
 def getPosts():
-    a=[x['Title'] for x in posts.find({},fields={"_id":False,"comments":False})]
-    return a
+    if posts.find({}).count() > 0:
+        a=[x['Title'] for x in posts.find({},fields={"_id":False,"comments":False})]
+        return a
+    return []
+
+#def getPosts():
+#    a = [x['Title'][0] for x in posts.find({},fields={'_id':False,'comments':Fa#lse})]
+#    return a
 
 def commentate(title,username,time,comment):
     id = [x['comments'].__len__() for x in posts.find({"Title":(title)},fields={'_id':False})]
@@ -49,5 +57,8 @@ if __name__ == '__main__':
     print(single('blog2'))
     print('\n')
     upvoteComment('blog2',1)
+    upvoteComment('blog2',2)
+    upvoteComment('blog2',2)
     print(single('blog2'))
 
+    

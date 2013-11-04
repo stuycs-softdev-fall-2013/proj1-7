@@ -2,15 +2,16 @@ from pymongo import MongoClient
 client = MongoClient()
 users = client.db.users
 
+def clear():
+    users.remove()
+
 def authenticate(username,pw):
     return users.find({"username":username,"pw":pw},field={"_id":False}).count() != 0
 
 def changepw(username,pw):
-    users.update({'username':username},{"%$set":{'pw':pw}},upsert=False)
+    users.update({'username':username},{"$set":{'pw':pw}},upsert=False)
 
 def register(fname,lname,username,pw,pw2):
-    l = [x for x in users.find({"username":username})]
-    num = len([x for x in users.find()])
     if users.find({"username":username}).count() != 0:
         return 1
     elif pw != pw2:
@@ -31,3 +32,28 @@ def getName(username):
     name.append(l['lname'])
     return name
     
+if __name__ == "__main__":
+    register('kevin','lin','kevinlin','asd','asd')
+    register('brian','liu','brianliu','zxc','zxc')
+    register('jason','chen','jasonchen','qwe','qwe')
+
+    if authenticate('kevinlin','asd'):
+        print("kevinlin passed \n")
+    if not authenticate('kevinlin','qwe'):
+        print('kevinlin did not pass \n')
+
+    changepw('kevinlin','qwe')
+    if authenticate('kevinlin','qwe'):
+        print('kevinlin"s pw is now qwe \n')
+
+    if admin('kevinlin'):
+        print('kevinlin is the admin \n')
+    if not admin('brianliu'):
+        print('brianliu is not the admin \n')
+        
+    name = getName('jasonchen')
+    print("first name: %s \n" %(name[0]))
+    print("last name: %s \n" %(name[1]))
+
+        
+
