@@ -124,7 +124,7 @@ def user_exists(username):
     c = conn.cursor()
     c.execute("SELECT username FROM logins WHERE username=(?)", (username,))
     u = c.fetchone()
-    return len(u) > 0
+    return u != None and len(u) > 0
 
 def change_pass(username, pw):
     pw = pw.encode('ascii')
