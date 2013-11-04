@@ -35,7 +35,8 @@ def stories(storyid):
         if 'username' in session: # check if they're logged in
             newEdit(storyid, request.form['text'], session['username'])
         else:
-            return redirect(url_for('login')) # they need to log in
+            #return redirect(url_for('login')) # they need to log in
+            newEdit(storyid, request.form['text'], "Nobody")
     story = {
             "id":storyid,
             "title":"The Title",
