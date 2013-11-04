@@ -104,7 +104,7 @@ def random_story(username):
             continue
         ret = u
     connection.close()    
-    return ret
+    return None if ret == -1 else ret
 
 # Login stuff:
 
