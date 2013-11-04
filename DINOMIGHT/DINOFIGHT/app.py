@@ -75,11 +75,12 @@ def write():
         if not storyid:
             return redirect(url_for('add'))
         session['curstory'] = storyid
-        return render_template('writePage.html', story=db.get_story(storyid))
+        return render_template('writePage.html', title=db.get_title(storyid), story=db.get_story(storyid))
     else:
 	db.add_sentence_to_story(session['username'], session['curstory'], request.form['data'])
+        url = 'story/' + db.get_title(session['curstory'])
         session.pop('curstory')
-        return redirect('story/' + request.form['data'])
+        return redirect(url)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

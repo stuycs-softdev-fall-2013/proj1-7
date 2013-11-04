@@ -108,6 +108,7 @@ def random_story(username):
     shuffle(sids)
     ret = -1
     for sid in sids:
+        sid = sid[0]
         sents = c.execute("SELECT sentenceid FROM sentenceinfo WHERE storyid=(?)", (sid,)).fetchone()
         if sents is None:
             user = c.execute("SELECT username FROM storyinfo WHERE storyid=(?)",(sid,)).fetchone()
@@ -123,8 +124,6 @@ def random_story(username):
         if u == username:
             continue
         ret = sid
-        if user == username:
-            continue
         break
     connection.close()    
     return None if ret == -1 else ret
