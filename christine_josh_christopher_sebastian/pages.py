@@ -79,7 +79,7 @@ def profile(userid=0):
 #	newstoryid = newStory('title', storyid, session['username'], editid)
 #	return redirect(url_for("stories", storyid=newstoryid))
 
-@app.route('/stories/fork/<int:storyid>/<int:editid>')
+@app.route('/stories/fork/<int:storyid>/<int:editid>', methods=['GET', 'POST'])
 def fork(storyid, editid):
 	if request.method == 'POST':
 		if 'username' in session:
@@ -100,9 +100,10 @@ def fork(storyid, editid):
 	return render_template('fork.html', story=story, logged_in=('username' in session), debug=story)
 	
 
-@app.route('/dumbass')
+
+@app.route('/dumbass', methods=['GET', 'POST'])
 def dumbass():
-	return redirect(url_for("register"))
+	return render_template('register.html')
 
 if __name__ == '__main__':
     createDB()
