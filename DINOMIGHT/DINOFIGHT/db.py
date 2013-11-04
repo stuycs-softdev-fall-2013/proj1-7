@@ -19,7 +19,7 @@ def add_story(user,title):
     storyid = c.execute("SELECT storyid FROM storyinfo WHERE username=(?) AND title = (?)",(user,title)).fetchone();
     connection.commit()
     connection.close()
-    return storyid[0] if len(storyid) > 0 else None
+    return storyid[0] if storyid is not None else None
 
 def add_sentence_to_story(user,storyid,sentence):
     #Add sentence to story
@@ -30,7 +30,7 @@ def add_sentence_to_story(user,storyid,sentence):
     sentenceid = c.execute("SELECT sentenceid FROM sentenceinfo WHERE username=(?) AND storyid = (?) AND sentence = (?)",(user,storyid,sentence)).fetchone()
     connection.commit()
     connection.close()
-    return sentenceid[0] if len(sentenceid) > 0 else None
+    return sentenceid[0] if sentenceid is not None else None
 
 
 def get_sentence(sentenceid):
@@ -54,7 +54,7 @@ def get_storyid(title):
     c = connection.cursor()
     sid = c.execute("SELECT storyid FROM storyinfo WHERE title=(?)", (title,)).fetchone()
     connection.close()
-    return sid[0] if len(sid) > 0 else None
+    return sid[0] if sid is not None else None
 
 def stories_by_user(username):
     connection = sqlite3.connect(db)
@@ -99,7 +99,7 @@ def random_story(username):
     ret = -1
     for sid in sids:
         u = c.execute("SELECT username FROM sentenceinfo WHERE storyid=(?) AND sentenceid=(SELECT MAX(sentenceid) FROM sentenceinfo)", (username,)).fetchone()
-        u = u[0] if len(u) > 0 else ""
+        u = u[0] if u is not None else ""
         if u == username:
             continue
         ret = u
@@ -129,7 +129,7 @@ def check_user(username,pw):
         c = conn.cursor()
         c.execute("SELECT pw FROM logins WHERE username=(?)", (username,))
         u = c.fetchone()
-        u = u[0] if len(u) > 0 else ""
+        u = u[0] if u is not None else ""
         if u != None:
                 ans = check_password_hash(u.encode('ascii'), pw)
                 conn.close()		
@@ -141,7 +141,7 @@ def user_exists(username):
     c = conn.cursor()
     c.execute("SELECT username FROM logins WHERE username=(?)", (username,))
     u = c.fetchone()
-    return u != None and len(u) > 0
+    return u is not None and len(u) > 0
 
 def change_pass(username, pw):
     pw = pw.encode('ascii')
