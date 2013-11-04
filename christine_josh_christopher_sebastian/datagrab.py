@@ -290,6 +290,8 @@ def getStory(storyID):
     q = "select edits from stories where id=?"
     cursor = connection.execute(q,[storyID])
     editIDs = [x for x in cursor]
+    if editIDs == []:
+        return None
     editIDs = editIDs[0][0].encode('ascii','ignore')
     editIDs = editIDs.split(',')
     story = []
