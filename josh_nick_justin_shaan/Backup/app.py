@@ -35,9 +35,7 @@ def login():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    if ('username' not in session or
-        session['username'] != 'admin'):
-        return redirect(url_for('index'))
+
     if request.method == 'GET':
         return render_template('admin.html')
     elif request.method == 'POST':
