@@ -23,6 +23,8 @@ def createDB() :
     connection.execute(q)
     q = "insert into stories values(0, 'OUAT', 0, 0, -1, 'admin');"
     connection.execute(q)
+    q = "insert into max_ids values(0,0);"
+    connection.execute(q)
     connection.commit()
     return True
 
@@ -266,8 +268,8 @@ def newEdit(storyID, text, user):
     connection.commit()
 
 
-def newStory(name, storyID, user):
-    #user forks the story with ID storyID and calls it name
+def newStory(name, storyID, user, editID):
+    #user forks the story with ID storyID from edit editID and calls it name
     connection = sqlite3.connect('OnceUponData.db')
     q = "select max_story_id from max_ids"
     cursor = connection.execute(q)
@@ -278,9 +280,12 @@ def newStory(name, storyID, user):
     q = "select * from stories where id=?"
     cursor = connection.execute(q,[storyID])
     data = [x for x in cursor]
+    if data == []:
+        return None
     q = "insert into stories values(?,?,?,?,?,?)"
-    connection.execute(q,[newID, name, data[0][2], data[0][3], storyID, user])
+    connection.execute(q,[newID, name, data[0][2][:data[0][2].index(str(editID)) + 1], data[0][3], storyID, user])
     connection.commit()
+    return newID
 
 
 def getStory(storyID):
@@ -338,3 +343,36 @@ def getAllStories():
         stories[i] = (stories[i][0].encode('ascii','ignore'),stories[i][1])
         
     return stories
+
+
+def getStoryTitle(storyID):
+    #returns the title of story with id storyID
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select title from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    title = [x for x in cursor]
+    if title == []:
+        return None
+
+    title = title[0][0].encode('ascii','ignore')
+    return title
+
+
+def getParentStory(storyID):
+    #returns the title of the parent story of the story with id storyID
+    connection = sqlite3.connect('OnceUponData.db')
+    q = "select parent_story from stories where id=?"
+    cursor = connection.execute(q,[storyID])
+    parentID = [x for x in cursor]
+    if parentID == []:
+        return None
+
+    parentID = parentID[0][0]
+    q = "select title from stories where id=?"
+    cursor = connection.execute(q,[parentID])
+    parent = [x for x in cursor]
+    if parent == []:
+        return None
+    
+    parent = parent[0][0].encode('ascii','ignore')
+    return parent
