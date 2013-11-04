@@ -3,6 +3,12 @@
 	<link rel="stylesheet" href="../static/css/text.css" type="text/css">
 	<link rel="stylesheet" href="../static/css/write.css" type="text/css">
 	<script src="../static/js/text.js"> </script>
+	<script>
+		function conf(c) {
+			console.log(c.charCode == 13);
+			return c.charCode == 13;
+		}
+	</script>
 	<style>
 		.write {
 			font-size:2em;
@@ -27,7 +33,7 @@
 	<div class="content story">
 			<span class="write prose">
 				<form name="sentence" onsubmit="return false;" method="post" action="write">
-					<textarea type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Name it." autofocus></textarea>
+					<textarea type="text" name="data" onKeypress="console.log(event);checkKey(this,event,conf);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Name it." autofocus></textarea>
 					<div id="confirm">
 						<span>You feel good about this? </span>
 						<ul>
