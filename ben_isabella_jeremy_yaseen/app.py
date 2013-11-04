@@ -86,11 +86,16 @@ def change():
         else:
             oldpw = request.form["old-password"]
             newpw = request.form["new-password"]
-            if u.change_password(oldpw, newpw):
-                return redirect(url_for("home"))
+            newpw2= request.form["new-password-2"]
+            if newpw==newpw2:
+                if u.change_password(oldpw, newpw):
+                    return redirect(url_for("home"))
+                else:
+                    #Add some error message
+                    return render_template("change.html", user=u, error="old-password-incorrect")
             else:
-                #Add some error message
-                return render_template("change.html", user=u)
+                #Second error
+                return render_template("change.html", user=u, error="new-password-no-match")
 
 
 # Page for a specified user
