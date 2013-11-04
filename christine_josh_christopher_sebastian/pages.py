@@ -22,6 +22,7 @@ def homepage():
 @app.route('/logout')
 def logout():
     session.pop('username')
+    return redirect(url_for('homepage'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -36,7 +37,16 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        if request.form['password'] == request.form['confirm']:
+            if addUser(request.form['username'], request.form['password']):
+                return redirect(url_for('login'))
+            else:
+                return render_template('register.html', error="Username is already taken")
+        else:
+            return render_template('register.html', error="Passwords do not match")
 
 @app.route('/stories/<int:storyid>', methods=['GET', 'POST'])
 def stories(storyid):
@@ -55,11 +65,11 @@ def stories(storyid):
             }
     if story["content"] == None:
         return render_template('storynotfound.html');
-    return render_template('story.html', story=story, debug=story)
+    return render_template('story.html', story=story, logged_in=('username' in session), debug=story)
 
 @app.route('/profile')
 def profile(userid=0):
-    return render_template('profile.html')
+    return render_template('profile.html', logged_in=('username' in session))
 
 
 if __name__ == '__main__':
