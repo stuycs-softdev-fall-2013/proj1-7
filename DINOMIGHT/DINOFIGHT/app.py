@@ -81,7 +81,7 @@ def story(title):
 
 @app.route('/u/<usern>')
 def profile(usern):
-    if not user_exists(usern):
+    if not db.user_exists(usern):
         return render_template('404.html', obj="user")
     originals = [db.get_title(sid) for sid in db.stories_by_user(usern)]
     contributed = [(len(db.contributions_to_story(usern, sid)), db.get_title(sid)) for sid in db.stories_with_user_contributions(usern)]
