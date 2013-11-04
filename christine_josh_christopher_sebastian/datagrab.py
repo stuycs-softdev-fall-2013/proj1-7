@@ -244,12 +244,14 @@ def dislikeStory(storyID, user):
     return True
 
 
-def newEdit(storyID, text, user):
+def newEdit(storyID, text, user, name=""):
     #user adds a new edit (text) to the story with ID storyID
     #returns False if trying to edit root story ('Once upon a time')
     connection = sqlite3.connect('OnceUponData.db')
     if storyID == 0:
-        return False
+        newstoryID = newStory(name, 0, user, 0)
+        newEdit(newstoryID, text, user)
+        return
     q = "select max_edit_id from max_ids"
     cursor = connection.execute(q)
     prevMax = [x for x in cursor]
