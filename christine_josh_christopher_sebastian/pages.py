@@ -7,6 +7,7 @@ app.secret_key = "supersecretkey"
 
 @app.route('/')
 def homepage():
+    logged_in = 'username' in session
     stories = []
     for story in getAllStories():
         storyData = getStory(story[1])
@@ -16,14 +17,22 @@ def homepage():
                 "description":storyData[0][0]
             })
 
-    return render_template('home.html', stories=stories, debug=stories)
+    return render_template('home.html', stories=stories, logged_in=logged_in, debug=stories)
 
+@app.route('/logout')
 def logout():
-    pass
+    session.pop('username')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html');
+    if request.method == 'GET':
+        return render_template('login.html');
+    else:
+        if authenticate(request.form['username'], request.form['password']):
+            session['username'] = request.form['username']
+            return redirect(url_for('homepage'))
+        else:
+            return render_template('login.html', error="Incorrect username or password");
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
