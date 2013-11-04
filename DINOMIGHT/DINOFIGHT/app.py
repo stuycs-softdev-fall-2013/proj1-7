@@ -90,7 +90,13 @@ def profile(usern):
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
-    return render_template('writePage.html', story)
+    if not 'username' in session:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        storyid = db.random_story(session['username'])
+        return render_template('writePage.html', story=db.get_story(storyid))
+    else:
+        pass
 	#TODO:
 	##pick a random story
 	##allow user to write one line
@@ -98,7 +104,10 @@ def write():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    return render_template('addPage.html')
+    if not 'username' in session:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        return render_template('addPage.html')
 	#TODO:
 	##allow usere to submit a title
 	##add a new contributable story with that title

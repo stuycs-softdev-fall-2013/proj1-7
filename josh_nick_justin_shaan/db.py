@@ -21,19 +21,19 @@ connection = sqlite3.connect('blog.db');
 
 #precondition: name, pwd are str. priv is int [0,1]
 #postcondition:
-  #returns _id of new user if successful, else returns None
+  #returns True of new user if successful, else returns False
   #unsuccessful if given username already exits
 def adduser(name, pwd, priv):
     #if isinstance(pwd, str):
     #    pass;
-    q ="select Users.username from Users where username=%s"%(name)
+    q ="select Users.username from Users where username='%s'"%(name)
     o = connection.execute(q)
-    if(o != None):
-        insert into Users values(name, pwd, priv)
-        q = "select Users._id from Users where username =%s"%(name)
-        return connection.execute(q)
+    if(o isinstance sqlite3.cursor):
+        q = "insert into Users values('%s','%s',%i)"%(name, pwd, priv)
+        connection.execute(q)
+        return True
     else:
-        return None
+        return False
         
 #precondition: name, pwd are str
 #postcondition:
@@ -41,12 +41,10 @@ def adduser(name, pwd, priv):
   #returns False if pwd doesn't match username
   #returns False if user with username of name DNE
 def authuser(name, pwd):
-    q = "select Users.username from Users where username=%s"%(name)
-    username = connection.execute(q)
-    if(username == None):
+    q = "select Users.password from Users where username='%s'"%(name)
+    password = connection.execute(q)
+    if(password == ""):
         return False
-    q = "select Users.password from Users where username=%s"%(pwd)
-    password = connction.execute(q)
     if(password == pwd):
         return True
     else:
@@ -57,22 +55,24 @@ def authuser(name, pwd):
     #returns True if user successfully removed
     #returns False if user DNE
 def removeuser(name):
-    q = "select Users.username from Users where username=%s"%(name);
+    q = "select Users.username from Users where username='%s'"%(name);
     usr = connection.execute(q);
-    if(usr == None):
+    if(usr == ""):
         return False;
-    q = "DELETE from Users where username=%s"%(name);
+    q = "DELETE from Users where username='%s'"%(name);
     connection.execute(q);
     return True;
 
 #precondition: username, newPwd are str
 #postcondition: changes password of User with username to newPwd
 def changePassword(username, newPwd):
-    q = "select Users.password from Users where username=%s"%(username);
+    q = "select Users.password from Users where username='%s'"%(username);
     ps = connection.execute(q);
-    if(ps == None):
+    if(ps == ""):
         return False;
-    q = "UPDATE Users SET password=%s where username=%s"%(newPwd, username);
+    q = "UPDATE Users SET password='%s' where username='%s'"%(newPwd, username);
+    connection.execute(q);
+    return True;
     
 
 #precondition: usr is str
@@ -81,26 +81,15 @@ def changePassword(username, newPwd):
     #returns False if user is not admin
     #returns False if user DNE
 def isAdmin(name):
-    q = "select Users.admin from Users where username=%s"%(name);
+    q = "select Users.admin from Users where username='%s'"%(name);
     priv = connection.execute(q)
-    if(priv == None):
+    if(priv == ""):
         return False;
     if(priv == 1):
         return True;
     else:
         return False;
 
-#precondition:
-    #attr is str and is the name of desired attribute, as given at top of this file
-#postcondition:
-    #returns False if User DNE
-    #otherwise, returns attribute attr of User with username
-    #e.g. getUserAttr("Jim", "password") --> "applesauce"
-def getUserAttr(username, attr):
-    q = "select Users.%s where username=%s"%(attr,username);
-    if(q == None):
-        return False;
-    return connection.execute(q);
 
 
 #precondition: author,title,body are str
@@ -110,13 +99,13 @@ def getUserAttr(username, attr):
     #returns False if user with username=author DNE;
     #returns False if post with same title already exists
 def addpost(author, title, body, date):
-    q = "select Users.username from Users where username=%s"%(author);
+    q = "select Users.username from Users where username='%s'"%(author);
     athr = connection.execute(q);
-    if(athr == None):
+    if(athr == ""):
         return False;
-    q = "select Posts.title from Posts where title=%s"%(title);
+    q = "select Posts.title from Posts where title='%s'"%(title);
     tt = connection.execute(q);
-    if(tt != None):
+    if(tt != ""):
         return False;
     q = "INSERT into Users VALUES(%s,%s,%s,'',%s)"%(author, title, body, date);
     connection.execute(q);
@@ -127,11 +116,11 @@ def addpost(author, title, body, date):
     #returns False if no post with given title exists
     #returns True if remove successful
 def removepost(title):
-    q = "select Posts.title from Posts where title=%s"%(title);
+    q = "select Posts.title from Posts where title='%s'"%(title);
     t = connection.execute(q);
-    if(t == None):
+    if(t == ""):
         return False;
-    q = "delete from Posts where title=%s"%(title);
+    q = "delete from Posts where title='%s'"%(title);
     connection.execute(q);
     return True;
 
@@ -145,47 +134,36 @@ def removepost(title):
     #returns False if Post with given title DNE
     #returns True if addition successful
 def addcomment(author, body, post, date):
-    q = "select Users.username from Users where username=%s"%(author);
+    q = "select Users.username from Users where username='%s'"%(author);
     athr = connection.execute(q);
-    if(athr == None):
+    if(athr == ""):
         return False;
-    q = "select Posts.comments from Posts where title=%s"%(post);
+    q = "select Posts.comments from Posts where title='%s'"%(post);
     comm = connection.execute(q);
-    if(comm == None):
+    if(comm == ""):
         return False;
     q = "INSERT into COMMENTS VALUES(%s,%s,%s,%s)"%(author,body,post,date);
     connection.execute(q);
-    q = "select Comments._id from Comments where date=%s"%(date);
+    q = "select Comments.date from Comments where date='%s'"%(date);
     cid = connection.execute(q);
     comm = comm + "," + cid;
-    q = "UPDATE Posts SET comments=%s where title=%s"%(comm,post);
+    q = "UPDATE Posts SET comments='%s' where title='%s'"%(comm,post);
     connection.execute(q);
     return True;
     
 
 #precondition:
-    #cid is _id of comment to be removed
+    #cid is date of comment to be removed
 #postcondition:
     #returns False if comment with _id of cid DNE
     #returns True of removal successful
-def removecomment(cid):
-    q = "select Comments._id from Comments where _id=%s"%(cid);
+def removecomment(date):
+    q = "select Comments.date from Comments where date='%s'"%(date);
     testid = connection.execute(q);
-    if(testid == None):
+    if(testid == ""):
         return False;
-    q = "DELETE from Comments where _id =%s"%(cid);
+    q = "DELETE from Comments where _id ='%s'"%(cid);
 
-#precondition:
-    #attr is str and is the name of desired attribute, as given at top of this file
-#postcondition:
-    #returns False if commment DNE
-    #otherwise, returns attribute attr of comment with _id
-    #e.g. getCommentAttr("shfiu2wd234", "author") --> "Jim"
-def getCommentAttr(_id, attr):
-    q = "select Comments.%s where _id=%s"%(attr,_id);
-    if(q == None):
-        return False;
-    return connection.execute(q);
 
 #precondition:
 #postcondition: returns string of all title posts
@@ -193,6 +171,24 @@ def getAllTitles():
     q = "select Posts.title from Posts";
     return connection.execute(q);
 
+print 0
+print removeuser("jduda")
+print 1
+print adduser("jduda", "asdf", 1)
+print 2
+print authuser("jduda", "apple")
+print 3
+print authuser("jduda", "asdf")
+print 4
+print changePassword("jduda", "banana")
+print 5
+print authuser("jduda", "asdf")
+print 6
+print authuser("jduda", "banana")
+print 7
+print isAdmin("jduda")
+print 8
+print getUserAttr("jduda", "password")
+print 9
 
-
-adduser("jduda", "asdf", 1);
+connection.close()
