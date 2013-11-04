@@ -25,6 +25,8 @@ def index():
 def search(keyword):
     query = {'query': {'match': {'_all': keyword}}}
     results = es.search(index='bloginator', doc_type='post', body=query)
+    for p in results['hits']['hits']:
+        p['_source']['_id'] = p['_id']
     posts = [p['_source'] for p in results['hits']['hits']]
     return posts
 

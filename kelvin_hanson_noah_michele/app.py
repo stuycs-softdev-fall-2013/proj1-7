@@ -13,15 +13,20 @@ def home():
 
 @app.route('/create', methods = ['GET', 'POST'])
 def create():
-    if request.method == "GET":
-        return render_template('create.html')
-    username = request.form['username']
-    title = request.form['title']
-    post = request.form['post']
-    date = datetime.datetime.now();
-    posts.addPost(username, title, post,date)
-    return render_template('create.html')
-  #  return redirect(url_for('home'))
+    if 'username' in session:
+        username = session['username']
+        if request.method == "GET":
+            return render_template('create.html')
+        name = request.form['username']
+        title = request.form['title']
+        post = request.form['post']
+        date = datetime.datetime.now();
+        if username = name:
+            posts.addPost(name, title, post,date)
+            return render_template('create.html')
+        return render_template('create.html', 
+                               message= "You can only edit your own blog")
+    return redirect(url_for('login'))
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -57,8 +62,21 @@ def register():
 @app.route('/<user>/<title>', methods = ['GET', 'POST'])
 def blog(user, title):
     blogPost = posts.getPost(user, title)
-    return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost)
-           
+    datetime = getPostTime(user, title)
+    comments = getComments(user, title)
+    if request.method='GET':
+        return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, dates=datetime, comments=comments)
+    if request.method='POST':
+        newcomment = request.form['comment']
+        comments.addcomment(user,title,newcomment,datetime.datetime.now())
+        return render_template("blogtemplate.html", name=user, bposttitle=title, post=blogPost, date, datetime, comments=comments)
+
+@app.route('/<user>', methods = ['GET', 'POST'])
+def userpage(user):
+    if auth.exists(user):
+        allposts=posts.getPosts(user)
+        return render_template("usertemplate.html", user=user, posts=allposts)
+    return redirect(url_for("home"))
 
 @app.route('/logout')
 def logout():

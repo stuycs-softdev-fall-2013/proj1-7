@@ -16,20 +16,20 @@ def register():
             print request.form['username'], request.form['pw_verify']
             return render_template('register.html', error='Passwords do not match')
         if db.register_user(request.form['username'],request.form['password']):
-            return redirect(url_for('home'))
+            return redirect(url_for('read'))
         else:
             return render_template('register.html', error='Username already exists')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'username' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('read'))
     if request.method == 'GET':
         return render_template("login.html")
     else:
         if db.check_user(request.form['username'],request.form['password']):
             session['username'] = request.form['username']
-            return redirect(url_for('home'))
+            return redirect(url_for('read'))
         else:
             return render_template("login.html", error="Wrong username/password combination")
 
@@ -37,7 +37,7 @@ def login():
 def logout():
     if 'username' in session:
         session.pop('username')
-    return redirect(url_for('home'))
+    return redirect(url_for('read'))
 
 @app.route('/passchange', methods=['GET','POST'])
 def passchange():
@@ -58,6 +58,8 @@ def stories():
 def story(title):
     if request.method == 'GET':
         sid = db.get_storyid(title)
+        if sid == None:
+            return render_template("404.html", obj="story")
         return None#"<h1>%s</h1>%s"%(db.get_title(sid), db.get_story(sid))
 
 @app.route('/u/<usern>')
@@ -80,10 +82,7 @@ def write():
         return render_template('writePage.html', story=db.get_story(storyid))
     else:
         pass
-	#TODO:
-	##pick a random story
-	##allow user to write one line
-	##templates/writePage.html
+	#TODO: Handle POST
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -91,10 +90,9 @@ def add():
         return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('addPage.html')
-	#TODO:
-	##allow usere to submit a title
-	##add a new contributable story with that title
-	##templates/addPage.html
+    else:
+	#TODO: Handle POST
+        pass
 
 @app.route('/')
 @app.route('/read')
