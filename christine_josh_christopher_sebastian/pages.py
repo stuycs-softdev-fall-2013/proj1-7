@@ -107,5 +107,5 @@ def dumbass():
 
 if __name__ == '__main__':
     createDB()
-    app.debug = True;
+#    app.debug = True;
     app.run();
