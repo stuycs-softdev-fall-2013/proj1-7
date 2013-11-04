@@ -82,11 +82,10 @@ def logout():
     session.pop('username',None)
     return redirect(url_for('login'))
 
-@app.route("/allStories",methods=['GET', 'POST'])
+@app.route("/myStories",methods=['GET', 'POST'])
 def myStories():
-    stuff = auth.FindAll()
-    return render_template('myStories.html')
-
+    #return render_template('myStories.html')
+    return auth.FindAll()
 
 @app.route("/followedStories",methods=['GET', 'POST'])
 def followedStories():
