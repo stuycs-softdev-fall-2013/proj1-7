@@ -1,35 +1,44 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> 
-  <head>
-    <title>Register</title>
-  </head>
-  {% if error %}
-  <div id="error">
-    {{error}}
-  <hr>
-  </div>
-  {% endif %}
-  <body>
-    <h1>Register</h1>
+<head>
+	<title>Register</title>
+	<link href="../static/css/header.css" type="text/css" rel="stylesheet">
+	<link href="../static/css/write.css" type="text/css" rel="stylesheet">
+	<link href="../static/css/text.css" type="text/css" rel="stylesheet">
+	<script src="../static/js/text.js">
+	</script>
+	<style>
+		.write {
+			display:block;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		{% if error %}
+			<div id="error">
+				{{error}}
+			</div>
+		{% endif %}
+		<br />
+		<span class="title">Register</span>
+		<form method="POST">
+			<div class="story">
+				<div class="write">
+				<input class="input" type="text" name="username" placeholder="Username"> 
+				<br />
+				<input class="input" type="password" name="password" placeholder="Password"> 
+				<br />
+				<input class="input" type="password" name="pw_verify" placeholder="Verify Password" onkeypress="checkKey(this,event,function() {return true}),this.focus()"> 
+				<br />
+				<div id="confirm"> 
+					<span> I hope youre fond of that name. </span>
+					<ul>
+						<li > <a style="font-size: 1.2em" onclick="document.login.submit" href="#confirm"> I am. </a> </li>
+					</ul>
+				</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body> 
 
-    <form method="POST">
-      <input type="text" name="username" placeholder="Username"> <br>
-      <input type="password" name="password" placeholder="Password"> <br>
-      <input type="password" name="pw_verify" placeholder="Verify Password"> <br>
-      <input type="submit" name="button" value="Register">
-    </form>
-    <hr>
-    <a href="/">back</a>
-    <address></address>
-  </body> 
-</html>
-
-
-<style>
-  #error {
-  width:100%;
-  background-color:F0D8D8;
-  color:D90000;
-  font-size:2em;
-  }
-</style>

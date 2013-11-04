@@ -4,7 +4,8 @@
 	<link href="../static/css/header.css" type="text/css" rel="stylesheet">
 	<link href="../static/css/write.css" type="text/css" rel="stylesheet">
 	<link href="../static/css/text.css" type="text/css" rel="stylesheet">
-
+	<script src="../static/js/text.js">
+	</script>
 	<style>
 		.write {
 			display:block;
@@ -20,15 +21,20 @@
 		{% endif %}
 		<br />
 		<span class="title"> Login</span>
-		<form method="POST">
+		<form method="POST" name ="login">
 			<div class="story">
 				<div class="write">
 					<input type="text" class="input" name="username" placeholder="username"> <br>
-					<input type="password" class="input" name="password" placeholder="password" onkeypress="check> <br>
-				</span>
+					<input type="password" class="input" name="password" placeholder="password" onkeypress="checkKey(this,event,function() {return true;})"> <br>
+				<div id="confirm"> 
+					<span> How's your confidence in those credentials? </span>
+					<ul>
+						<li > <a style="font-size: 1.2em" onclick="document.login.submit" href="#confirm"> Good </a> </li>
+					</ul>
+				</div>
+				<a style="font-size:.9em" href="/register">Click here to register</a> 
+				</div>
 			</div>
 		</form>
-		<hr>
-		New user? <a href = "/register">Click here to register</a>
 	</div>
 </body>
