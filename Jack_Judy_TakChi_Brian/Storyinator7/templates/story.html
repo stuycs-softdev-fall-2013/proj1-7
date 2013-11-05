@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title> {{ story['title'] }} </title>
+
+    {% include "lib.html" %}
+  </head>
+
+  <body>
+    {% include "navbar.html" %}
+
+    <div align="center">
+            <h3> {{ story['title'] }} </h3>
+            <h4> Created by
+              <a href="/profile/{{ story['author'] }}">
+                {{ story['author'] }}
+              </a>
+            </h4>
+            {% for line in story['lines'] %}
+                <p> {{ line }} </p>
+            {% endfor %}
+
+    </div>
+  </body>
+</html>
