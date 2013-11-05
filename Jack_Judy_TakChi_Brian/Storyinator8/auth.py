@@ -4,10 +4,11 @@
 from time import time
 
 from pymongo import MongoClient
-connection = MongoClient('db.stuycs.org')
-db=connection.admin
-db.authenticate('softdev','softdev')
-
+#connection = MongoClient('db.stuycs.org')
+#db=connection.admin
+#db.authenticate('softdev','softdev')
+connection = MongoClient()
+db = connection.database
 def register(user, pw):
     if checkuser(user) == False:
         db.login.insert({'user':user, 'pass':pw})
