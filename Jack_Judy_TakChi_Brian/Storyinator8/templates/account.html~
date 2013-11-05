@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    <title> Account Settings </title>
+  </head>
+
+  <body>
+    <ul display = "inline" list-style-type = "none">
+    <li><a href = "/home"> Home </a></li>
+    <li><a href = "/logout"> Logout </a></li>
+    </ul>
+    <br>
+    {{message}}
+    <br>
+    <form method = "POST" align = "center">
+      <p> Change Password: </p>
+      <p> Old Password: <input type = "text" name = "old"> </p>
+      <p> New Password: <input type = "text" name = "new"> </p>
+      <input type = "submit" name = "button" value = "Save">
+    </form>
+  </body>
+  
+</html>
