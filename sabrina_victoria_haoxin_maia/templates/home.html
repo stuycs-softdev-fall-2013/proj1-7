@@ -14,7 +14,7 @@
     <div class="according-groups">
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion{{x}}" href="#collapse{{x}}">
-	  <h3> {{blog[0]}} </h3>  <h5> posted at: {{blog[1]}}</h5>
+	  <h3> {{blog[0]}}  posted at: {{blog[1]}}</h3>
         </a>
       </div>
       <div id="collapse{{x}}" class="accordion-body collapse in">
@@ -23,8 +23,9 @@
           <div class="hero-unit" style="max-width:1040px">
 	    {{blog[2]}}
 	    <br>
-            <button class="btn default-btn pull-right" name="btn" value='>Read More</button>
-	    
+	    <form method="POST">
+              <button class="btn default-btn pull-right" name="btn" value="{{blog[0]}}">Read More or Comment</button>
+	    </form>
           </div>
         </div>
 	

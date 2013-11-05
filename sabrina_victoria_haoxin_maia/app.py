@@ -8,12 +8,19 @@ from time import strftime
 app = Flask(__name__)
 app.secret_key = "BLOGINATOR"
 _loggedin = False
+_link = ""
 
-@app.route('/')
+@app.route('/',methods=['POST','GET'])
 def home():
     blogs = posts.getPosts()
     datum = iden() 
-    return render_template('home.html',blogs=blogs,data=datum)
+    if request.method == 'GET':
+        return render_template('home.html',blogs=blogs,data=datum)
+    if request.method == "POST":
+        if request.form['btn']:
+            global _link
+            _link = request.form['btn']
+            return redirect(url_for("post"))
 
 @app.route('/register',methods = ['GET','POST'])
 def register():
@@ -40,6 +47,7 @@ def register():
             m = "username already registered. Try a differnt one"
             return render_template("Register.html",data=datum,m=m)
         return redirect(url_for('home'))
+        
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -95,13 +103,23 @@ def myacc():
     return redirect(url_for('login'))
 
 @app.route('/post',methods =['GET','POST'])
-def post(link):
+def post():
+    datum = iden()
+    global _loggedin
+    global _link
+    text = posts.single(_link)
     if request.method=='GET':
-        datum = {}
-        global _loggedin
-        datum['user'] = _loggedin
-        datum['admin'] = auth.admin(session['username'])
-        return render_template('post.html',text=posts.single(link),data=datum)
+        return render_template('post.html',text=text,data=datum,loggedin=_loggedin)
+    if request.method=='POST':
+        if request.form['btn'] == "write":
+            comment = request.form['comment']
+            time = strftime("%X %x")
+            posts.commentate(_link,session['username'],time,comment)
+        else:
+            commentNum = request.form['btn']
+            posts.upvoteComment(_link,commentNum)
+        text = posts.single(_link)
+        return render_template('post.html',text=text,data=datum,loggedin=_loggedin)
 
 @app.route('/write',methods=['GET','POST'])
 def write():

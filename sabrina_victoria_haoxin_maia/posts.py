@@ -23,7 +23,7 @@ def single(title):
     rtn.append(page[0]['comments'])
     rtn.append(order)
     return rtn
-    
+
 
 def getPosts():
     if posts.find({}).count() > 0:
@@ -49,18 +49,19 @@ if __name__ == '__main__':
     print(single('blog2'))
     print('\n')
     commentate('blog2','kevin',strftime("%X %x"),'lmao')
-    commentate('blog2','bob',strftime("%X %x"),'rofl')
-    commentate('blog2','jason',strftime("%X %x"),'damn')
-    commentate('blog2','jason',strftime("%X %x"),'god')
+#    commentate('blog2','bob',strftime("%X %x"),'rofl')
+#    commentate('blog2','jason',strftime("%X %x"),'damn')
+#    commentate('blog2','jason',strftime("%X %x"),'god')
     
-
+    print("commented \n " )
 
     print(single('blog2'))
     print('\n')
-    upvoteComment('blog2',1)
-    upvoteComment('blog2',2)
-    upvoteComment('blog2',2)
+    upvoteComment('blog2',0)
+#    upvoteComment('blog2',2)
+#    upvoteComment('blog2',2)
     print(single('blog2'))
+
 
 
     
