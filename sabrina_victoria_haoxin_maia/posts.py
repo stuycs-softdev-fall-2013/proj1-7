@@ -28,12 +28,8 @@ def single(title):
 def getPosts():
     if posts.find({}).count() > 0:
         a=[x['Title'] for x in posts.find({},fields={"_id":False,"comments":False})]
-        return a
+        return sorted(a,key=lambda x:x[1],reverse=True)
     return []
-
-#def getPosts():
-#    a = [x['Title'][0] for x in posts.find({},fields={'_id':False,'comments':Fa#lse})]
-#    return a
 
 def commentate(title,username,time,comment):
     id = [x['comments'].__len__() for x in posts.find({"Title":(title)},fields={'_id':False})]
@@ -46,6 +42,7 @@ if __name__ == '__main__':
     write('blog1',strftime("%X %x"),'first blog')
     write('blog2',strftime("%X %x"),'2nd blog')
     write('blog3',strftime("%X %x"),'3rd blog')
+
     
     print(getPosts())
     print('\n')

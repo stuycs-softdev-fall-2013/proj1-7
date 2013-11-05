@@ -9,7 +9,7 @@
   <body>
     
         <div class="container">   
-          <div style="width:50%;">
+          <div style="width:100%;">
 	    
 	    
             <div class="header"> 
@@ -18,11 +18,11 @@
             </div>
             <div class="span4">
 	      <h3> Posts: </h3>
-	      {% set x = 0 %}
-	      {% for post in blogs %}
-	      <h5> {{post[x][0]}} posted at: {{post[x][1]}}</h5>
-	      {{post[x][2]}}
-	      {% set x = x + 1 %}
+	      
+	      {% for blog in blogs %}
+	      <h5>{{blog[0]}} </h5>
+	      <h6> posted at : {{blog[1]}} </h6>
+	      {{blog[2]}}
 	      {% endfor %}
               <div class = "row">
                 <div class = "span4">

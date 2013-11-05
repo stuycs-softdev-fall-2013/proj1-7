@@ -1,9 +1,7 @@
 from pymongo import MongoClient
 client = MongoClient()
 users = client.db.users
-
-def clear():
-    users.remove()
+users.remove()
 
 def authenticate(username,pw):
     return users.find({"username":username,"pw":pw},field={"_id":False}).count() != 0
@@ -11,25 +9,20 @@ def authenticate(username,pw):
 def changepw(username,pw):
     users.update({'username':username},{"$set":{'pw':pw}},upsert=False)
 
-def register(fname,lname,username,pw,pw2):
-    if users.find({"username":username}).count() != 0:
-        return 1
-    elif pw != pw2:
-        return 2
-    elif users.find().count() == 0:
+def register(fname,lname,username,pw):
+    if users.find({}).count() == 0:
         users.insert({"username":username,"pw":pw,'fname':fname,'lname':lname,"ADMIN":True})
-    else:
+    elif users.find({"username":username}).count() == 0:
         users.insert({"username":username,"pw":pw,'fname':fname,'lname':lname,"ADMIN":False})
-    return 0
+    else: return False
+    return True
 
 def admin(username):
     return users.find({"username":username,"ADMIN":True}).count() != 0
 
 def getName(username):
-    name = []
     l = [x for x in users.find({"username":username},fields={'_id':False,'username':False,'pw':False,'ADMIN':False})][0]
-    name.append(l['fname'])
-    name.append(l['lname'])
+    name = l['fname'] + " " +l['lname']
     return name
     
 if __name__ == "__main__":
@@ -51,9 +44,7 @@ if __name__ == "__main__":
     if not admin('brianliu'):
         print('brianliu is not the admin \n')
         
-    name = getName('jasonchen')
-    print("first name: %s \n" %(name[0]))
-    print("last name: %s \n" %(name[1]))
+    print("name: %s \n" %(getName('jasonchen')))
 
         
 

@@ -9,19 +9,21 @@
 <div class="container">
   <h2> POSTS: </h2>
   {% set x = 0 %}
-  {% for post in blogs %}  
+  {% for blog in blogs %}  
   <div class="accordion" id="accordion1">
     <div class="according-groups">
       <div class="accordion-heading">
         <a class="accordion-toggle" data-toggle="collapse" data-parent="accordion{{x}}" href="#collapse{{x}}">
-	  <h3>{{post[0]}}</h3> <h5> posted at: {{post[1]}}</h5>
+	  <h3> {{blog[0]}} </h3>  <h5> posted at: {{blog[1]}}</h5>
         </a>
       </div>
       <div id="collapse{{x}}" class="accordion-body collapse in">
         <div class="accordion-inner">
 	  
           <div class="hero-unit" style="max-width:1040px">
-            {{post[2]}}
+	    {{blog[2]}}
+	    <br>
+            <button class="btn default-btn pull-right" name="btn" value='>Read More</button>
 	    
           </div>
         </div>

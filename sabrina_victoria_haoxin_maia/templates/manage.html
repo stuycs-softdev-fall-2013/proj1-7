@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Change Password </title>
+<meta charset = "UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% include "toolbar.html" %}
+</head>
+
+<body>
+<div class = "container">
+<h1> <font color = "cornflowerblue"> Change Password </font></h1>
+<table class = "table table-hover">
+  <tr> <td>
+      <form method ="POST" role="form">
+	<font color="red">{{m}}</font>
+	<div class="form-group">
+	  <label for="InputUsername">Username:{{uname}}</label>
+	</div>
+	<div class="form-group">
+	  <label for="InputOldPassword">Old Password</label>
+	  <input type="password" class="form-control" name="oldPassWord" placeholder="Old Password">
+	</div>
+	<div class="form-group">
+	  <label for="InputNewPassword">New Password</label>
+	  <input type="password" class="form-control" name="newPassWord" placeholder="New Password">
+	</div>
+	<div class="form-group">
+	  <label for="InputNewPassword">Type New Password Again</label>
+	  <input type="password" class="form-control" name="newPassWord2" placeholder="Retype New Password">
+	</div>
+	<button type="submit" class="btn btn-default" name="button" value="Submit">Submit</button>
+	<br><br>
+
+	
+      </form>
+  </td></tr>
+
+  
+</table>
+</div>
+</body>
+</html>

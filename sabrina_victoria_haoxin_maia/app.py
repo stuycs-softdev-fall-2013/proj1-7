@@ -12,25 +12,15 @@ _loggedin = False
 @app.route('/')
 def home():
     blogs = posts.getPosts()
-    datum = {}
-    global _loggedin
-    datum['user'] = _loggedin
-    if _loggedin:
-        datum['admin'] =  auth.admin(session['username'])
-    else: datum['admin']=False
+    datum = iden() 
     return render_template('home.html',blogs=blogs,data=datum)
 
 @app.route('/register',methods = ['GET','POST'])
 def register():
     if 'username' in session:
         return redirect(url_for('home'))
+    datum = iden()
     if request.method == 'GET':
-        datum={}
-        global _loggedin
-        datum['user'] = _loggedin
-        if _loggedin:
-            datum['admin'] =  auth.admin(session['username'])
-        else: datum['admin']= False
         return render_template('Register.html',data=datum)
     if request.method == "POST":
         fname = request.form['Firstname']
@@ -38,53 +28,55 @@ def register():
         name = request.form['username']
         pw = request.form['pw']
         pw2 = request.form['pw2']
-        if auth.register(fname,lname,name,pw,pw2) == 0:
+        if pw != pw2:
+            m = "passwords to not match, please try again."
+            return render_template("Register.html",data=datum,m=m)
+        if auth.register(fname,lname,name,pw):
+            global _loggedin
             _loggedin = True
-            session["username"]= fname +" "+lname
+            session["username"]= name
             return redirect(url_for('home'))
-        elif auth.register(fname,lname,name,pw,pw2) == 1:
+        else:
             m = "username already registered. Try a differnt one"
-            data = {'user':False,'admin':False}
-            return render_template("Register.html",data=data,m=m)
+            return render_template("Register.html",data=datum,m=m)
         return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     if 'username' in session:
         return redirect(url_for('home'))
+    datum = iden()
     if request.method == 'GET':
-        datum = {}
-        global _loggedin
-        datum['user'] = _loggedin
-        datum['admin'] =  False
         return render_template('Login.html',data=datum)
     if request.method == "POST":
-        if auth.authenticate(request.form['username'],request.form['pw']):
-            session['username'] = request.form['username']
+        uname = request.form['username']
+        pw = request.form['pw']
+        if auth.authenticate(uname,pw):
+            session['username']= uname
+            global _loggedin
             _loggedin = True
             return redirect(url_for('home'))
         response = "unrecognized username and/or password combination"
-        data = {'user':False,'admin':False}
-        return render_template('Login.html',response = response,data=data)
+        return render_template('Login.html',response = response,data=datum)
 
-@app.route('/manage')
+@app.route('/manage',methods=['GET','POST'])
 def manage():
     if 'username' not in session:
         return redirect(url_for('login'))
+    datum = iden()
+    uname = session['username']
     if request.method == 'GET':
-        datum = {}
-        global _loggedin
-        datum['user'] = _loggedin
-        datum['admin'] = auth.admin(session['username'])
-        return render_template('manage.html',uname = session['username'],data=datum)
+        return render_template('manage.html',uname = uname,data=datum)
     if request.method == 'POST':
         pw = request.form['oldPassWord']
         newpw = request.form['newPassWord']
-        newpw2 = request.form['newPassWord']
+        newpw2 = request.form['newPassWord2']
         if not auth.authenticate(session['username'],pw):
-            return "incorrect current password" + render_template('manage.html')
+            m = "incorrect current password"
+            return render_template('manage.html',m=m,uname=uname,data=datum)
         elif newpw != newpw2:
-            return "new passwords do not match" + render_template('manage.html' )
+            m = "new passwords do not match"
+            return render_template('manage.html',m=m,data=datum,uname=uname)
         else:
             auth.changepw(session['username'],newpw)
             return redirect(url_for('myacc'))
@@ -93,12 +85,13 @@ def manage():
 @app.route('/myacc',methods=['GET','POST'])
 def myacc():
     if 'username' in session:
-        name = session['username']
+        name = auth.getName(session['username'])
+        blogs = posts.getPosts()
         datum = {}
         global _loggedin
         datum['user'] = _loggedin
         datum['admin'] = auth.admin(name)
-        return render_template('MyAccountNormal.html',name = name,data=datum)   
+        return render_template('MyAccountNormal.html',name=name,data=datum,blogs=blogs)   
     return redirect(url_for('login'))
 
 @app.route('/post',methods =['GET','POST'])
@@ -112,19 +105,18 @@ def post(link):
 
 @app.route('/write',methods=['GET','POST'])
 def write():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    datum = iden()
     if request.method=='GET':
-        datum = {}
-        global _loggedin
-        datum['user'] = _loggedin
-        datum['admn'] = auth.admin(session['username'])
         return render_template('newpost.html',data=datum)
     elif request.method == 'POST':
         t = request.form['title']
         p = request.form['content']
         ti = strftime("%X %x")
         if not posts.write(t,ti,p):
-            m = "another post with teh same title exist, please rename your piece"
-            return render_template('write.html',m=m)
+            m = "another post with the same title exist, please rename your piece"
+            return render_template('newpost.html',m=m,data=datum)
         return redirect(url_for("home"))        
 
 @app.route('/logout')
@@ -133,6 +125,15 @@ def logout():
     global _loggedin
     _loggedin = False
     return redirect(url_for("home"))
+
+def iden():
+    datum={}
+    global _loggedin
+    datum['user'] = _loggedin
+    if _loggedin:
+        datum['admin'] =  auth.admin(session['username'])
+    else: datum['admin']= False
+    return datum
 
 @app.route('/delete')
 def delete():
