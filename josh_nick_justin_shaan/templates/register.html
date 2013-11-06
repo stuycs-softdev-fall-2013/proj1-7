@@ -6,10 +6,10 @@
   <div class="container">
     <div class="content">
       <div class="row">
-        <div class="login-form">
-          <h2>Login</h2>
+        <div class="register-form">
+          <h2>Register</h2>
 		  {% if failed %}
-			<p>Login failed, please try again</p>
+			<p>Sorry, this user already exists</p>
 		  {% endif %}
           <form method="POST">
             <fieldset>
@@ -19,7 +19,7 @@
               <div class="clearfix">
                 <input type="text" placeholder="Password" name="password">
               </div>
-              <button class="btn primary" type="submit">Sign in</button>
+              <button class="btn primary" type="submit">Register</button>
             </fieldset>
           </form>
         </div>

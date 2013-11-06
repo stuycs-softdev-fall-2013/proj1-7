@@ -15,12 +15,6 @@ app = Flask(__name__)
 posts_db = PostDatabase('posts.db')
 auth_db = AuthDatabase('auth.db')
 
-@app.route('/clear')
-def clear():
-    posts_db.clear_data()
-    posts_db.setup_database()
-    return redirect(url_for('index'))
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -57,6 +51,9 @@ def register():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
+    if ('username' not in session or
+        session['username'] != 'admin'):
+        return redirect(url_for('index'))
     if request.method == 'GET':
         return render_template('admin.html')
     elif request.method == 'POST':
