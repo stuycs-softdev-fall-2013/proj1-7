@@ -107,8 +107,8 @@ def user_page(user):
         if "username" in session:
             username = session["username"]
             u = users.find_one(username=username)
-            return render_template("userpage.html",target_user=target_user, posts=p, user=u)
-        return render_template("userpage.html",target_user=target_user, posts=p)
+            return render_template("user.html",target_user=target_user, posts=p, user=u)
+        return render_template("user.html",target_user=target_user, posts=p)
     else:
         return redirect(url_for("home"))
 
