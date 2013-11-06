@@ -1,8 +1,8 @@
 ##### StuyPress
 
 ## Members
-* Noah (Leader)
-* Kelvin Mei (Frontend)
+* Noah (Leader/Backend)
+* Kelvin Mei (Frontend/CSS)
 * Hanson Lin (Backend)
 * Michele Lin (Middleware)
 
