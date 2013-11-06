@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'secret'
 d= {}
 @app.route('/')
+@app.route('/home')
 def home():
     if 'username' in session:
         user = session['username']
