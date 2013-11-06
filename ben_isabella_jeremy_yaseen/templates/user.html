@@ -1,0 +1,39 @@
+{% include "include/headtag.html" %}
+
+<body>
+
+{% include "include/topbar.html" %}
+
+
+<div class="row">
+  <div class="large-8 large-centered columns blogtitle" style="background:#000038;">
+    <br>
+    <h3 align="center">{{target_user.username}}</h3>
+    <br>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="large-10 large-centered columns blogtitle">
+    <br>
+    <h4>Posts by {{target_user.username}}</h4>
+    <hr>
+    <ul class="no-bullet">
+      {% for p in posts %}
+      <li>
+	<br>
+	<strong><a href="/posts/{{p.get_id()}}">{{p.title}}</a></strong>
+	<i>Posted on {{p.get_datestring()}}</i>
+	<p><i>{{p.upvotes}} upvote(s)</i></p>
+      </li>
+      {% endfor %}
+    </ul>
+    <br>
+  </div>
+</div>
+
+
+
+{% include "include/scripts.html" %}
+
+</body>

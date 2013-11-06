@@ -16,23 +16,22 @@
 		</div>
 	</div>
 	<div class="content">
-		<div class="story">
 		  <span class="title">{{title}} </span><br />
-		  <span class="prose">
-		    {{story}}
-		  </span>
-		  <span class="write">
-		    <form name="sentence" onsubmit="return false;" method="post" action="write">
-		      <textarea type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>
-		      <div id="confirm">
-			<span>You feel good about this? </span>
-			<ul>
-			  <li> <a href="#confirm" onclick="upload();"> Yes. </a> </li>
-			  <li> <a href="#confirm" onclick="edit()"> No. </a></li>
-			</ul>
-		      </div>
-		    </form>
-		  </span>
+			<span class="prose">
+			{{story}}
+			</span>
+			<span class="write">
+				<form name="sentence" onsubmit="return false;" method="post" action="write">
+					<textarea class = "input" style="font-size:1.5em"type="text" name="data" onKeypress="checkKey(this,event);resize(this)" onkeydown="resize(this)" onkeyup="resizeIfDifferent(this)" placeholder="Write." autofocus></textarea>
+					<div id="confirm">
+						<span>You feel good about this? </span>
+						<ul>
+							<li> <a href="#confirm" onclick="upload();"> Yes. </a> </li>
+							<li> <a href="#confirm" onclick="edit()"> No. </a></li>
+						</ul>
+					</div>
+				</form>
+			</span>
 		</div>
 	</div>
 </body>

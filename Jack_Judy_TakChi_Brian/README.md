@@ -7,7 +7,7 @@ Judy Mai
 ###Backend
 Tak Chi Wan
 ###Middleend 
-Jack Cahn & Brian Chuk
+Brian Chuk
 
 ###Project Description
 Name: Build-a-Story
@@ -20,4 +20,10 @@ The database used is MongoDB. We also used Bootstrap for the CSS and html files.
 * Login to your personal account
 * Search for existing stories
 
+
+### Division of Labor:
+* Jack: wrote app.py, set up login, register and logout functionality. Created "create story" functionality. Connected the front end to app.py. Modified frontend to take imputs. 
+* Tak Chi: wrote auth.py
+* Judy: wrote templates
+* Brian: 
 

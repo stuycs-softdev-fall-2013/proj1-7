@@ -107,8 +107,8 @@ def user_page(user):
         if "username" in session:
             username = session["username"]
             u = users.find_one(username=username)
-            return render_template("userpage.html",target_user=target_user, posts=p, user=u)
-        return render_template("userpage.html",target_user=target_user, posts=p)
+            return render_template("user.html",target_user=target_user, posts=p, user=u)
+        return render_template("user.html",target_user=target_user, posts=p)
     else:
         return redirect(url_for("home"))
 
@@ -152,7 +152,7 @@ def vote_up():
 
 
 # Page to create a post
-@app.route("/create-post")
+@app.route("/create-post", methods=["GET", "POST"])
 def create_post():
     if "username" in session:
         username = session["username"]
@@ -160,9 +160,9 @@ def create_post():
         if request.method == "GET":
             return render_template("create_post.html", user=u)
         else:
-            title=request.form["title"]
-            body=request.form["body"]
-            tags=request.form["tags"]
+            title = request.form["title"]
+            body = request.form["body"]
+            tags = request.form["tags"].split(' ')
             p = u.add_post(title=title, body=body, tags=tags)
             return redirect(url_for("post", id=p.get_id()))
     else:

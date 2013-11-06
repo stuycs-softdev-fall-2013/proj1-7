@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Read Stories HERE!!!</title>
+</head>
+<body>
+  <h1>Read Stories HERE!!!</h1>
+
+    <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <ul>
+      {% for user in post %}
+      <li>Title: {{ user.title }}</li>
+      <li>Story: {{ user.story }}</li>
+
+      <br>
+      {% endfor %}
+    </ul>
+
+   
+    {{ _variable }}
+</body>
+</html>

@@ -1,0 +1,30 @@
+<script src="../static/jquery-2.0.3.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../static/bootstrap/css/bootstrap-responsive.css">
+<script src="../static/bootstrap/js/bootstrap.js"></script>  
+<link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" type = "text/css" media="screen"/>
+
+<div class = ""container"">
+  <h1> <font color = "cornflowerblue"> Our Blog </font></h1>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav">
+          <li class="active"><a href="/">Home</a></li>
+	  {% if data.user == false %}
+          <li><a href="/login">Login</a></li>
+	  <li><a href="/register">Register</a></li>
+	  {% else %}
+	  <li><a href="/myacc">My Account</a></li>
+	  <li><a href="/logout">Logout</a></li>
+	  {% if data.admin == true %}
+          <li><a href="/write">Write Post</a></li>	  
+	  {% endif %}
+	  {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+

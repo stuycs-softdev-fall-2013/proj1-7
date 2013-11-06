@@ -1,0 +1,27 @@
+<html>
+    {% include "style.html" %}
+    <body>
+        {% include "navbar.html" %}
+
+        <div class="container">
+            <div class="appendarea">
+                <form method="POST">
+                    <div class="input-group">
+                        <span class="input-group-addon">Fork name</span>
+                        <textarea class="form-control" rows="1" name="newtitle">My new Fork</textarea>
+                        <br>
+                    </div>
+                        <button type="Submit" class="btn btn-primary pull-right" name="submit">Submit</button>
+                </form>
+            </div>
+			<br>
+            <hr>
+            <br>
+            {% for edit in story.content %}
+            <a href="/stories/fork/{{story['id']}}/{{edit[1]}}" class="storytext" title="Fork from this Edit!">{{ edit[0] }}</a>
+            {% endfor %}
+
+        </div>
+
+    </body>
+</html>

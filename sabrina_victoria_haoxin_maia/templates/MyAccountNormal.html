@@ -1,41 +1,39 @@
 <html>
-<head>
-<meta charset = "utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title> My Account </title>
-<link
-href="/Desktop/proj1-7/sabrina_victoria_haoxin_maia/static/bootstrap/css/bootstrap.css"
-rel="stylesheet" type = "text/css" media="screen"/>
-</head>
-
-<body>
-<div class = "row">
-<h1> <font color = "cornflowerblue"> Welcome User </font></h1>
-        <div class="span4">
-	  These Are My Comments
-	  <div class = "row">
-	    <div class = "span4">
-	      Great post!
-	      </div>
-	    </div>
-	</div>
+  <head>
+    <meta charset = "utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title> My Account </title>  
+    {% include "toolbar.html" %}
+  </head>
+  
+  <body>
+    
+        <div class="container">   
+          <div style="width:100%;">
+	    
+	    
+            <div class="header"> 
+              <h1> <font color = "cornflowerblue"> Welcome {{name}} </font></h1>
+              <a href="/manage" class="btn btn-default">Change Password</a>
+            </div>
+            <div class="span4">
+	      <h3> Posts: </h3>
+	      
+	      {% for blog in blogs %}
+	      <h5>{{blog[0]}} </h5>
+	      <h6> posted at : {{blog[1]}} </h6>
+	      {{blog[2]}}
+	      {% endfor %}
+              <div class = "row">
+                <div class = "span4">
+                </div>
+              </div>
+            </div>
+            </div>
+	  
+        </div>
 </div>
-<div class = "row">
-	<div class = "span4 offset2">
-	  These are the posts I like.
-	  <div class = "row">
-	    <div class = "span4 offset2">
-	      poop
-	      </div>
-	  </div>
-	  </div>
-                         
-<a href="/register" type="changepassword" class="btn btn-default">Change Password</a>
-
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src=”js/bootstrap.js”></script>
-
-</div>
+	
 </body>
 </html>
 

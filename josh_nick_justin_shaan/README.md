@@ -1,13 +1,3 @@
-# Bloginator Project
+A basic somewhat working blog.  
 
-### Joshua Chin, Nick Galasinao, Justin Duda, Shaan Sheikh
-
-* Leader: Joshua
-* Back End and Databases: Justin
-* Front End: Shaan
-* Flask Design: Nick
-
-- - -
-
-* Database: SQLite3
-* Front End Framework: Bootstrap
+Note: Shaan deleted the commit history

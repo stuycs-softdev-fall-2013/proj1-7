@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="static/css/foundation.css">
+        <script type="text/javascript">
+            {% if message %}
+                function notify() {
+                    alert("{{message}}");
+                };
+                window.onload = notify;
+            {% endif %}
+        </script>
+        <title>Create Post</title>
+    </head>
+    <body>
+        <h2>Create Post</h2>
+        <a href="/">Home</a>
+	<a href="/a/b">Testing</a>
+        <form method=POST>
+            <div class=description>Username:</div>
+            <input type=text name=username>
+            <div class=description>Title:</div>
+            <input type=text name=title>
+	    <div class=description>Post:</div>
+            <input type=text name=post>
+            <input type=submit>
+        </form>
+    </body>
+</html>
+
