@@ -37,7 +37,8 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'GET':
+   
+ if request.method == 'GET':
         return render_template('register.html')
     else:
         if auth_db.exists(
