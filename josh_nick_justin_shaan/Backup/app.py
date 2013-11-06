@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sqlite3
 import flask
 from flask import Flask
 from flask import redirect
@@ -25,13 +26,28 @@ def index():
 def login():
     if request.method == 'GET':
         return render_template('login.html', failed = False)
-    elif request.method == 'POST':
+    else:
         if auth_db.auth_user(
             request.form['username'],
             request.form['password']):
             session['username'] = request.form['username']
             return redirect(url_for('index'))
-        return render_template('login.html', failed = True)
+        else:
+            return render_template('login.html', failed = True)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        if auth_db.exists(
+            request.form['username']):
+            return render_template('register.html', failed = True)
+        else:
+            auth_db.add_user(
+                request.form['username'],
+                request.form['password'])
+            return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():

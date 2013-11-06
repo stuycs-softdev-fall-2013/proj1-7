@@ -16,6 +16,12 @@ class AuthDatabase(Database):
             'username=? AND password=?',
             (name, crypto_hash(password))))
 
+    def exists(self, name):
+        return bool(self._execute(
+            'SELECT * FROM users WHERE '
+            'username=?',
+            (name)))
+
     def add_user(self, name, password):
         if self._execute(
             'SELECT * FROM users WHERE '

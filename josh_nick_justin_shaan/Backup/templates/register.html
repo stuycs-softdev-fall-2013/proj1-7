@@ -1,0 +1,30 @@
+<html>
+	{% include "css.html" %}
+
+<body>
+	{% include "navbar.html" %}
+  <div class="container">
+    <div class="content">
+      <div class="row">
+        <div class="register-form">
+          <h2>Register</h2>
+		  {% if failed %}
+			<p>Sorry, this user already exists</p>
+		  {% endif %}
+          <form method="POST">
+            <fieldset>
+              <div class="clearfix">
+                <input type="text" placeholder="Username" name="username">
+              </div>
+              <div class="clearfix">
+                <input type="text" placeholder="Password" name="password">
+              </div>
+              <button class="btn primary" type="submit">Register</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container -->
+</body>
+</html>
