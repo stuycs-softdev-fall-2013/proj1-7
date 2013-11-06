@@ -10,6 +10,9 @@ Blog Nation
 ## Navigating the site
 * All users have profile pages, and can create individual posts
     - simply click on your name in the top left after logging in, and click create post to add a new post
+    - search all posts by using the search bar in the top right
+    - view a user's page by clicking on their name by a post
+    - search tags by clicking on the individual tag
 
 ## Members
 * Benjamin Attal (Leader)
