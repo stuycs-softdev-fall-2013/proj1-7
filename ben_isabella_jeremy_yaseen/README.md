@@ -2,6 +2,7 @@ Blog Nation
 ===========
 
 ## TO RUN
+* run `pip install elasticsearch`
 * run `mongod` in one window
 * run `./app.py` in another
 * run `./utils.py` as a third
