@@ -167,7 +167,7 @@ def create_post():
         else:
             title = request.form["title"]
             body = request.form["body"]
-            tags = request.form["tags"].split(' ')
+            tags = request.form["tags"].lower().split(' ')
             p = u.add_post(title=title, body=body, tags=tags)
             return redirect(url_for("post", id=p.get_id()))
     else:
