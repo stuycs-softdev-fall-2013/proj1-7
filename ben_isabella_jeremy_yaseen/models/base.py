@@ -4,6 +4,7 @@
 from pymongo import MongoClient
 from datetime import datetime
 from settings import DB_NAME
+from utils import pretty_date
 
 
 class Model(object):
@@ -21,6 +22,10 @@ class Model(object):
     # Gets the date converted to a string
     def get_datestring(self):
         return self.date.strftime('%A, %B %d')
+
+    # Gets the time delta converted to string
+    def get_deltastring(self):
+        return pretty_date(self.date)
 
     # Removes the object from database
     def remove(self):
