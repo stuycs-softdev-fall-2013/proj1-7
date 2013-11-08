@@ -28,7 +28,17 @@
       <span class="radius secondary label"><a href="/search?keyword={{tag}}">{{tag}}</a></span>
       {% endfor %}
       <br><br>
-      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=/">upvote</a>{% endif %}</p>
+      <p>
+      <i>{{post.upvotes}} upvote(s)</i> 
+      {% if user is defined %}
+	<a href="/vote-up?pid={{post.get_id()}}&last=/">upvote  </a>
+	{% if user.admin or user.username == post.user %}
+	<br>
+	<br>
+	<a class="button small secondary"href="/remove-post?pid={{post.get_id()}}">Delete Post</a>
+	{% endif %}
+      {% endif %}
+      </p>
     </div>
     {% endfor %}
 </div>

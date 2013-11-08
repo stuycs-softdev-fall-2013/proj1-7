@@ -151,9 +151,15 @@ def vote_up():
         username = session["username"]
         u = users.find_one(username=username)
         u.vote_up(ObjectId(pid))
-    if last_page == "posts":
-        return redirect(last_page)
     return redirect(last_page)
+
+
+# Remoeve a post
+@app.route("/remove-post")
+def remove_post():
+    pid = request.args.get("pid")
+    posts.remove(_id=ObjectId(pid))
+    return redirect(url_for("home"))
 
 
 # Page to create a post
