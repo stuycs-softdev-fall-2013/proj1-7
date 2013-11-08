@@ -1,6 +1,13 @@
 Blog Nation
 ===========
 
+## Dependencies
+* elasticsearch
+* mongodb
+* python-flask
+* python-elasticsearch
+* pymongo
+
 ## TO RUN
 * run `pip install elasticsearch`
 * run `mongod` in one window

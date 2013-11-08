@@ -5,7 +5,6 @@
 
 <div class="row">
 <div class="large-10 large-centered  columns blogtitle">
-  
   <div class="row">
     <div class="large-11 small-centered columns">
       <legend class="blogtitle"><h1><a href="/posts/{{post.get_id()}}">{{post.title}}</a></h1></legend>
@@ -19,11 +18,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="large-10 large-centered columns">
-      
+    <div class="large-11 large-centered columns">
       <!--legend class="blogtitle"><h2 >Comments</h2></legend-->
-      <div class="row">
-	
 	{% if user is defined %}
 	<form method="POST">	  
 	  <legend class="blogtitle"><h4>Leave a Comment</h4></legend>
@@ -45,9 +41,6 @@
 	  {% endfor %}
 	  
 	</dl>
-	
-      </div>
-      
     </div>
   </div>
 </div>

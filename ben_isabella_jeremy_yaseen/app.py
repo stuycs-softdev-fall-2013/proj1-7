@@ -15,12 +15,16 @@ comms = Comment()
 # Home page: displays newest posts
 @app.route("/")
 def home():
-    ordered_posts = posts.get_by_date()
+    sort = request.args.get("sort")
+    if sort == "mostvoted":
+        target_posts = posts.get_most_voted()
+    else:
+        target_posts = posts.get_by_date()
     if "username" in session:
         username = session["username"]
         u = users.find_one(username=username)
-        return render_template("index.html", posts=ordered_posts, user=u)
-    return render_template("index.html", posts=ordered_posts)
+        return render_template("index.html", posts=target_posts, user=u)
+    return render_template("index.html", posts=target_posts)
 
 
 # Login page
@@ -53,9 +57,10 @@ def register():
         if request.method == "GET":
             return render_template("register.html")
         else:
-            username=request.form["username"]
-            password=request.form["password"]
-            if users.exists(username):
+            username = request.form["username"]
+            password = request.form["password"]
+            cpass = request.form["confirm password"]
+            if users.exists(username) and password == cpass:
                 return render_template("register.html", error="alreadyregistered")
             elif username == "":
                 return render_template("register.html", error="noname")

@@ -2,19 +2,25 @@
 <nav class="top-bar">
   <ul class="title-area">
     <!-- Title Area -->
-    <li class="name">
-      <h1><a href="/">BLOGNation</a></h1>
-    </li>
-    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
   <section class="top-bar-section">
+    <ul class="title-area">
+      <li class="name">
+        <a href="/">BLOGNation</a>
+      </li>
+    </ul>
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="divider"></li>
-      
+      <li>
+        <a href="/?sort=mostvoted">Most Voted</a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href="/?sort=mostrecent">Most Recent</a>
+      </li>
+      <li class="divider"></li>
       {% if user is defined %}
-
       <li class="has-dropdown">
 	<a href="#">{{user.username}}</a>
 	<!-- This dropdown will only show if a user is logged in -->
@@ -31,19 +37,20 @@
 	<!-- This login button will only show if a user is not logged in -->
       </li>
       {% endif %}
-
       <li class="divider"></li>
-      <li class="small-7 columns">
-	<form action=/search method=GET>
-	<div class="row collapse">
-          <div class="large-9 columns">
-            <input type="text" name="keyword" placeholder="Search">
-          </div>
-          <div class="large-3 columns">
-            <input type="submit" value="Go" class="button secondary prefix">
-          </div>
-	</div>
-	</form>
+      <li>
+        <div class="small-8">
+	  <form action=/search method=GET>
+	    <div class="row collapse">
+              <div class="large-8 columns">
+                <input type="text" name="keyword" placeholder="Search">
+              </div>
+              <div class="large-4 columns">
+                <input type="submit" value="Go" class="button secondary prefix">
+              </div>
+	    </div>
+          </form>
+    </div>
       </li>
     </ul>
   </section>
