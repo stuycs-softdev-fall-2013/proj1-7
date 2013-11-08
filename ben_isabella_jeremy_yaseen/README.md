@@ -11,6 +11,7 @@ Blog Nation
 ## TO RUN
 * run `pip install elasticsearch`
 * run `mongod` in one window
+* run `elasticsearch -f` in another
 * run `./app.py` in another
 * run `./utils.py` as a third
 * Open localhost:5000 in your web browser
