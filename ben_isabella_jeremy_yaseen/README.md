@@ -13,7 +13,7 @@ Blog Nation
 * run `mongod` in one window
 * run `elasticsearch -f` in another
 * run `./app.py` in another
-* run `./utils.py` as a third
+* run `./utils.py` in a fifth
 * Open localhost:5000 in your web browser
 
 ## Navigating the site
