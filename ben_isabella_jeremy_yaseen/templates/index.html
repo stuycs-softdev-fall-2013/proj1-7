@@ -16,17 +16,19 @@
 </div>
 <br>
 <div class="row">
-    {% for p in posts %}
+    {% for post in posts %}
     <div class="large-10 large-centered columns panel callout">
       <br>
-      <h4><a href="/posts/{{p.get_id()}}">{{p.title}}</a></h4>
-      <h6><i>Posted by </i><a href="/users/{{p.user}}">{{p.user}}</a><i> on {{p.get_datestring()}}</i></h6>
-      <p>{{p.body}}</p>
-      {% for tag in p.tags %}
+      <h4><a href="/posts/{{post.get_id()}}">{{post.title}}</a></h4>
+      <h6><i>Posted by </i><a href="/users/{{post.user}}">{{post.user}}</a><i> on {{post.get_datestring()}}</i></h6>
+      {% autoescape off %}
+      <p>{{post.body}}</p>
+      {% endautoescape %}
+      {% for tag in post.tags %}
       <span class="radius secondary label"><a href="/search?keyword={{tag}}">{{tag}}</a></span>
       {% endfor %}
       <br><br>
-      <p><i>{{p.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{p.get_id()}}&last=/">upvote</a>{% endif %}</p>
+      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=/">upvote</a>{% endif %}</p>
     </div>
     {% endfor %}
 </div>

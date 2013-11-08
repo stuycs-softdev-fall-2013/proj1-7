@@ -20,11 +20,12 @@ def index():
             if key != '_id':
                 p[key] = cursor[key]
         es.index(index='bloginator', doc_type='post', id=cursor['_id'], body=p)
+    print "indexing..."
     index_task.enter(ES_REPEAT, 1, index, ())
 
 
 def search(keyword):
-    query = {'query': {'match': {'_all': keyword}}}
+    query = {'query': {'term': {'_all': keyword}}}
     results = es.search(index='bloginator', doc_type='post', body=query)
     for p in results['hits']['hits']:
         p['_source']['_id'] = p['_id']

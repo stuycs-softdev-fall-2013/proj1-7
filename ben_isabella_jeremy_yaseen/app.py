@@ -129,7 +129,7 @@ def post(id):
             return render_template("post.html", post=p, user=u)
         else:
             #I'm assuming you can only comment if you're logged in
-            comment = request.form["comment"]
+            comment = request.form["comment"].replace("\n", "<br>")
             p.add_comment(user=username, text=comment)
             return render_template("post.html", post=p, user=u)
     else:
@@ -166,7 +166,7 @@ def create_post():
             return render_template("create_post.html", user=u)
         else:
             title = request.form["title"]
-            body = request.form["body"]
+            body = request.form["body"].replace("\n", "<br>")
             tags = request.form["tags"].lower().split(' ')
             p = u.add_post(title=title, body=body, tags=tags)
             return redirect(url_for("post", id=p.get_id()))
