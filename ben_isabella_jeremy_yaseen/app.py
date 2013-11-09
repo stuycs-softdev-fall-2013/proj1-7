@@ -3,7 +3,7 @@ from flask import Flask, render_template, session, redirect, request, url_for
 from bson import ObjectId
 from models import User, Post, Comment
 from settings import SECRET_KEY
-import utils
+import es
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -184,7 +184,7 @@ def create_post():
 @app.route("/search")
 def search():
     keyword = request.args.get("keyword")
-    results = utils.search(keyword)
+    results = es.search(keyword)
     if "username" in session:
         username = session["username"]
         u = users.find_one(username=username)

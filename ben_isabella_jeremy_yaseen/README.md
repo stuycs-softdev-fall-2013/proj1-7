@@ -3,17 +3,21 @@ Blog Nation
 
 ## Dependencies
 * elasticsearch
+    - `brew install elasticsearch`
 * mongodb
+    - `brew install mongodb`
 * python-flask
+    - `pip install flask`
 * python-elasticsearch
+    - `pip install elasticsearch`
 * pymongo
+    - `pip install pymongo`
 
-## TO RUN
-* run `pip install elasticsearch`
+## To Run
 * run `mongod` in one window
 * run `elasticsearch -f` in another
 * run `./app.py` in another
-* run `./utils.py` in a fifth
+* run `./es.py` in a fourth
 * Open localhost:5000 in your web browser
 
 ## Navigating the site

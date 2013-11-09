@@ -14,6 +14,7 @@ class Model(object):
         self.collection = collection
         self.date = obj['date']
         self._id = obj['_id']
+	self._obj = obj
 
     # Gets _id
     def get_id(self):
