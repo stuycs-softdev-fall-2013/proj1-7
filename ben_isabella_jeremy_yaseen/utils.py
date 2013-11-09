@@ -14,13 +14,23 @@ if not es.indices.exists('bloginator'):
 
 
 def index():
+    ids = []
+    print "indexing..."
     for cursor in db.posts.find():
         p = {}
         for key in cursor:
             if key != '_id':
                 p[key] = cursor[key]
+	    else:
+		ids.append(cursor[key])
         es.index(index='bloginator', doc_type='post', id=cursor['_id'], body=p)
-    print "indexing..."
+
+    print "pruning..."
+    query = {'query': {'match_all': {}}}
+    results = es.search(index='bloginator', doc_type='post', body=query)
+    for p in results['hits']['hits']:
+	if p['_id'] not in ids:
+	    es.delete('bloginator', doc_type='post', id=p['_id'])
     index_task.enter(ES_REPEAT, 1, index, ())
 
 
@@ -34,7 +44,7 @@ def search(keyword):
 
 
 def clear_index():
-    query = {'match_all': {}}
+    query = {'query': {'match_all': {}}}
     es.delete_by_query('bloginator', doc_type='post', body=query)
 
 
