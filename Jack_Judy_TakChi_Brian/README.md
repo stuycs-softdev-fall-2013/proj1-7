@@ -27,3 +27,8 @@ The database used is MongoDB. We also used Bootstrap for the CSS and html files.
 * Judy: wrote templates
 * Brian: 
 
+###Timetable:
+10/23 proposal complete
+10/25 backend done
+10/28 login+basic html framework complete
+11/3 put together everything 
