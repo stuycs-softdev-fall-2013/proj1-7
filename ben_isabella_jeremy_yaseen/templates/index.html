@@ -30,7 +30,6 @@
       <br><br>
       <p>
       <i>{{post.upvotes}} upvote(s)</i> 
-      </p>
       {% if user is defined %}
 	<a href="/vote-up?pid={{post.get_id()}}&last=/">upvote  </a>
 	{% if user.admin or user.username == post.user %}
@@ -39,6 +38,7 @@
 	<a class="button small secondary"href="/remove-post?pid={{post.get_id()}}">Delete Post</a>
 	{% endif %}
       {% endif %}
+      </p>
     </div>
     {% endfor %}
 </div>
