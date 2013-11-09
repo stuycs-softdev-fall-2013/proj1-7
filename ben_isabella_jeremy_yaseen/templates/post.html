@@ -20,12 +20,12 @@
       </p>
       {% for tag in post.tags %}
       <span class="radius secondary label"><a href="/search?keyword={{tag}}">{{tag}}</a></span>
+      {% endfor %}
       {% if user.admin or user.username == post.user %}
       <br>
       <br>
       <a class="button small secondary" href="/remove-post?pid={{post.get_id()}}">Delete Post</a>
       {% endif %}
-      {% endfor %}
       <hr>
     </div>
   </div>
