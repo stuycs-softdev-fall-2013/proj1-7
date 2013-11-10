@@ -44,6 +44,7 @@ def home(page_num=1):
 	if 'user' in session:
 		usern = session['user']
 		d['loggedIn'] = True
+		d['usern'] = usern
 		d['downvoted'] = auth.get_downvoted(usern)
 		d['upvoted'] = auth.get_upvoted(usern)
 
@@ -84,8 +85,11 @@ def register():
 
 	#POST
 	if request.form['button'] == 'Log in':
-		if handle_login(request.form):
-			render_template
+		if auth.handle_login(request.form):
+			session['user'] = request.form['username']
+			return redirect(url_for('home'))
+		else:
+			return redirect(url_for('home'))
 
 	usern = request.form['username']
 	passw = request.form['password']

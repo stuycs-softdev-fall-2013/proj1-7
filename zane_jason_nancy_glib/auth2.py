@@ -7,6 +7,13 @@ from math import ceil
 db = MongoClient().database
 PAGE_LEN = 5 #number of stories per page
 
+#change password
+def changePass(user, pw, npw):
+	if login(user, pw):
+		db.users.update({'user': user,}, {'$set': {'password': npw}})
+		return True
+	return False
+
 #create a new story
 def create_story(author, title, first_line):
 	story_id = db.stories.insert({'author': author, 'title': title,
