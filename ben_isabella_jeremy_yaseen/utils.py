@@ -1,41 +1,4 @@
-#!/usr/local/bin/python
-from elasticsearch import Elasticsearch
-from pymongo import MongoClient
 from datetime import datetime
-from settings import DB_NAME, ES_REPEAT
-import sched, time
-
-es = Elasticsearch()
-cli = MongoClient()
-db = cli[DB_NAME]
-index_task = sched.scheduler(time.time, time.sleep)
-if not es.indices.exists('bloginator'):
-    es.indices.create('bloginator')
-
-
-def index():
-    for cursor in db.posts.find():
-        p = {}
-        for key in cursor:
-            if key != '_id':
-                p[key] = cursor[key]
-        es.index(index='bloginator', doc_type='post', id=cursor['_id'], body=p)
-    print "indexing..."
-    index_task.enter(ES_REPEAT, 1, index, ())
-
-
-def search(keyword):
-    query = {'query': {'term': {'_all': keyword}}}
-    results = es.search(index='bloginator', doc_type='post', body=query)
-    for p in results['hits']['hits']:
-        p['_source']['_id'] = p['_id']
-    posts = [p['_source'] for p in results['hits']['hits']]
-    return posts
-
-
-def clear_index():
-    query = {'match_all': {}}
-    es.delete_by_query('bloginator', doc_type='post', body=query)
 
 
 # From stackoverflow
@@ -44,7 +7,7 @@ def pretty_date(time=False):
     if type(time) is int:
         diff = now - datetime.fromtimestamp(time)
     elif isinstance(time,datetime):
-        diff = now - time 
+        diff = now - time
     elif not time:
         diff = now - now
     second_diff = diff.seconds
@@ -75,8 +38,3 @@ def pretty_date(time=False):
     if day_diff < 365:
         return str(day_diff/30) + " months ago"
     return str(day_diff/365) + " years ago"
-
-
-if __name__ == '__main__':
-    index_task.enter(ES_REPEAT, 1, index, ())
-    index_task.run()

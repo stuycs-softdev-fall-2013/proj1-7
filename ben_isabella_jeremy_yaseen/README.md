@@ -3,24 +3,29 @@ Blog Nation
 
 ## Dependencies
 * elasticsearch
+    - `brew install elasticsearch`
 * mongodb
+    - `brew install mongodb`
 * python-flask
+    - `pip install flask`
 * python-elasticsearch
+    - `pip install elasticsearch`
 * pymongo
+    - `pip install pymongo`
 
-## TO RUN
-* run `pip install elasticsearch`
+## To Run
 * run `mongod` in one window
+* run `elasticsearch -f` in another
 * run `./app.py` in another
-* run `./utils.py` as a third
+* run `./es.py` in a fourth
 * Open localhost:5000 in your web browser
 
 ## Navigating the site
-* All users have profile pages, and can create individual posts
-    - simply click on your name in the top left after logging in, and click create post to add a new post
-    - search all posts by using the search bar in the top right
-    - view a user's page by clicking on their name by a post
-    - search tags by clicking on the individual tag
+* all users have profile pages, and can create individual posts
+* simply click on your name in the top left after logging in, and click create post to add a new post
+* search all posts by using the search bar in the top right
+* view a user's page by clicking on their name by a post
+* search tags by clicking on the individual tag
 
 ## Members
 * Benjamin Attal (Leader)

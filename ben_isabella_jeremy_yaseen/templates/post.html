@@ -12,10 +12,20 @@
       {% autoescape off %}
       <p>{{post.body}}</p>
       {% endautoescape %}
-      <p><i>{{post.upvotes}} upvote(s)</i> {% if user is defined %}<a href="/vote-up?pid={{post.get_id()}}&last=/posts/{{post.get_id()}}">upvote</a>{% endif %}</p>
+      <p>
+      <i>{{post.upvotes}} upvote(s)</i> 
+      {% if user is defined %}
+	<a href="/vote-up?pid={{post.get_id()}}&last=/posts/{{post.get_id()}}">upvote</a>
+      {% endif %}
+      </p>
       {% for tag in post.tags %}
       <span class="radius secondary label"><a href="/search?keyword={{tag}}">{{tag}}</a></span>
       {% endfor %}
+      {% if user.admin or user.username == post.user %}
+      <br>
+      <br>
+      <a class="button small secondary" href="/remove-post?pid={{post.get_id()}}">Delete Post</a>
+      {% endif %}
       <hr>
     </div>
   </div>
