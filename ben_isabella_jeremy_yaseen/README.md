@@ -19,7 +19,6 @@ Blog Nation
 * run `./app.py` in another
 * run `./es.py` in a fourth
 * Open localhost:5000 in your web browser
-* NOTE: If you do not have elasticsearch installed, do not run `./es.py`
 
 ## Navigating the site
 * all users have profile pages, and can create individual posts
