@@ -107,7 +107,9 @@ def register():
 
 @app.route("/story/<story_id>", methods=['GET','POST'])
 def story(story_id): 
-	d = {'loggedIn': 'user' in session, 'usern': session['user']}
+	d = {'loggedIn': 'user' in session}
+	if d['loggedIn']:
+		d['usern'] = session['user']
 
 	if request.method == "POST":
 		line = request.form['line']
