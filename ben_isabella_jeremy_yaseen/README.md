@@ -4,8 +4,10 @@ Blog Nation
 ## Dependencies
 * elasticsearch
     - `brew install elasticsearch`
+    - install from source
 * mongodb
     - `brew install mongodb`
+    - install from source
 * python-flask
     - `pip install flask`
 * python-elasticsearch
