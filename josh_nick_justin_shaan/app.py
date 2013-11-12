@@ -48,7 +48,8 @@ def register():
                 request.form['username'],
                 request.form['password'])
             return redirect(url_for('login'))
-        
+
+>>>>>>> 5465d8ad7b4bc9724fe99a65b3d2b7af39187bda
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if ('username' not in session or
