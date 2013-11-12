@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, redirect, request, url_for
 from bson import ObjectId
 from models import User, Post, Comment
 from settings import SECRET_KEY
+import subprocess
 import es
 
 app = Flask(__name__)
@@ -193,4 +194,5 @@ def search():
 
 
 if __name__ == '__main__':
+    subprocess.Popen(['./es.py'])
     app.run(debug=True, host='0.0.0.0', port=5000)
