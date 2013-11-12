@@ -40,7 +40,7 @@ def register():
    
  if request.method == 'GET':
         return render_template('register.html')
-    else:
+        else:
         if auth_db.exists(
             request.form['username']):
             return render_template('register.html', failed = True)
