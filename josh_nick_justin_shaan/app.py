@@ -40,7 +40,7 @@ def register():
    
  if request.method == 'GET':
         return render_template('register.html')
-        else:
+ else:
         if auth_db.exists(
             request.form['username']):
             return render_template('register.html', failed = True)
@@ -48,7 +48,7 @@ def register():
             auth_db.add_user(
                 request.form['username'],
                 request.form['password'])
-            return redirect(url_for('login'))
+        return redirect(url_for('login'))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
