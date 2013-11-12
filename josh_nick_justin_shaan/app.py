@@ -37,10 +37,9 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-   
-	if request.method == 'GET':
+    if request.method == 'GET':
         return render_template('register.html')
- else:
+    else:
         if auth_db.exists(
             request.form['username']):
             return render_template('register.html', failed = True)
@@ -48,8 +47,9 @@ def register():
             auth_db.add_user(
                 request.form['username'],
                 request.form['password'])
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
 
+>>>>>>> 5465d8ad7b4bc9724fe99a65b3d2b7af39187bda
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if ('username' not in session or
