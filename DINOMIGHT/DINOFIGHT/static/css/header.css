@@ -21,6 +21,10 @@ ul {
 	position:relative;
 	margin-bottom:10px;
 }
+#logout {
+    float: right;
+    margin: 10px;
+}
 div.centered
 {
 	width:450px;

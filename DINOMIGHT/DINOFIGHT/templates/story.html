@@ -11,6 +11,9 @@
 				<li><a href="../write"> Write </a></li>
 			</ul>
 		</div>
+		{% if username %}
+		<a id="logout" href="logout"> Logout {{username}} </a>
+		{% endif %}
 	</div>
 	<div class="content">
 		<div class="story">

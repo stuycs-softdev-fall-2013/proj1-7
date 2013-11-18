@@ -4,6 +4,9 @@
 </head>
 <body>
 	<div id="header">
+		{% if username %}
+		<a id="logout" href="logout"> Logout {{username}} </a>
+		{% endif %}
 		<div class="centered"> 
 			<ul class="menu">
 				<li id="active"> Read </li>
